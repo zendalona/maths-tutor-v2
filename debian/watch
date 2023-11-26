@@ -1,0 +1,2 @@
+version=4
+http://sf.net/lios/ lios-(.+)\.tar\.gz debian uupdate
