@@ -25,7 +25,7 @@ setup(name='MathsTutor',
       url='https://github.com/roopasreeap/Maths-Tutor',
       license = 'GPL-3',
       packages=['MathsTutor'],
-      data_files=[('share/maths-tutor/',['icon.jpg', 'data.txt']),
+      data_files=[('share/maths-tutor/',['icon.png', 'data.txt']),
 
       ('share/maths-tutor/images/',['images/excellent-1.gif']),
       ('share/maths-tutor/images/',['images/excellent-2.gif']),
