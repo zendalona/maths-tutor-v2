@@ -18,6 +18,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###########################################################################
+import os
 
 data_dir = "/usr/share/maths-tutor"
-
+locale_dir = "/usr/share/locale"
+app_name = "Maths-Tutor"
+user_preferences_file_path = os.environ['HOME']+'/.maths-tutor.cfg'

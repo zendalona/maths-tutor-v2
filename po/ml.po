@@ -1,0 +1,315 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-22 10:56+0530\n"
+"PO-Revision-Date: 2024-01-22 11:26+0530\n"
+"Last-Translator: Ajay Kumar M <ajayan74nair@gmail.com>\n"
+"Language-Team: \n"
+"Language: ml\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+#: MathsTutor/tutor.py:66
+msgid "Welcome!"
+msgstr "സ്വാഗതം!"
+
+#: MathsTutor/tutor.py:66 MathsTutor/tutor.py:427
+msgid "Press enter to start"
+msgstr "ആരംഭിക്കാൻ എന്റർ അമർത്തുക"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-1"
+msgstr "അപാരം"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-2"
+msgstr "അതിഗംഭീരം"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-3"
+msgstr "അത്ഭുതകരം"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-4"
+msgstr "അതിശയകരം"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-5"
+msgstr "അതികേമം"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-1"
+msgstr "വളരെ നല്ലത്"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-2"
+msgstr "ഗംഭീരം"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-3"
+msgstr "കേമം"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-4"
+msgstr "അഭിനന്ദനങ്ങൾ"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-5"
+msgstr "വളരെ മികച്ചത്"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-1"
+msgstr "നന്നായി"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-2"
+msgstr "മികച്ചത്"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-3"
+msgstr "നന്നായി"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-4"
+msgstr "ഉത്തമം"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-5"
+msgstr "ഉചിതമായി"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-1"
+msgstr "കൊള്ളാം"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-2"
+msgstr "അനുയോജ്യം"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-3"
+msgstr "ഉചിതം"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-4"
+msgstr "സ്വീകാര്യം"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-5"
+msgstr "അങ്ങനെത്തന്നെ"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-1"
+msgstr "ഓക്കേ"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-2"
+msgstr "ശരി"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-3"
+msgstr "സമ്മതിച്ചു"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-4"
+msgstr "ശരി തന്നെ"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-5"
+msgstr "നിലവാരമുള്ളത്"
+
+#: MathsTutor/tutor.py:193
+msgid "plus"
+msgstr "അധികം"
+
+#: MathsTutor/tutor.py:193
+msgid "minus"
+msgstr "ന്യുനം"
+
+#: MathsTutor/tutor.py:193
+msgid "multiply"
+msgstr "ഗുണനം"
+
+#: MathsTutor/tutor.py:193
+msgid "divided by"
+msgstr "ഭാഗം"
+
+#: MathsTutor/tutor.py:193
+msgid "percentage of "
+msgstr ""
+
+#: MathsTutor/tutor.py:296
+msgid "Sorry! The correct answer is "
+msgstr "ശരിയായ ഉത്തരം "
+
+#: MathsTutor/tutor.py:300
+msgid "point"
+msgstr "ദശാംശം"
+
+#: MathsTutor/tutor.py:305
+msgid "Sorry! Let's try again"
+msgstr "വീണ്ടും ശ്രമിക്കാം!"
+
+#: MathsTutor/tutor.py:362
+msgid "Successfully finished! Your mark is "
+msgstr "വിജയിച്ചിരിക്കുന്നു! ആകെ ലഭിച്ച സ്കോർ "
+
+#: MathsTutor/tutor.py:363
+msgid "Time taken "
+msgstr "ആകെ എടുത്ത സമയം "
+
+#: MathsTutor/tutor.py:363
+msgid "minutes and"
+msgstr "മിനിറ്റുകളും"
+
+#: MathsTutor/tutor.py:363
+msgid "seconds!"
+msgstr "സെക്കണ്ടും!"
+
+#: MathsTutor/tutor.py:437
+msgid "Enter the number of bells rung!"
+msgstr "മണി അടിച്ചതിന്റെ എണ്ണം നൽകുക!"
+
+#: MathsTutor/tutor.py:455 MathsTutor/tutor.py:463 MathsTutor/tutor.py:468
+msgid "equals to?"
+msgstr "സമമായത് ?"
+
+#: MathsTutor/tutor.py:461 MathsTutor/tutor.py:466
+msgid "Enter "
+msgstr "എഴുതു, "
+
+#: MathsTutor/main.py:45 MathsTutor/main.py:163
+msgid "Maths-Tutor"
+msgstr "ഗണിത-സഹായി"
+
+#: MathsTutor/main.py:52
+msgid "Select Language"
+msgstr "ഭാഷ തിരഞ്ഞെടുക്കുക"
+
+#: MathsTutor/main.py:63
+msgid "Remember Selection"
+msgstr "തിരഞ്ഞെടുത്തത് ഓർക്കുക"
+
+#: MathsTutor/main.py:125
+msgid "Addition (+)"
+msgstr "അധികം (+)"
+
+#: MathsTutor/main.py:126 MathsTutor/main.py:133 MathsTutor/main.py:140 MathsTutor/main.py:147
+#: MathsTutor/main.py:154
+msgid "Simple"
+msgstr "ലളിതം"
+
+#: MathsTutor/main.py:127 MathsTutor/main.py:134 MathsTutor/main.py:141 MathsTutor/main.py:148
+#: MathsTutor/main.py:155
+msgid "Easy"
+msgstr "എളുപ്പം"
+
+#: MathsTutor/main.py:128 MathsTutor/main.py:135 MathsTutor/main.py:142 MathsTutor/main.py:149
+#: MathsTutor/main.py:156
+msgid "Medium"
+msgstr "ഇടത്തരം"
+
+#: MathsTutor/main.py:129 MathsTutor/main.py:136 MathsTutor/main.py:143 MathsTutor/main.py:150
+msgid "Hard"
+msgstr "കഠിനം"
+
+#: MathsTutor/main.py:130 MathsTutor/main.py:137 MathsTutor/main.py:144 MathsTutor/main.py:151
+msgid "Challenging"
+msgstr "അതി കഠിനം"
+
+#: MathsTutor/main.py:132
+msgid "Subtraction (-)"
+msgstr "ന്യുനം (-)"
+
+#: MathsTutor/main.py:139
+msgid "Multiplication (*)"
+msgstr "ഗുണനം (*)"
+
+#: MathsTutor/main.py:146
+msgid "Division (/)"
+msgstr "ഭാഗം (/)"
+
+#: MathsTutor/main.py:153
+msgid "Percentage (%)"
+msgstr "ശതമാനം (%)"
+
+#: MathsTutor/main.py:177 MathsTutor/main.py:525 MathsTutor/main.py:569
+msgid "Show Settings"
+msgstr "ക്രമീകരണങ്ങൾ കാണിക്കുക"
+
+#: MathsTutor/main.py:194
+msgid "About"
+msgstr "സംബന്ധിച്ച്"
+
+#: MathsTutor/main.py:200
+msgid "Help"
+msgstr "സഹായം"
+
+#: MathsTutor/main.py:206
+msgid "Quit"
+msgstr "പുറത്ത് കടക്കുക"
+
+#: MathsTutor/main.py:221
+msgid "Select Operation:"
+msgstr "ക്രിയ തിരഞ്ഞെടുക്കുക:"
+
+#: MathsTutor/main.py:239
+msgid "Select Difficulty Level:"
+msgstr "കാഠിന്യനിലവാരം:"
+
+#: MathsTutor/main.py:257
+msgid "Start"
+msgstr "ആരംഭിക്കുക"
+
+#: MathsTutor/main.py:261
+msgid "Load Questions"
+msgstr "ചോദ്യങ്ങൾ ലോഡുചെയ്യുക"
+
+#: MathsTutor/main.py:271
+msgid "Speech Synthesizer"
+msgstr "സംസാര സങ്കേതം"
+
+#: MathsTutor/main.py:283
+msgid "Speech Language"
+msgstr "സംസാര ഭാഷ"
+
+#: MathsTutor/main.py:291
+msgid "Speech Person"
+msgstr "സംസാരിക്കുന്നയാൾ"
+
+#: MathsTutor/main.py:314
+msgid "Reset Settings"
+msgstr "ക്രമീകരണങ്ങൾ പുനഃസജ്ജമാക്കുക"
+
+#: MathsTutor/main.py:328
+msgid ""
+"Note: Adjust the speech rate by pressing the apostrophe or semicolon key, which are located to the left of "
+"the Enter key. Use the Space key to replay the question, and employ the Shift key to hear the question in "
+"verbose mode. Utilize settings to change arithmetic operation, difficulty, load questions, speech language, "
+"voice, etc. Press Alt+S to open or hide settings."
+msgstr ""
+"സംസാര വേഗത അനുയോജ്യമാക്കാൻ എന്റർ കീയുടെ ഇടതു വശത്തായുള്ള ആപോസ്ട്രോഫ് അല്ലെങ്കിൽ സെമികോളൻ കീ അമർത്തുക. ചോദ്യം ആവർത്തിക്കുവാൻ സ്പേസ് "
+"കീ ഉപയോഗിക്കുക, ചോദ്യം വിവരിച്ചു പറയാൻ ഷിഫ്റ്റ് കീ ഉപയോഗിക്കുക. ക്രമീകരണങ്ങൾ ഉപയോഗിച് ക്രിയ, കഠിനത, സംസാര സങ്കേതം, ഭാഷ, "
+"ശബ്ദം, എന്നിവ മാറ്റാം. കൂടാതെ ചോദ്യങ്ങൾ ലോഡ് ചെയ്യാവുന്നതാണ്. ക്രമീകരണങ്ങൾ തുറക്കാൻ അല്ലെങ്കിൽ അടക്കാൻ ആൾട്+എസ് അമർത്തുക."
+
+#: MathsTutor/main.py:437 MathsTutor/main.py:472
+msgid "Default"
+msgstr "സ്ഥിരസ്ഥിതി"
+
+#: MathsTutor/main.py:543
+msgid "Please choose a lesson file"
+msgstr "പാഠഭാഗം തിരഞ്ഞെടുക്കുക"
+
+#: MathsTutor/main.py:571
+msgid "Hide Settings"
+msgstr "ക്രമീകരണങ്ങൾ മറയ്ക്കുക"
+
+#~ msgid "Speech Rate:"
+#~ msgstr "അറിയിപ്പ് വേഗത:"
