@@ -10,7 +10,7 @@ Standards-Version: 4.2.1
 
 Package: maths-tutor
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}, python3-gi, gir1.2-gtk-3.0, python3-speechd, python3-pygame
+Depends: ${python3:Depends}, ${misc:Depends}, python3-gi, gir1.2-gtk-3.0, python3-speechd, speech-dispatcher, python3-pygame
 Description: Accessible Maths-Tutor is a educational game that enhances math 
  skills through an enjoyable gaming experience. Players receive instant 
  feedback and can customize their questions, making it an ideal learning tool 

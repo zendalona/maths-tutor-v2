@@ -33,12 +33,14 @@ from MathsTutor import global_var
 
 import pygame
 
+import webbrowser
+
 import gettext
 gettext.bindtextdomain(global_var.app_name, global_var.locale_dir)
 gettext.textdomain(global_var.app_name)
 _ = gettext.gettext
 
-language_dict = {"en":"English", "ml":"Malayalam"}
+language_dict = {"en":"English", "hi":"Hindi", "ar":"Arabic", "ta":"Tamil", "ml":"Malayalam"}
 
 
 class LanguageSelectionDialog(Gtk.Dialog):
@@ -201,7 +203,7 @@ class SelectGame(Gtk.Window):
 
         # Create user guide button
         user_guide_button = Gtk.Button(label=_("Help"))
-        user_guide_button.connect("clicked", self.on_user_guide_clicked)
+        user_guide_button.connect("clicked", self.on_help_clicked)
         user_guide_button.set_size_request(100, 30)
         hbox2.pack_start(user_guide_button, False, False, 0)
 
@@ -323,9 +325,9 @@ class SelectGame(Gtk.Window):
 
         self.game_bin = MathsTutorBin(self.speech, _)
         self.game_bin.connect_game_over_callback_function(self.move_game_to_next_level)
-        vbox_game_and_controls.pack_start(self.game_bin, False, False, 0)
+        vbox_game_and_controls.pack_start(self.game_bin, True, False, 0)
 
-        vbox_game_and_controls.pack_start(self.vbox_controls, False, False, 0)
+        vbox_game_and_controls.pack_start(self.vbox_controls, True, False, 0)
 
         label = Gtk.Label(_(
             "Note: Adjust the speech rate by pressing the apostrophe or semicolon key, "
@@ -350,17 +352,13 @@ class SelectGame(Gtk.Window):
 
         self.add(vbox_game_and_controls)
 
-        # Disable window maximizing
-        self.set_resizable(False)
-
         self.connect("destroy", self.on_quit_clicked)
 
         self.show_all()
 
         self.vbox_controls.hide()
 
-        self.set_size_request(500,500)
-        self.set_default_size(500,500)
+        self.maximize()
 
         self.on_start_button_clicked("None")
 
@@ -589,14 +587,18 @@ class SelectGame(Gtk.Window):
         about_dialog.set_documenters(["Roopasree A P"])
         about_dialog.set_artists(["Nalin Sathyan" ,"Dr. Saritha Namboodiri",
          "K. Sathyaseelan", "Mukundhan Annamalai", "Ajayakumar A", "Subha I N",
-         "Bhavya P V", "Abhirami T", "Ajay Kumar M", "Suresh S"])
+         "Bhavya P V", "Abhirami T", "Ajay Kumar M", "Saheed Aslam M", "Girish KK","Suresh S"])
         
         about_dialog.run()
         about_dialog.destroy()
     
     
-    def on_user_guide_clicked(self, button):
-        pass
+    def on_help_clicked(self, button):
+        url = global_var.user_guide_file_path
+        try:
+            webbrowser.get("firefox").open(url, new=2)
+        except webbrowser.Error:
+            webbrowser.open(url, new=2)
 
     def on_quit_clicked(self, widget):
         self.pref.speech_rate = self.speech.get_speech_rate()

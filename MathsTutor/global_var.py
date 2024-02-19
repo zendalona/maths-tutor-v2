@@ -24,3 +24,4 @@ data_dir = "/usr/share/maths-tutor"
 locale_dir = "/usr/share/locale"
 app_name = "Maths-Tutor"
 user_preferences_file_path = os.environ['HOME']+'/.maths-tutor.cfg'
+user_guide_file_path = data_dir+"/user-manual.html"

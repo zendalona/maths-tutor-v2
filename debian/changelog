@@ -1,3 +1,12 @@
+maths-tutor (1.1.0-1) jammy; urgency=medium
+
+  * Added Hindi, Arabic, and Tamil languages. 
+  * made full-screen to fix GUI resizing issue.
+  * Included speech-dispatcher in Debian package dependencies.
+  * Added user manual.
+
+ -- Nalin <nalin.x.linux@gmail.com>  Mon, 19 Feb 2024 14:22:07 +0530
+
 maths-tutor (1.0.0-1) jammy; urgency=medium
 
   * User Interface redesigned for a kid-friendly experience.

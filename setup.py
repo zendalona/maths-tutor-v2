@@ -112,6 +112,11 @@ setup(name='MathsTutor',
 
       ('share/locale/ml/LC_MESSAGES',['locale/ml/LC_MESSAGES/Maths-Tutor.mo']),
       ('share/locale/en/LC_MESSAGES',['locale/en/LC_MESSAGES/Maths-Tutor.mo']),
+      ('share/locale/ta/LC_MESSAGES',['locale/ta/LC_MESSAGES/Maths-Tutor.mo']),
+      ('share/locale/hi/LC_MESSAGES',['locale/hi/LC_MESSAGES/Maths-Tutor.mo']),
+      ('share/locale/ar/LC_MESSAGES',['locale/ar/LC_MESSAGES/Maths-Tutor.mo']),
+
+      ('share/maths-tutor/',['user-manual.html']),
 
       ('share/applications/',['maths-tutor.desktop']),
       ('bin/',['maths-tutor'])]

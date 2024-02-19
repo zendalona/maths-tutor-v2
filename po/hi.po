@@ -1,0 +1,307 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-22 10:56+0530\n"
+"PO-Revision-Date: 2024-02-08 09:11+0530\n"
+"Last-Translator: Girish KK <girishkattukulam@gmail.com>\n"
+"Language-Team: \n"
+"Language: ml\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+#: MathsTutor/tutor.py:66
+msgid "Welcome!"
+msgstr "स्वागत!"
+
+#: MathsTutor/tutor.py:66 MathsTutor/tutor.py:427
+msgid "Press enter to start"
+msgstr "प्रारंभ करने के लिए एंटर दबाएँ"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-1"
+msgstr "उत्कृष्ट"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-2"
+msgstr "अत्यधिक"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-3"
+msgstr "अद्भुत"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-4"
+msgstr "बहुत अच्छा"
+
+#: MathsTutor/tutor.py:68
+msgid "Excellent-5"
+msgstr "बहुत अच्छा"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-1"
+msgstr "बहुत अच्छा"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-2"
+msgstr "बहुत बढ़िया"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-3"
+msgstr "अच्छा"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-4"
+msgstr "बधाई हो"
+
+#: MathsTutor/tutor.py:69
+msgid "Very good-5"
+msgstr "बहुत बढ़िया"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-1"
+msgstr "अच्छा"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-2"
+msgstr "सर्वश्रेष्ट"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-3"
+msgstr "अच्छा"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-4"
+msgstr "श्रेष्ट"
+
+#: MathsTutor/tutor.py:70
+msgid "Good-5"
+msgstr "उचित रूप से"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-1"
+msgstr "अच्छा"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-2"
+msgstr "उपयुक्त"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-3"
+msgstr "उपयुक्त"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-4"
+msgstr "स्वीकार्य"
+
+#: MathsTutor/tutor.py:71
+msgid "Fair-5"
+msgstr "ऐसे  ही"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-1"
+msgstr "ठीक है"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-2"
+msgstr "ठीक है"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-3"
+msgstr "मान गया"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-4"
+msgstr "यह सही है"
+
+#: MathsTutor/tutor.py:72
+msgid "Okay-5"
+msgstr "मानक"
+
+#: MathsTutor/tutor.py:193
+msgid "plus"
+msgstr "जोड़"
+
+#: MathsTutor/tutor.py:193
+msgid "minus"
+msgstr "घटाना"
+
+#: MathsTutor/tutor.py:193
+msgid "multiply"
+msgstr "गुणन"
+
+#: MathsTutor/tutor.py:193
+msgid "divided by"
+msgstr "विभाजन"
+
+#: MathsTutor/tutor.py:193
+msgid "percentage of "
+msgstr "प्रतिशद "
+
+#: MathsTutor/tutor.py:296
+msgid "Sorry! The correct answer is "
+msgstr "सही उतर  "
+
+#: MathsTutor/tutor.py:300
+msgid "point"
+msgstr "दशमल्व"
+
+#: MathsTutor/tutor.py:305
+msgid "Sorry! Let's try again"
+msgstr "क्षमा कीजिए! फिर कोशिश करो"
+
+#: MathsTutor/tutor.py:362
+msgid "Successfully finished! Your mark is "
+msgstr "जीत हुव। कुल स्कोर "
+
+#: MathsTutor/tutor.py:363
+msgid "Time taken "
+msgstr "कुल ले समय "
+
+#: MathsTutor/tutor.py:363
+msgid "minutes and"
+msgstr "मिनट"
+
+#: MathsTutor/tutor.py:363
+msgid "seconds!"
+msgstr "सेकेंड!"
+
+#: MathsTutor/tutor.py:437
+msgid "Enter the number of bells rung!"
+msgstr "कितना खंडी बजी !"
+
+#: MathsTutor/tutor.py:455 MathsTutor/tutor.py:463 MathsTutor/tutor.py:468
+msgid "equals to?"
+msgstr "बराबर?"
+
+#: MathsTutor/tutor.py:461 MathsTutor/tutor.py:466
+msgid "Enter "
+msgstr "लिखो "
+
+#: MathsTutor/main.py:45 MathsTutor/main.py:163
+msgid "Maths-Tutor"
+msgstr "गणित- शिक्षक"
+
+#: MathsTutor/main.py:52
+msgid "Select Language"
+msgstr "भाषा चुने"
+
+#: MathsTutor/main.py:63
+msgid "Remember Selection"
+msgstr "चयन याद करो"
+
+#: MathsTutor/main.py:125
+msgid "Addition (+)"
+msgstr "जोड़ (+)"
+
+#: MathsTutor/main.py:126 MathsTutor/main.py:133 MathsTutor/main.py:140 MathsTutor/main.py:147 MathsTutor/main.py:154
+msgid "Simple"
+msgstr "सरल"
+
+#: MathsTutor/main.py:127 MathsTutor/main.py:134 MathsTutor/main.py:141 MathsTutor/main.py:148 MathsTutor/main.py:155
+msgid "Easy"
+msgstr "आसान"
+
+#: MathsTutor/main.py:128 MathsTutor/main.py:135 MathsTutor/main.py:142 MathsTutor/main.py:149 MathsTutor/main.py:156
+msgid "Medium"
+msgstr "माद्यमिक"
+
+#: MathsTutor/main.py:129 MathsTutor/main.py:136 MathsTutor/main.py:143 MathsTutor/main.py:150
+msgid "Hard"
+msgstr "कठिन"
+
+#: MathsTutor/main.py:130 MathsTutor/main.py:137 MathsTutor/main.py:144 MathsTutor/main.py:151
+msgid "Challenging"
+msgstr "चुनौतीपूर्ण"
+
+#: MathsTutor/main.py:132
+msgid "Subtraction (-)"
+msgstr "घटाना (-)"
+
+#: MathsTutor/main.py:139
+msgid "Multiplication (*)"
+msgstr "गुणन(*)"
+
+#: MathsTutor/main.py:146
+msgid "Division (/)"
+msgstr "विभाजन (/)"
+
+#: MathsTutor/main.py:153
+msgid "Percentage (%)"
+msgstr "प्रतिशद (%)"
+
+#: MathsTutor/main.py:177 MathsTutor/main.py:525 MathsTutor/main.py:569
+msgid "Show Settings"
+msgstr "सेटिंग्स दिखाए"
+
+#: MathsTutor/main.py:194
+msgid "About"
+msgstr "के बारे में"
+
+#: MathsTutor/main.py:200
+msgid "Help"
+msgstr "मदद"
+
+#: MathsTutor/main.py:206
+msgid "Quit"
+msgstr "बाहर जाना"
+
+#: MathsTutor/main.py:221
+msgid "Select Operation:"
+msgstr "क्रिया चुनें:"
+
+#: MathsTutor/main.py:239
+msgid "Select Difficulty Level:"
+msgstr "कठिनाई स्तर चुनें:"
+
+#: MathsTutor/main.py:257
+msgid "Start"
+msgstr "शुरू"
+
+#: MathsTutor/main.py:261
+msgid "Load Questions"
+msgstr "प्रश्न भरो"
+
+#: MathsTutor/main.py:271
+msgid "Speech Synthesizer"
+msgstr "वर्तमान संकेत"
+
+#: MathsTutor/main.py:283
+msgid "Speech Language"
+msgstr "भाषण भाषा"
+
+#: MathsTutor/main.py:291
+msgid "Speech Person"
+msgstr "बोल चाल  की व्यक्ति"
+
+#: MathsTutor/main.py:314
+msgid "Reset Settings"
+msgstr "फिर क्रमबंध करो"
+
+#: MathsTutor/main.py:328
+msgid ""
+"Note: Adjust the speech rate by pressing the apostrophe or semicolon key, which are located to the left of the Enter key. Use the Space key to replay the question, and employ the Shift key to hear the question in verbose mode. Utilize settings to change arithmetic operation, difficulty, load questions, speech language, voice, etc. Press Alt+S to open "
+"or hide settings."
+msgstr "नोट :एपोस्ट्रोफी या अर्थविराम कुंजी  दबाकर भाषण की गाती समायोजित करें, जो एंटर कुंजी के बाई ओर  स्थित है। प्रेन को दोबार चलाने केलिए स्पेस कुंजी  का उपयोग  करें, प्रश्न को वर्णन करने केलिए शिफ्ट कुंजी का उपयोग करें।  सेटिंग्स का उपयोग कर के क्रिया, तीव्रता, भाषण शैली, भाषा, आवाज़ अदि को बदल सकते हैं। सेटिंग्स खोलने या छिपाने केलिए alt+S दबायें।"
+
+#: MathsTutor/main.py:437 MathsTutor/main.py:472
+msgid "Default"
+msgstr "स्थाई भाव"
+
+#: MathsTutor/main.py:543
+msgid "Please choose a lesson file"
+msgstr "एक पाठ फ़ाइल चुनें"
+
+#: MathsTutor/main.py:571
+msgid "Hide Settings"
+msgstr "सेटिंग्स छिपाएँ"
+
+#~ msgid "Speech Rate:"
+#~ msgstr "അറിയിപ്പ് വേഗത:"
