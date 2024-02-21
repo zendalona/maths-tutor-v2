@@ -40,7 +40,7 @@ gettext.bindtextdomain(global_var.app_name, global_var.locale_dir)
 gettext.textdomain(global_var.app_name)
 _ = gettext.gettext
 
-language_dict = {"en":"English", "hi":"Hindi", "ar":"Arabic", "ta":"Tamil", "ml":"Malayalam"}
+language_dict = {"en":"English", "hi":"Hindi", "ar":"Arabic", "ta":"Tamil", "ml":"Malayalam", "sa":"Sanskrit"}
 
 
 class LanguageSelectionDialog(Gtk.Dialog):
@@ -584,10 +584,11 @@ class SelectGame(Gtk.Window):
         
         about_dialog.set_website("http://wwww,zendalona.com/maths-tutor")
         about_dialog.set_authors(["Roopasree A P", "Greeshna Sarath"])
-        about_dialog.set_documenters(["Roopasree A P"])
+        about_dialog.set_documenters(["Roopasree A P", "Greeshna Sarath"])
         about_dialog.set_artists(["Nalin Sathyan" ,"Dr. Saritha Namboodiri",
          "K. Sathyaseelan", "Mukundhan Annamalai", "Ajayakumar A", "Subha I N",
-         "Bhavya P V", "Abhirami T", "Ajay Kumar M", "Saheed Aslam M", "Girish KK","Suresh S"])
+         "Bhavya P V", "Abhirami T", "Ajay Kumar M", "Saheed Aslam M", "Dr. Rajakrishnan V. K.",
+          "Girish KK","Suresh S"])
         
         about_dialog.run()
         about_dialog.destroy()

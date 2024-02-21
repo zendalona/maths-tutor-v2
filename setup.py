@@ -115,6 +115,7 @@ setup(name='MathsTutor',
       ('share/locale/ta/LC_MESSAGES',['locale/ta/LC_MESSAGES/Maths-Tutor.mo']),
       ('share/locale/hi/LC_MESSAGES',['locale/hi/LC_MESSAGES/Maths-Tutor.mo']),
       ('share/locale/ar/LC_MESSAGES',['locale/ar/LC_MESSAGES/Maths-Tutor.mo']),
+      ('share/locale/sa/LC_MESSAGES',['locale/sa/LC_MESSAGES/Maths-Tutor.mo']),
 
       ('share/maths-tutor/',['user-manual.html']),
 

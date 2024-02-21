@@ -1,3 +1,9 @@
+maths-tutor (1.1.1-1) jammy; urgency=medium
+
+  * Sanskrit Translation added
+
+ -- Nalin <nalin.x.linux@gmail.com>  Wed, 21 Feb 2024 22:10:12 +0530
+
 maths-tutor (1.1.0-1) jammy; urgency=medium
 
   * Added Hindi, Arabic, and Tamil languages. 
