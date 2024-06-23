@@ -1,0 +1,98 @@
+[
+    {
+        "classes": [
+            {
+                "className": "Bridge",
+                "qualifiedClassName": "Bridge",
+                "object": true,
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ],
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "name": "getText",
+                        "arguments": [],
+                        "returnType": "int"
+                    },
+                    {
+                        "access": "public",
+                        "name": "getColor",
+                        "arguments": [
+                            {
+                                "name": "a1",
+                                "type": "QString"
+                            }
+                        ],
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "name": "getSize",
+                        "arguments": [
+                            {
+                                "name": "a1",
+                                "type": "float"
+                            }
+                        ],
+                        "returnType": "int"
+                    },
+                    {
+                        "access": "public",
+                        "name": "getItalic",
+                        "arguments": [
+                            {
+                                "name": "a1",
+                                "type": "QString"
+                            }
+                        ],
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "name": "getBold",
+                        "arguments": [
+                            {
+                                "name": "a1",
+                                "type": "QString"
+                            }
+                        ],
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "name": "getUnderline",
+                        "arguments": [
+                            {
+                                "name": "a1",
+                                "type": "QString"
+                            }
+                        ],
+                        "returnType": "bool"
+                    }
+                ]
+            }
+        ],
+        "outputRevision": 68,
+        "QML_IMPORT_NAME": "io.qt.textproperties",
+        "QML_IMPORT_MAJOR_VERSION": 1,
+        "QML_IMPORT_MINOR_VERSION": 0,
+        "QT_MODULES": [
+            "QtCore",
+            "QtGui",
+            "QtQml",
+            "QtQuick",
+            "QtQuickControls2"
+        ],
+        "inputFile": "A:/zendalona/maths-tutor-v2/MathTutor/main.py"
+    }
+]
