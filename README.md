@@ -16,7 +16,7 @@ This is the initial rough design of the app
 
 ![screen](app_infos/s5.png)
 
-![screen](app_infos/s6png)
+![screen](app_infos/s6.png)
 
 ![screen](app_infos/s7.png)
 
