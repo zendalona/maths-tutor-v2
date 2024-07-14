@@ -62,10 +62,17 @@
         "images/wrong-anwser-repeted-2.gif",
         "images/mute.png",
         "images/unmute.png",
+        "images/clock.png",
+        "images/dollar-currency-symbol.png",
+        "images/rupee.png",
         "SubjectScreen.qml",
         "MathScreen.qml",
         "EnglishScreen.qml",
         "BottomBar.qml",
-        "MathStoryBased.qml"
+        "MathStoryBased.qml",
+        "MathTimeScreen.qml",
+        "MathCurrencyScreen.qml",
+        "MathDistanceBased.qml",
+        "MathOperationBased.qml"
     ]
 }

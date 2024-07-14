@@ -2,26 +2,171 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial
 
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.1
-import QtQuick.Window 2.1
-import QtQuick.Controls.Material 2.1
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Window
+import QtQuick.Controls.Material
+import QtMultimedia
 
 import io.qt.textproperties 1.0
 
-ApplicationWindow {
-    id: page
-    width: 1080
-    height: 720
-    visible: true
-    Material.theme:welcomeScreen.theme ===1 ? Material.Dark : Material.Light
+ApplicationWindow{
+
+    id:root
+    Material.theme:welcomeScreen.theme === 1 ? Material.Dark : Material.Light
     Material.accent: Material.Red
-    title: "Welcome Screen"
-    WelcomeScreen{
-        id: welcomeScreen
-        height: parent.height
-        width: parent.width
+    title: "Zendlona Math Tutor App"
+    visible: true
+    height: 200
+    width: 300
+    opacity: 0
+    ApplicationWindow{
+        id: languageSelectionScreen
+        visible: true
+        height: 200
+        width: 300
+        Item{
+
+
+            Text{
+                id: languageSelectionText
+                text: "Select Language"
+                anchors{
+                    left: parent.left
+                    leftMargin: 10
+                    top: parent.top
+                    topMargin: 30
+                }
+            }
+            //a drop down menu to select language
+            ComboBox{
+                id: languageComboBox
+                model: ["English", "Hindi", "Marathi"]
+                currentIndex: 0
+                height: 30
+                anchors{
+                    left: languageSelectionText.left
+                    leftMargin: 100
+                    top: parent.top
+                    topMargin: 25
+                }
+            }
+            //a remeber selection CheckBox
+            CheckBox{
+                id: rememberSelection
+                text: "Remember Selection"
+                checked: false
+                anchors{
+                    left: languageSelectionText.left
+                    leftMargin: 10
+                    top: languageComboBox.bottom
+                    topMargin: 10
+                }
+                onClicked: {
+                    rememberSelection.checked = !rememberSelection.checked
+                }
+                onPressed: {
+                    rememberSelection.checked = !rememberSelection.checked
+                }
+
+                Keys.onEnterPressed: {
+                    rememberSelection.checked = !rememberSelection.checked
+                }
+                Keys.onReturnPressed: {
+                    rememberSelection.checked = !rememberSelection.checked
+                }
+
+            }
+            //a ok button to move to next screen
+            Button{
+                id: okButton
+                text: "OK"
+                anchors{
+                    left: languageSelectionText.left
+                    leftMargin: 10
+                    top: rememberSelection.bottom
+                    topMargin: 10
+                }
+                onClicked: {
+                    if(rememberSelection.checked){
+                        console.log("Remembered")
+                    }
+                    else{
+                        console.log("Not Remembered")
+                    }
+                    root.visibility= Window.Maximized
+                    root.minimumHeight= 720
+                    root.minimumWidth= 1080
+                    welcomeScreenWindow.visible= true
+                     welcomeScreenWindow.visibility= Window.Maximized
+                    languageSelectionScreen.close()
+                }
+                Keys.onEnterPressed: {
+                    if(rememberSelection.checked){
+                        console.log("Remembered")
+                    }
+                    else{
+                        console.log("Not Remembered")
+                    }
+                    root.visibility= Window.Maximized
+                    root.minimumHeight= 720
+                    root.minimumWidth= 1080
+                    welcomeScreenWindow.visible= true
+                     welcomeScreenWindow.visibility= Window.Maximized
+                    languageSelectionScreen.close()
+                }
+                Keys.onReturnPressed: {
+                    if(rememberSelection.checked){
+                        console.log("Remembered")
+                    }
+                    else{
+                        console.log("Not Remembered")
+                    }
+                    root.visibility= Window.Maximized
+                    root.minimumHeight= 720
+                    root.minimumWidth= 1080
+                    welcomeScreenWindow.visible= true
+                    welcomeScreenWindow.visibility= Window.Maximized
+                    languageSelectionScreen.close()
+                }
+            }
+            //a cancel button to close the application
+            Button{
+                id: cancelButton
+                text: "Cancel"
+                anchors{
+                    left: okButton.right
+                    leftMargin: 10
+                    top: rememberSelection.bottom
+                    topMargin: 10
+                }
+                onClicked: {
+                    root.close()
+                }
+            }
+        }
     }
 
+
+
+    ApplicationWindow{
+        id: welcomeScreenWindow
+        minimumHeight: 720
+        minimumWidth: 1080
+        //visibility: Window.Maximized
+        //close this window until the language is selected
+        visible: false
+
+
+
+        WelcomeScreen{
+            id: welcomeScreen
+            height: parent.height
+            width: parent.width
+           // visible: false
+        }
+    }
 }
+
+

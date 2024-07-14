@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 from PySide6.QtCore import QObject, Slot, QStringListModel, QUrl
-from PySide6.QtGui import QGuiApplication
+from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine, QmlElement
 from PySide6.QtQuickControls2 import QQuickStyle
 from PySide6.QtQuick import QQuickView
@@ -73,17 +73,22 @@ if __name__ == '__main__':
     app = QGuiApplication(sys.argv)
     QQuickStyle.setStyle("Material")
     engine = QQmlApplicationEngine()
+    app.setWindowIcon(QIcon("images\icon.png"));
 
 
 
     # Get the path of the current directory, and then add the name
     # of the QML file, to load it.
     qml_file = Path(__file__).parent / 'RootWindow.qml'
-    # #show the qml file
-    engine.load(qml_file)
     #create a variable b=1 and expose it to qml
     b = 12
     engine.rootContext().setContextProperty("br", b)
+
+    # #show the qml file
+
+    engine.load(qml_file)
+
+
 
     # view = QQuickView()
     # view.setResizeMode(QQuickView.SizeRootObjectToView)

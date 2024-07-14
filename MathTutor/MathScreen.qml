@@ -30,8 +30,17 @@ Item {
                 height: 80
                 width: 200
                 font.pixelSize: 30
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathTime.visible = true
+                }
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathTime.visible = true
+                }
                 onClicked: {
-                    // mathSubjectScreen.visible = false
+                    mathSubjectScreen.visible = false
+                    mathTime.visible = true
 
                 }
             }
@@ -44,8 +53,16 @@ Item {
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    // mathSubjectScreen.visible = false
-
+                    mathSubjectScreen.visible = false
+                    mathCurrency.visible = true
+                }
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathCurrency.visible = true
+                }
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathCurrency.visible = true
                 }
             }
             Button{
@@ -60,6 +77,14 @@ Item {
                     mathSubjectScreen.visible = false
                     mathStoryBased.visible = true
                 }
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathStoryBased.visible = true
+                }
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathStoryBased.visible = true
+                }
             }
             Button{
                 id: distanceButton
@@ -69,8 +94,20 @@ Item {
                 height: 80
                 width: 200
                 font.pixelSize: 30
+                //even on enter pressed
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathDistance.visible = true
+                }
+
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathDistance.visible = true
+                }
+
                 onClicked: {
-                    // mathSubjectScreen.visible = false
+                    mathSubjectScreen.visible = false
+                    mathDistance.visible = true
 
                 }
             }
@@ -84,6 +121,12 @@ Item {
                 font.pixelSize: 30
                 onClicked: {
                     // mathSubjectScreen.visible = false
+                }
+                Keys.onReturnPressed:{
+
+                }
+
+                Keys.onEnterPressed: {
 
                 }
             }
@@ -96,8 +139,17 @@ Item {
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    // mathSubjectScreen.visible = false
+                    mathSubjectScreen.visible = false
+                    mathOperations.visible = true
+                }
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathOperations.visible = true
+                }
 
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathOperations.visible = true
                 }
             }
         }
@@ -105,6 +157,28 @@ Item {
 
     MathStoryBased{
         id: mathStoryBased
+        visible: false
+        anchors.fill: parent
+    }
+    MathTimeScreen{
+        id: mathTime
+        visible: false
+        anchors.fill: parent
+
+    }
+    MathCurrencyScreen{
+        id: mathCurrency
+        visible: false
+        anchors.fill: parent
+
+    }
+    MathDistanceBased{
+        id: mathDistance
+        visible: false
+        anchors.fill: parent
+    }
+    MathOperationBased{
+        id: mathOperations
         visible: false
         anchors.fill: parent
     }

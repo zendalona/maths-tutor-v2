@@ -45,6 +45,17 @@ Item {
                     mathScreen.visible = true
                     buttonContainer.visible = false
                 }
+                Keys.onReturnPressed:{
+                    console.log("Math button clicked")
+                    mathScreen.visible = true
+                    buttonContainer.visible = false
+                }
+
+                Keys.onEnterPressed: {
+                    console.log("Math button clicked")
+                    mathScreen.visible = true
+                    buttonContainer.visible = false
+                }
             }
             Button {
                 id: englishButton
@@ -63,6 +74,17 @@ Item {
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
+                    console.log("English button clicked")
+                    englishScreen.visible = true
+                    buttonContainer.visible = false
+                }
+                Keys.onReturnPressed:{
+                    console.log("English button clicked")
+                    englishScreen.visible = true
+                    buttonContainer.visible = false
+                }
+
+                Keys.onEnterPressed: {
                     console.log("English button clicked")
                     englishScreen.visible = true
                     buttonContainer.visible = false

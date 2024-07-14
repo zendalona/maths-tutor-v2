@@ -7,69 +7,62 @@ import QtMultimedia
 import io.qt.textproperties 1.0
 
 Item {
-    id: root
-    Text {
-        id: question
-        text: qsTr("If Speed is 5 km/h and time taken is 2 hrs then what is the distance travelled?")
-        anchors{
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
+    ColumnLayout {
+        id: layout
+        anchors.centerIn: parent
+        spacing: 10
+        Text {
+            id: question
+            text: qsTr("Lily is a young girl who lives in a small village. One day, she decided to visit her grandmother who lives on the other side of the village. To get there, she has to follow a series of directions.
+                        Directions
+                        From her house, Lily walks 2 blocks north to the bakery.
+                        She then turns right and walks 3 blocks east to the library.
+                        From the library, she turns left and walks 1 block north to the park.
+                        Finally, she turns left again and walks 4 blocks west to her grandmother's house.")
 
-            topMargin: 250
+            wrapMode: Text.WordWrap
+            font.pixelSize: 18
+            color: "orange"
         }
-        font.pixelSize: 30
-        color: "orange"
-    }
-
-    TextInput{
-        focus: true
-        id: answer
-        text: ""
-        cursorVisible: true
-        anchors{
-            top: question.bottom
-            topMargin: 10
-            horizontalCenter: parent.horizontalCenter
-
+        Text{
+            id:subquestion
+            text: qsTr("How many blocks does Lily walk east after visiting the bakery?")
+            wrapMode: Text.WordWrap
+            font.pixelSize: 18
+            color: "orange"
         }
-        font.pixelSize: 30
-        color: "orange"
-        width: 200
-        height: 50
-        // a rect around this input field
-        Rectangle {
-            color: "transparent"
-            border.color: "green"
-            border.width: 2
-            radius: 5
-            anchors.fill: parent
+        TextField {
+            id: answer
+            width: 400
+            placeholderText: qsTr("")
+        }
+        Button {
+            id: submit
+            text: qsTr("Submit")
+            onClicked: {
+                excellentImage.visible = true
+            }
+            Keys.onReturnPressed:{
+                excellentImage.visible = true
+            }
+
+            Keys.onEnterPressed: {
+                excellentImage.visible = true
+            }
         }
     }
-
-    Keys.onReturnPressed: {
-        excellentImage.visible = true
-    }
-    Keys.onEnterPressed: {
-        excellentImage.visible = true
-    }
-    Component.onCompleted: {
-        answer.force=TextInput.FocusReason
-    }
-
-    //a excellent image
     AnimatedImage {
         id: excellentImage
         source: "images/excellent-1.gif"
         height: 200
         width: 200
         anchors {
-            top: answer.bottom
+            top: layout.bottom
             horizontalCenter: parent.horizontalCenter
             topMargin: 10
         }
         visible: false
     }
-
     // a help button in the corner
     Button {
         id: helpButton
@@ -83,6 +76,14 @@ Item {
         onClicked: {
             console.log("Help button clicked")
         }
+        Keys.onReturnPressed:{
+
+        }
+
+        Keys.onEnterPressed: {
+
+        }
     }
+
 
 }
