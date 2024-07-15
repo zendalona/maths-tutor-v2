@@ -23,16 +23,16 @@ Item {
             // range from 10-20
             num1 = Math.floor(Math.random() * 10) + 10
             num2 = Math.floor(Math.random() * 10) + 10
-            pr_answer = num1 + num2
-            return num1 + " + " + num2 + " = "
+            pr_answer = num1 % num2
+            return num1 + " % " + num2 + " = "
         }
         else if(pr_difficulty === 1){
             // range from 20-30
             num1 = Math.floor(Math.random() * 10) + 20
             // range from 10 -20
             num2 = Math.floor(Math.random() * 10) + 10
-            pr_answer = num1 + num2
-            return num1 + " + " + num2 + " = "
+            pr_answer = num1 % num2
+            return num1 + " % " + num2 + " = "
         }
         else if( pr_difficulty === 2){
             // range from 30-50
@@ -41,8 +41,8 @@ Item {
             num2 = Math.floor(Math.random() * 10) + 20
             // range from 10-20
             num3 = Math.floor(Math.random() * 10) + 10
-            pr_answer = num1 + num2 + num3
-            return num1 + " + " + num2 + " + " + num3 + " = "
+            pr_answer = num1 % num2 + num3
+            return num1 + " % " + num2 + " + " + num3 + " = "
 
 
         }
@@ -55,8 +55,8 @@ Item {
             num3 = Math.floor(Math.random() * 10) + 10
             // range from 20-30
             num4 = Math.floor(Math.random() * 10) + 20
-            pr_answer = num1 + num2 - (num3 / num4)
-            return num1 + " + " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
+            pr_answer = num1 % num2 - (num3 / num4)
+            return num1 + " % " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
         }
         else if(pr_difficulty === 4){
             // range from 30-50
@@ -67,8 +67,8 @@ Item {
             num3 = Math.floor(Math.random() * 10) + 10
             // range from 20-30
             num4 = Math.floor(Math.random() * 10) + 20
-            pr_answer = num1 + num2 - (num3 / num4)
-            return num1 + " + " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
+            pr_answer = num1 % num2 - (num3 / num4)
+            return num1 + " % " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
         }
         else{
             // range from 30-50
@@ -79,8 +79,8 @@ Item {
             num3 = Math.floor(Math.random() * 10) + 10
             // range from 20-30
             num4 = Math.floor(Math.random() * 10) + 20
-            pr_answer = num1 + num2 - (num3 / num4)
-            return num1 + " + " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
+            pr_answer = num1 % num2 - (num3 / num4)
+            return num1 + " % " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
         }
     }
 
@@ -221,7 +221,7 @@ Item {
         }
     }
     Button{
-        id: addionSettingsButton
+        id: reminderSettingsButton
         text: "Settings"
         anchors {
             right: parent.right
@@ -230,14 +230,14 @@ Item {
             bottomMargin:  10
         }
         onClicked: {
-            addionsettingsWindow.visible = true
+            remindersettingsWindow.visible = true
         }
         Keys.onReturnPressed:{
-            addionsettingsWindow.visible = true
+            remindersettingsWindow.visible = true
         }
 
         Keys.onEnterPressed: {
-            addionsettingsWindow.visible = true
+            remindersettingsWindow.visible = true
         }
     }
     // a upload button to upload the range of numbers to be used
@@ -297,7 +297,7 @@ Item {
 
     }
     ApplicationWindow {
-        id: addionsettingsWindow
+        id: remindersettingsWindow
         visible: false
         width: 640
         height: 480
@@ -337,7 +337,7 @@ Item {
                 onCurrentIndexChanged: {
                     root.pr_difficulty = difficultyComboBox.currentIndex
                     question.text = root.generateQuestion()
-                    
+
                 }
             }
 

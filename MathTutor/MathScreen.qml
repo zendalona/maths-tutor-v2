@@ -183,4 +183,44 @@ Item {
         anchors.fill: parent
     }
 
+    //a top left corner home button
+    Button{
+        id: homeButton
+        text: "Home"
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        height: 80
+        width: 200
+        font.pixelSize: 30
+        anchors{
+            top: parent.top
+            left: parent.left
+            topMargin: 10
+            leftMargin: 10
+        }
+        onClicked: {
+            mathSubjectScreen.visible = true
+            mathTime.visible = false
+            mathCurrency.visible = false
+            mathStoryBased.visible = false
+            mathDistance.visible = false
+            mathOperations.visible = false
+        }
+        Keys.onReturnPressed:{
+            mathSubjectScreen.visible = true
+            mathTime.visible = false
+            mathCurrency.visible = false
+            mathStoryBased.visible = false
+            mathDistance.visible = false
+            mathOperations.visible = false
+        }
+        Keys.onEnterPressed: {
+            mathSubjectScreen.visible = true
+            mathTime.visible = false
+            mathCurrency.visible = false
+            mathStoryBased.visible = false
+            mathDistance.visible = false
+            mathOperations.visible = false
+        }
+    }
 }

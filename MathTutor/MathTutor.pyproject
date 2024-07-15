@@ -74,6 +74,11 @@
         "MathCurrencyScreen.qml",
         "MathDistanceBased.qml",
         "MathOperationBased.qml",
-        "OperationAddition.qml"
+        "OperationAddition.qml",
+        "OperationMultiplication.qml",
+        "OperationSubtraction.qml",
+        "OperationDivision.qml",
+        "OperationReminder.qml",
+        "OperationPercentage.qml"
     ]
 }

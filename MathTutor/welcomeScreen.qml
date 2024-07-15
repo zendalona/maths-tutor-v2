@@ -221,6 +221,8 @@ Item {
             Rectangle {
                 width: parent.width
                 height: parent.height
+                color: "transparent"
+
                 Column {
                     anchors.fill: parent
                     Row {
@@ -268,6 +270,8 @@ Item {
             Rectangle {
                 width: parent.width
                 height: parent.height
+                color: "transparent"
+
                 Column {
                     anchors.fill: parent
                     Row {
@@ -283,15 +287,20 @@ Item {
         }
     }
 
-    // SubjectScreen{
-    //     id: subjectScreen
-    //     visible: false
-    //     anchors.fill: parent
-    // }
+
+
+
     MathScreen{
         id: mathScreen
         anchors.fill: parent
         visible: false
     }
+
+    //for future use to add a subject screen
+    // SubjectScreen{
+    //     id: subjectScreen
+    //     visible: false
+    //     anchors.fill: parent
+    // }
 
 }
