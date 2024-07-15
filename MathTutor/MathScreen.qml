@@ -75,15 +75,15 @@ Item {
                 font.pixelSize: 30
                 onClicked: {
                     mathSubjectScreen.visible = false
-                    mathStoryBased.visible = true
+                    mathStory.visible = true
                 }
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                    mathStoryBased.visible = true
+                    mathStory.visible = true
                 }
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                    mathStoryBased.visible = true
+                    mathStory.visible = true
                 }
             }
             Button{
@@ -112,22 +112,25 @@ Item {
                 }
             }
             Button{
-                id: helpButton
-                text: "Help"
+                id: bellRingingButton
+                text: "Bell Ringing"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    // mathSubjectScreen.visible = false
+                    mathSubjectScreen.visible = false
+                    mathBellRinging.visible = true
                 }
                 Keys.onReturnPressed:{
-
+                    mathSubjectScreen.visible = false
+                    mathBellRinging.visible = true
                 }
 
                 Keys.onEnterPressed: {
-
+                    mathSubjectScreen.visible = false
+                    mathBellRinging.visible = true
                 }
             }
             Button{
@@ -156,17 +159,17 @@ Item {
     }
 
     MathStoryBased{
-        id: mathStoryBased
+        id: mathStory
         visible: false
         anchors.fill: parent
     }
-    MathTimeScreen{
+    MathTimeBased{
         id: mathTime
         visible: false
         anchors.fill: parent
 
     }
-    MathCurrencyScreen{
+    MathCurrencyBased{
         id: mathCurrency
         visible: false
         anchors.fill: parent
@@ -182,7 +185,11 @@ Item {
         visible: false
         anchors.fill: parent
     }
-
+    MathBellRingingBased{
+        id: mathBellRinging
+        visible: false
+        anchors.fill: parent
+    }
     //a top left corner home button
     Button{
         id: homeButton
@@ -202,25 +209,30 @@ Item {
             mathSubjectScreen.visible = true
             mathTime.visible = false
             mathCurrency.visible = false
-            mathStoryBased.visible = false
+            mathStory.visible = false
             mathDistance.visible = false
             mathOperations.visible = false
+            mathBellRinging.visible = false
         }
         Keys.onReturnPressed:{
             mathSubjectScreen.visible = true
             mathTime.visible = false
             mathCurrency.visible = false
-            mathStoryBased.visible = false
+            mathStory.visible = false
             mathDistance.visible = false
             mathOperations.visible = false
+            mathBellRinging.visible = false
+
         }
         Keys.onEnterPressed: {
             mathSubjectScreen.visible = true
             mathTime.visible = false
             mathCurrency.visible = false
-            mathStoryBased.visible = false
+            mathStory.visible = false
             mathDistance.visible = false
             mathOperations.visible = false
+            mathBellRinging.visible = false
+
         }
     }
 }
