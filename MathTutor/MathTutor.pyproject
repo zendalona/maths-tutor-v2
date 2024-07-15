@@ -73,6 +73,7 @@
         "MathTimeScreen.qml",
         "MathCurrencyScreen.qml",
         "MathDistanceBased.qml",
-        "MathOperationBased.qml"
+        "MathOperationBased.qml",
+        "OperationAddition.qml"
     ]
 }

@@ -6,95 +6,109 @@ import QtQuick.Controls.Material 2.1
 import QtMultimedia
 import io.qt.textproperties 1.0
 
-Item {
-    //this has 6 buttons in a grid each for an differnt math operation
-   // anchors.fill: parent
-    visible: true
-    Grid{
-        spacing: 10
-        columns: 3
+Item{
+    Item {
+        id:operationScreen
+        //this has 6 buttons in a grid each for an differnt math operation
+        // anchors.fill: parent
         anchors{
             centerIn: parent
         }
-
-        id: grid
-        Button {
-            text: "Addition"
-            onClicked: {
-
-            }
-            Keys.onReturnPressed:{
-
+        visible: true
+        Grid{
+            spacing: 10
+            columns: 3
+            anchors{
+                centerIn: parent
             }
 
-            Keys.onEnterPressed: {
+            id: grid
+            Button {
+                text: "Addition"
+                onClicked: {
+                    additionScreen.visible = true
+                    operationScreen.visible = false
 
+
+                }
+                Keys.onReturnPressed:{
+
+                }
+
+                Keys.onEnterPressed: {
+
+                }
+            }
+            Button {
+                text: "Subtraction"
+                onClicked: {
+
+                }
+                Keys.onReturnPressed:{
+
+                }
+
+                Keys.onEnterPressed: {
+
+                }
+            }
+            Button {
+                text: "Multiplication"
+                onClicked: {
+
+                }
+                Keys.onReturnPressed:{
+
+                }
+
+                Keys.onEnterPressed: {
+
+                }
+            }
+            Button {
+                text: "Division"
+                onClicked: {
+
+                }
+                Keys.onReturnPressed:{
+
+                }
+
+                Keys.onEnterPressed: {
+
+                }
+            }
+            Button {
+                text: "Reminder"
+                onClicked: {
+
+                }
+                Keys.onReturnPressed:{
+
+                }
+
+                Keys.onEnterPressed: {
+
+                }
+            }
+            Button {
+                text: "Percentage"
+                onClicked:{
+
+                }
+                Keys.onReturnPressed:{
+
+                }
+
+                Keys.onEnterPressed: {
+
+                }
             }
         }
-        Button {
-            text: "Subtraction"
-            onClicked: {
-
-            }
-            Keys.onReturnPressed:{
-
-            }
-
-            Keys.onEnterPressed: {
-
-            }
-        }
-        Button {
-            text: "Multiplication"
-            onClicked: {
-
-            }
-            Keys.onReturnPressed:{
-
-            }
-
-            Keys.onEnterPressed: {
-
-            }
-        }
-        Button {
-            text: "Division"
-            onClicked: {
-
-            }
-            Keys.onReturnPressed:{
-
-            }
-
-            Keys.onEnterPressed: {
-
-            }
-        }
-        Button {
-            text: "Reminder"
-            onClicked: {
-
-            }
-            Keys.onReturnPressed:{
-
-            }
-
-            Keys.onEnterPressed: {
-
-            }
-        }
-        Button {
-            text: "Percentage"
-            onClicked:{
-
-            }
-            Keys.onReturnPressed:{
-
-            }
-
-            Keys.onEnterPressed: {
-
-            }
-        }
+    }
+    OperationAddition{
+        id: additionScreen
+        visible: false
+        anchors.fill: parent
     }
 }

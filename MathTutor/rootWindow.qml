@@ -21,13 +21,22 @@ ApplicationWindow{
     height: 200
     width: 300
     opacity: 0
+
     ApplicationWindow{
         id: languageSelectionScreen
         visible: true
-        height: 200
-        width: 300
-        Item{
+        title: "Zendlona Math Tutor App"
+        maximumHeight:  200
+        maximumWidth:  300
+        minimumHeight: 200
+        minimumWidth: 300
+        onClosing: {
+            if(welcomeScreenWindow.visible ===false ){
+                root.close()
+            }
+        }
 
+        Item{
 
             Text{
                 id: languageSelectionText
@@ -154,9 +163,13 @@ ApplicationWindow{
         id: welcomeScreenWindow
         minimumHeight: 720
         minimumWidth: 1080
+        title: "Zendlona Math Tutor App"
         //visibility: Window.Maximized
         //close this window until the language is selected
         visible: false
+        onClosing: {
+            root.close()
+        }
 
 
 

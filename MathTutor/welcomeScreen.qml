@@ -110,7 +110,7 @@ Item {
             id:musicButton
             height: 50
             width: 50
-            opacity: 0
+            opacity: 1
             anchors{
                 bottom: parent.bottom
                 left: parent.left
@@ -142,11 +142,11 @@ Item {
         }
         Image {
             id: muteImg
-            height: 50
-            width: 50
+            height: 40
+            width: 40
             source:player.playing===true ? "images/mute.png" : "images/unmute.png"
             anchors{
-                fill: musicButton
+                centerIn:  musicButton
             }
         }
 
