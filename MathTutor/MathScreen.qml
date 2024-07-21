@@ -10,12 +10,230 @@ Item {
     //this is a math subject screen with different lessons such as time,currency,story based, distance, help , operations
     //each subject has a buuton
     //all buttons are arranged in a grid layout
+    property int theme: 1
 
     Item{
         id: mathSubjectScreen
         anchors.fill: parent
         visible: true
+        Text {
+            id: topLabel
+            color: "green"
+            font.pointSize: 28
+            text:qsTr("Welcome To The Math Tutor App")
+
+            anchors{
+                top: parent.top
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 50
+            }
+        }
+
+        AnimatedImage {
+            id: welcomeAnimation
+            source: "images/welcome-1.gif"
+            height: 200
+            width: 200
+            anchors {
+                top: topLabel.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 10
+            }
+        }
+
+
+        MediaPlayer {
+            id: player
+            source: "sounds/backgroundmusic.ogg"
+            audioOutput: AudioOutput {}
+            loops: MediaPlayer.Infinite
+            // Component.onCompleted: {
+            //     player.play()
+            //     //  console.log("Playing",player.playing())
+            //     player.volume=0.5
+            // }
+        }
+        Button{
+            id:musicButton
+            height: 50
+            width: 50
+            opacity: 1
+            anchors{
+                bottom: parent.bottom
+                left: parent.left
+                bottomMargin: 10
+                leftMargin: 10
+            }
+
+            onClicked: {
+                if(player.playing){
+                    player.stop()
+                }else{
+                    player.play()
+                }
+            }
+            Keys.onReturnPressed:{
+                if(player.playing){
+                    player.stop()
+                }else{
+                    player.play()
+                }
+            }
+            Keys.onEnterPressed: {
+                if(player.playing){
+                    player.stop()
+                }else{
+                    player.play()
+                }
+            }
+        }
+        Image {
+            id: muteImg
+            height: 40
+            width: 40
+            source:player.playing===true ? "images/mute.png" : "images/unmute.png"
+            anchors{
+                centerIn:  musicButton
+            }
+        }
+
+        //a on off button to change theme
+        //shape must be like a Switch
+        //on click change theme
+
+        Button {
+            id: themeButton
+            text: "Change Theme"
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+                bottomMargin: 10
+                rightMargin: 10
+            }
+            onClicked: {
+                if(theme === 1){
+                    theme = 0
+                }else{
+                    theme = 1
+                }
+            }
+            Keys.onReturnPressed:{
+                if(theme === 1){
+                    theme = 0
+                }else{
+                    theme = 1
+                }
+            }
+
+            Keys.onEnterPressed: {
+                if(theme === 1){
+                    theme = 0
+                }else{
+                    theme = 1
+                }
+            }
+        }
+
+        //a settings button
+        //shape must be like a gear
+        //on click open a new window with settings
+        Button {
+            id: settingsButton
+            text: "Settings"
+            anchors {
+                bottom: parent.bottom
+                right: themeButton.left
+                bottomMargin: 10
+                rightMargin: 10
+            }
+            onClicked: {
+                settingsWindow.visible = true
+            }
+            Keys.onReturnPressed:{
+                settingsWindow.visible = true
+            }
+
+            Keys.onEnterPressed: {
+                settingsWindow.visible = true
+            }
+        }
+        ApplicationWindow {
+            id: settingsWindow
+            visible: false
+            width: 640
+            height: 480
+            title: "Settings"
+            flags: Qt.Window
+            Material.theme:theme ===1 ? Material.Dark : Material.Light
+            Rectangle {
+                width: parent.width
+                height: parent.height
+                color: "transparent"
+
+                Column {
+                    anchors.fill: parent
+                    Row {
+                        spacing: 10
+                        Text {
+                            text: "Zendalona"
+                            font.pointSize: 24
+                            color: "black"
+                        }
+                    }
+                }
+            }
+        }
+        // an upload Button
+
+        Button {
+            id: uploadButton
+            text: "Upload"
+            anchors {
+                bottom: parent.bottom
+                right: settingsButton.left
+                bottomMargin: 10
+                rightMargin: 10
+            }
+            onClicked: {
+                uploadWindow.visible = true
+            }
+            Keys.onReturnPressed:{
+                uploadWindow.visible = true
+            }
+
+            Keys.onEnterPressed: {
+                uploadWindow.visible = true
+            }
+        }
+        ApplicationWindow {
+            id: uploadWindow
+            visible: false
+            width: 640
+            height: 480
+            title: "Upload"
+            flags: Qt.Window
+            Material.theme:theme ===1 ? Material.Dark : Material.Light
+            Rectangle {
+                width: parent.width
+                height: parent.height
+                color: "transparent"
+
+                Column {
+                    anchors.fill: parent
+                    Row {
+                        spacing: 10
+                        Text {
+                            text: "Zendalona"
+                            font.pointSize: 24
+                            color: "black"
+                        }
+                    }
+                }
+            }
+        }
+
         Grid{
+            id: mathSubjectGrid
             spacing: 10
             columns: 3
             anchors{
@@ -32,16 +250,15 @@ Item {
                 font.pixelSize: 30
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                    mathTime.visible = true
+                    mathBasedloader.source = "MathTimeBased.qml"
                 }
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                    mathTime.visible = true
+                    mathBasedloader.source = "MathTimeBased.qml"
                 }
                 onClicked: {
+                    mathBasedloader.source = "MathTimeBased.qml"
                     mathSubjectScreen.visible = false
-                    mathTime.visible = true
-
                 }
             }
             Button{
@@ -54,15 +271,15 @@ Item {
                 font.pixelSize: 30
                 onClicked: {
                     mathSubjectScreen.visible = false
-                    mathCurrency.visible = true
+                    mathBasedloader.source = "MathCurrencyBased.qml"
                 }
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                    mathCurrency.visible = true
+                    mathBasedloader.source = "MathCurrencyBased.qml"
                 }
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                    mathCurrency.visible = true
+                    mathBasedloader.source = "MathCurrencyBased.qml"
                 }
             }
             Button{
@@ -75,15 +292,15 @@ Item {
                 font.pixelSize: 30
                 onClicked: {
                     mathSubjectScreen.visible = false
-                    mathStory.visible = true
+                    mathBasedloader.source = "MathStoryBased.qml"
                 }
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                    mathStory.visible = true
+                    mathBasedloader.source = "MathStoryBased.qml"
                 }
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                    mathStory.visible = true
+                    mathBasedloader.source = "MathStoryBased.qml"
                 }
             }
             Button{
@@ -94,20 +311,20 @@ Item {
                 height: 80
                 width: 200
                 font.pixelSize: 30
-                //even on enter pressed
+
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                    mathDistance.visible = true
+                    mathBasedloader.source = "MathDistanceBased.qml"
                 }
 
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                    mathDistance.visible = true
+                    mathBasedloader.source = "MathDistanceBased.qml"
                 }
 
                 onClicked: {
                     mathSubjectScreen.visible = false
-                    mathDistance.visible = true
+                    mathBasedloader.source = "MathDistanceBased.qml"
 
                 }
             }
@@ -121,16 +338,16 @@ Item {
                 font.pixelSize: 30
                 onClicked: {
                     mathSubjectScreen.visible = false
-                    mathBellRinging.visible = true
+                   mathBasedloader.source = "MathBellRingingBased.qml"
                 }
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                    mathBellRinging.visible = true
+                   mathBasedloader.source = "MathBellRingingBased.qml"
                 }
 
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                    mathBellRinging.visible = true
+                   mathBasedloader.source = "MathBellRingingBased.qml"
                 }
             }
             Button{
@@ -143,53 +360,26 @@ Item {
                 font.pixelSize: 30
                 onClicked: {
                     mathSubjectScreen.visible = false
-                    mathOperations.visible = true
+                    mathBasedloader.source = "MathOperationBased.qml"
                 }
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                    mathOperations.visible = true
+                    mathBasedloader.source = "MathOperationBased.qml"
                 }
 
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                    mathOperations.visible = true
+                    mathBasedloader.source = "MathOperationBased.qml"
                 }
             }
         }
     }
+    Loader {
+        id: mathBasedloader
+        source:""
+        anchors.fill: parent
+    }
 
-    MathStoryBased{
-        id: mathStory
-        visible: false
-        anchors.fill: parent
-    }
-    MathTimeBased{
-        id: mathTime
-        visible: false
-        anchors.fill: parent
-
-    }
-    MathCurrencyBased{
-        id: mathCurrency
-        visible: false
-        anchors.fill: parent
-
-    }
-    MathDistanceBased{
-        id: mathDistance
-        visible: false
-        anchors.fill: parent
-    }
-    MathOperationBased{
-        id: mathOperations
-        visible: false
-        anchors.fill: parent
-    }
-    MathBellRingingBased{
-        id: mathBellRinging
-        visible: false
-        anchors.fill: parent
-    }
     //a top left corner home button
     Button{
         id: homeButton
@@ -207,31 +397,16 @@ Item {
         }
         onClicked: {
             mathSubjectScreen.visible = true
-            mathTime.visible = false
-            mathCurrency.visible = false
-            mathStory.visible = false
-            mathDistance.visible = false
-            mathOperations.visible = false
-            mathBellRinging.visible = false
+            mathBasedloader.source = ""
         }
         Keys.onReturnPressed:{
             mathSubjectScreen.visible = true
-            mathTime.visible = false
-            mathCurrency.visible = false
-            mathStory.visible = false
-            mathDistance.visible = false
-            mathOperations.visible = false
-            mathBellRinging.visible = false
+            mathBasedloader.source = ""
 
         }
         Keys.onEnterPressed: {
             mathSubjectScreen.visible = true
-            mathTime.visible = false
-            mathCurrency.visible = false
-            mathStory.visible = false
-            mathDistance.visible = false
-            mathOperations.visible = false
-            mathBellRinging.visible = false
+            mathBasedloader.source = ""
 
         }
     }

@@ -31,18 +31,18 @@ Item{
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    additionScreen.visible = true
+                    operationBasedloader.source = "OperationAddition.qml"
                     operationScreen.visible = false
 
 
                 }
                 Keys.onReturnPressed:{
-                    additionScreen.visible = true
+                    operationBasedloader.source = "OperationAddition.qml"
                     operationScreen.visible = false
                 }
 
                 Keys.onEnterPressed: {
-                    additionScreen.visible = true
+                    operationBasedloader.source = "OperationAddition.qml"
                     operationScreen.visible = false
                 }
             }
@@ -54,17 +54,17 @@ Item{
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    subtractionScreen.visible = true
+                    operationBasedloader.source = "OperationSubtraction.qml"
                     operationScreen.visible = false
 
                 }
                 Keys.onReturnPressed:{
-                    subtractionScreen.visible = true
+                    operationBasedloader.source = "OperationSubtraction.qml"
                     operationScreen.visible = false
                 }
 
                 Keys.onEnterPressed: {
-                    subtractionScreen.visible = true
+                    operationBasedloader.source = "OperationSubtraction.qml"
                     operationScreen.visible = false
                 }
             }
@@ -76,17 +76,17 @@ Item{
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    multiplicationScreen.visible = true
+                    operationBasedloader.source = "OperationMultiplication.qml"
                     operationScreen.visible = false
 
                 }
                 Keys.onReturnPressed:{
-                    multiplicationScreen.visible = true
+                    operationBasedloader.source = "OperationMultiplication.qml"
                     operationScreen.visible = false
                 }
 
                 Keys.onEnterPressed: {
-                    multiplicationScreen.visible = true
+                    operationBasedloader.source = "OperationMultiplication.qml"
                     operationScreen.visible = false
                 }
             }
@@ -98,17 +98,17 @@ Item{
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    divisionScreen.visible = true
+                    operationBasedloader.source = "OperationDivision.qml"
                     operationScreen.visible = false
 
                 }
                 Keys.onReturnPressed:{
-                    divisionScreen.visible = true
+                    operationBasedloader.source = "OperationDivision.qml"
                     operationScreen.visible = false
                 }
 
                 Keys.onEnterPressed: {
-                    divisionScreen.visible = true
+                    operationBasedloader.source = "OperationDivision.qml"
                     operationScreen.visible = false
                 }
             }
@@ -120,17 +120,17 @@ Item{
                 width: 200
                 font.pixelSize: 30
                 onClicked: {
-                    reminderScreen.visible = true
+                    operationBasedloader.source = "OperationReminder.qml"
                     operationScreen.visible = false
                 }
                 Keys.onReturnPressed:{
-                    reminderScreen.visible = true
+                    operationBasedloader.source = "OperationReminder.qml"
                     operationScreen.visible = false
 
                 }
 
                 Keys.onEnterPressed: {
-                    reminderScreen.visible = true
+                    operationBasedloader.source = "OperationReminder.qml"
                     operationScreen.visible = false
                 }
             }
@@ -142,50 +142,26 @@ Item{
                 width: 200
                 font.pixelSize: 30
                 onClicked:{
-                    percentageScreen.visible = true
+                    operationBasedloader.source = "OperationPercentage.qml"
                     operationScreen.visible = false
 
                 }
                 Keys.onReturnPressed:{
-                    percentageScreen.visible = true
+                    operationBasedloader.source = "OperationPercentage.qml"
                     operationScreen.visible = false
                 }
 
                 Keys.onEnterPressed: {
-                    percentageScreen.visible = true
+                    operationBasedloader.source = "OperationPercentage.qml"
                     operationScreen.visible = false
                 }
             }
         }
     }
-    OperationAddition{
-        id: additionScreen
-        visible: false
-        anchors.fill: parent
-    }
-    OperationDivision{
-        id: divisionScreen
-        visible: false
-        anchors.fill: parent
-    }
-    OperationMultiplication{
-        id: multiplicationScreen
-        visible: false
-        anchors.fill: parent
-    }
-    OperationPercentage{
-        id: percentageScreen
-        visible: false
-        anchors.fill: parent
-    }
-    OperationReminder{
-        id: reminderScreen
-        visible: false
-        anchors.fill: parent
-    }
-    OperationSubtraction{
-        id: subtractionScreen
-        visible: false
+
+    Loader{
+        id: operationBasedloader
+        source:""
         anchors.fill: parent
     }
 }

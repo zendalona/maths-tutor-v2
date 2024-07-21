@@ -4,7 +4,7 @@
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QObject, Slot, QStringListModel, QUrl
+from PySide6.QtCore import QObject, Slot, QStringListModel, QUrl , Signal , Property
 from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine, QmlElement
 from PySide6.QtQuickControls2 import QQuickStyle
@@ -14,19 +14,42 @@ from PySide6.QtQuick import QQuickView
 
 # To be used on the @QmlElement decorator
 # (QML_IMPORT_MINOR_VERSION is optional)
+
 QML_IMPORT_NAME = "io.qt.textproperties"
 QML_IMPORT_MAJOR_VERSION = 1
-
-
 @QmlElement
-class Bridge(QObject):
-    def __init__(self):
-        QObject.__init__(self)
-    a = "1"  # a variable that is exposed to qml
 
-    @Slot( result=int)
+
+class Bridge(QObject):
+
+    textChanged = Signal()
+
+    def __init__(self):
+        super().__init__()
+        self._a = [1, 2, 3, 4, 5]
+
+    @Property(list, notify=textChanged)
+    def a(self):
+        return self._a
+
+    @a.setter
+    def a(self, value):
+        self._a=value
+        self.textChanged.emit()
+
+    @Slot(str)
+    def appendValue(self, value):
+        self._a.append(value)
+        self.textChanged.emit()
+
+    @Slot(result=list)
     def getText(self):
-        return self.a
+        return self._a
+
+    @Slot(str)
+    def displayText(self):
+        print(self._a)
+
 
     @Slot(str, result=str)
     def getColor(self, s):
@@ -80,22 +103,16 @@ if __name__ == '__main__':
     # Get the path of the current directory, and then add the name
     # of the QML file, to load it.
     qml_file = Path(__file__).parent / 'RootWindow.qml'
-    #create a variable b=1 and expose it to qml
-    b = 12
-    engine.rootContext().setContextProperty("br", b)
+
+    bridge=Bridge()
+
+    bridge.textChanged.connect(bridge.displayText)
+
+    engine.rootContext().setContextProperty("bridge", bridge)
+
 
     # #show the qml file
 
     engine.load(qml_file)
-
-
-
-    # view = QQuickView()
-    # view.setResizeMode(QQuickView.SizeRootObjectToView)
-    # view.setSource(QUrl.fromLocalFile(qml_file.resolve()))
-    # view.show()
-
-
-
 
     sys.exit(app.exec())

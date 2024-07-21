@@ -14,13 +14,30 @@ import io.qt.textproperties 1.0
 ApplicationWindow{
 
     id:root
-    Material.theme:welcomeScreen.theme === 1 ? Material.Dark : Material.Light
+    Material.theme:mathScreen.theme === 1 ? Material.Dark : Material.Light
     Material.accent: Material.Red
     title: "Zendlona Math Tutor App"
     visible: true
     height: 200
     width: 300
     opacity: 0
+
+    property var pr_var: bridge.a
+    Component.onCompleted: {
+        console.log("from qml", bridge.getText())
+        console.log("from qml1", bridge.getColor("red"))
+
+        bridge.textChanged()
+       // console.log("from qml2", pr_var)
+        bridge.a = [1,2,3]
+        bridge.appendValue(7)
+    }
+
+    onPr_varChanged: {
+        console.log("from qml3", pr_var)
+    }
+
+
 
     ApplicationWindow{
         id: languageSelectionScreen
@@ -108,7 +125,7 @@ ApplicationWindow{
                     root.minimumHeight= 720
                     root.minimumWidth= 1080
                     welcomeScreenWindow.visible= true
-                     welcomeScreenWindow.visibility= Window.Maximized
+                    welcomeScreenWindow.visibility= Window.Maximized
                     languageSelectionScreen.close()
                 }
                 Keys.onEnterPressed: {
@@ -122,7 +139,7 @@ ApplicationWindow{
                     root.minimumHeight= 720
                     root.minimumWidth= 1080
                     welcomeScreenWindow.visible= true
-                     welcomeScreenWindow.visibility= Window.Maximized
+                    welcomeScreenWindow.visibility= Window.Maximized
                     languageSelectionScreen.close()
                 }
                 Keys.onReturnPressed: {
@@ -171,13 +188,10 @@ ApplicationWindow{
             root.close()
         }
 
-
-
-        WelcomeScreen{
-            id: welcomeScreen
-            height: parent.height
-            width: parent.width
-           // visible: false
+        MathScreen{
+            id: mathScreen
+            anchors.fill: parent
+            visible: true
         }
     }
 }
