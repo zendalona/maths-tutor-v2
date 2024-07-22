@@ -12,6 +12,13 @@ Item {
     //all buttons are arranged in a grid layout
     property int theme: 1
     property int pr_fontSizeMultiple: 0
+    //alt+h should press the home button
+    Keys.onPressed: {
+        if(event.key === Qt.Key_H && event.modifiers === Qt.AltModifier){
+            mathSubjectScreen.visible = true
+            mathBasedloader.source = ""
+        }
+    }
 
     Item{
         id: mathSubjectScreen
