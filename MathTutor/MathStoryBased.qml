@@ -7,10 +7,12 @@ import QtMultimedia
 import io.qt.textproperties 1.0
 
 Item {
+
     ColumnLayout {
         id: layout
         anchors.centerIn: parent
         spacing: 10
+
         Text {
             id: question
             text: qsTr("Lily is a young girl who lives in a small village. One day, she decided to visit her grandmother who lives on the other side of the village. To get there, she has to follow a series of directions.

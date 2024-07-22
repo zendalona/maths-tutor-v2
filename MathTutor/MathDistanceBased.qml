@@ -11,7 +11,17 @@ Item {
     property int  pr_x:10
     property int  pr_y:5
     property int  pr_difficulty: 0
-
+    // page up and  down to change the difficulty level
+    Keys.onUpPressed:  {
+        if(pr_difficulty < 4){
+            pr_difficulty++
+        }
+    }
+    Keys.onDownPressed: {
+        if(pr_difficulty > 0){
+            pr_difficulty--
+        }
+    }
     Component.onCompleted: {
         generateQuestion()
     }

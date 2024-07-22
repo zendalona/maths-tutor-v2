@@ -13,6 +13,17 @@ Item {
     id: root
     property int pr_difficulty: 0
     property var pr_answer: 0
+    // page up and  down to change the difficulty level
+    Keys.onUpPressed:  {
+        if(pr_difficulty < 4){
+            pr_difficulty++
+        }
+    }
+    Keys.onDownPressed: {
+        if(pr_difficulty > 0){
+            pr_difficulty--
+        }
+    }
     function generateQuestion(){
         //generate random numbers according to diifculty level
         var num1 = Math.floor(Math.random() * 10) + 10
