@@ -29,7 +29,7 @@ Item{
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     operationBasedloader.source = "OperationAddition.qml"
                     operationScreen.visible = false
@@ -52,7 +52,7 @@ Item{
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     operationBasedloader.source = "OperationSubtraction.qml"
                     operationScreen.visible = false
@@ -74,7 +74,7 @@ Item{
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     operationBasedloader.source = "OperationMultiplication.qml"
                     operationScreen.visible = false
@@ -96,7 +96,7 @@ Item{
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     operationBasedloader.source = "OperationDivision.qml"
                     operationScreen.visible = false
@@ -118,7 +118,7 @@ Item{
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     operationBasedloader.source = "OperationReminder.qml"
                     operationScreen.visible = false
@@ -140,7 +140,7 @@ Item{
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked:{
                     operationBasedloader.source = "OperationPercentage.qml"
                     operationScreen.visible = false

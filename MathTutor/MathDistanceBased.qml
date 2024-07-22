@@ -8,58 +8,184 @@ import io.qt.textproperties 1.0
 
 Item {
     id: root
-    Text {
-        id: question
-        text: qsTr("If Speed is 5 km/h and time taken is 2 hrs then what is the distance travelled?")
+    property int  pr_x:10
+    property int  pr_y:5
+    property int  pr_difficulty: 0
+
+    Component.onCompleted: {
+        generateQuestion()
+    }
+
+    //a func to generate question based on difficulty level
+    function generateQuestion(){
+        // Generate random values based on difficulty level
+        if (pr_difficulty === 0) {
+            // range from 10-19
+            pr_x = Math.floor(Math.random() * 10) + 10;
+            // range from 10-19
+            pr_y = Math.floor(Math.random() * 10) + 10;
+        } else if (pr_difficulty === 1) {
+            // range from 20-29
+            pr_x = Math.floor(Math.random() * 10) + 20;
+            // range from 10-19
+            pr_y = Math.floor(Math.random() * 10) + 10;
+        } else if (pr_difficulty === 2) {
+            // range from 30-49
+            pr_x = Math.floor(Math.random() * 20) + 30;
+            // range from 20-29
+            pr_y = Math.floor(Math.random() * 10) + 20;
+        } else if (pr_difficulty === 3) {
+            // range from 30-49
+            pr_x = Math.floor(Math.random() * 20) + 30;
+            // range from 20-29
+            pr_y = Math.floor(Math.random() * 10) + 20;
+        } else if (pr_difficulty === 4) {
+            // range from 30-49
+            pr_x = Math.floor(Math.random() * 20) + 30;
+            // range from 30-49
+            pr_y = Math.floor(Math.random() * 20) + 30;
+        } else {
+            // Default case
+            // range from 30-49
+            pr_x = Math.floor(Math.random() * 20) + 30;
+            // range from 30-49
+            pr_y = Math.floor(Math.random() * 20) + 30;
+        }
+
+        // Display the question
+        time.text= "Ravi walked "+pr_x+" km and "+pr_y+" km backword. So how far he is away from initial point ?"
+
+    }
+
+    //check answer
+    function isAnswerCorrect(x, y, answer){
+        return Math.abs(x-y) === parseInt(answer)
+    }
+
+    Column{
         anchors{
             top: parent.top
+            topMargin: 200
             horizontalCenter: parent.horizontalCenter
-
-            topMargin: 250
         }
-        font.pixelSize: 30
-        color: "orange"
-    }
+        spacing: 20
+        Text {
+            id: time
+            font.pixelSize: pr_fontSizeMultiple +  30
+            color: Material.primaryTextColor
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            anchors{
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+        Row{
+            id: userinput
+            anchors{
+                horizontalCenter: parent.horizontalCenter
+            }
+            spacing: 10
+            TextField {
+                id: inputUserAnswer
+                placeholderText: "answer"
+                font.pixelSize: pr_fontSizeMultiple +  20
 
-    TextField{
-        focus: true
-        id: answer
-        text: ""
-        cursorVisible: true
-        anchors{
-            top: question.bottom
-            topMargin: 10
-            horizontalCenter: parent.horizontalCenter
+            }
+            Button{
+                id: submit
+                text: "Submit"
+                onClicked: {
+                    if(isAnswerCorrect(pr_x, pr_y, inputUserAnswer.text )){
+                        animationImageExcellent.running = true
+                    }
+                    else {
+                        animationImageWrong.running = true
+                        wrongImage.visible = true
+                    }
+                }
+                Keys.onReturnPressed:{
+                    if(isAnswerCorrect(pr_x, pr_y, inputUserAnswer.text )){
+                        animationImageExcellent.running = true
+                    }
+                    else {
+                        animationImageWrong.running = true
+                        wrongImage.visible = true
+                    }
+                }
+
+                Keys.onEnterPressed: {
+                    if(isAnswerCorrect(pr_x, pr_y, inputUserAnswer.text )){
+                        animationImageExcellent.running = true
+                    }
+                    else {
+                        animationImageWrong.running = true
+                        wrongImage.visible = true
+                    }
+                }
+            }
+        }
+        AnimatedImage {
+            id: excellentImage
+            source: "images/excellent-1.gif"
+            height: 200
+            width: 200
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+            visible: false
+        }
+        AnimatedImage {
+            id: wrongImage
+            source: "images/wrong-anwser-1.gif"
+            height: 200
+            width: 200
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+            visible: false
+        }
+        // a help button in the corner
+    }
+    SequentialAnimation {
+        id: animationImageExcellent
+        running: false
+        loops: 1
+        NumberAnimation {
+            target: excellentImage
+            property: "visible"
+            from: 1
+            to: 0
+            duration: 2000
+            loops: 1
+        }
+        onStopped: {
+            animationImageExcellent.running = false
+            generateQuestion()
+            inputUserAnswer.text = ""
+
 
         }
-        font.pixelSize: 30
-        color: "orange"
-        width: 200
-        height: 50
     }
-
-    Keys.onReturnPressed: {
-        excellentImage.visible = true
-    }
-    Keys.onEnterPressed: {
-        excellentImage.visible = true
-    }
-
-    //a excellent image
-    AnimatedImage {
-        id: excellentImage
-        source: "images/excellent-1.gif"
-        height: 200
-        width: 200
-        anchors {
-            top: answer.bottom
-            horizontalCenter: parent.horizontalCenter
-            topMargin: 10
+    SequentialAnimation {
+        id: animationImageWrong
+        running: false
+        loops: 1
+        NumberAnimation {
+            target: wrongImage
+            property: "visible"
+            from: 1
+            to: 0
+            duration: 2000
+            loops: 1
         }
-        visible: false
-    }
+        onStopped: {
+            animationImageWrong.running = false
+            inputUserAnswer.text = ""
 
-    // a help button in the corner
+
+        }
+    }
     Button {
         id: helpButton
         text: "Help"
@@ -77,6 +203,74 @@ Item {
         }
 
         Keys.onEnterPressed: {
+
+        }
+    }
+    Button{
+        id: distanceSettingsButton
+        text: "Settings"
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            rightMargin: 10
+            bottomMargin:  10
+        }
+        onClicked: {
+            distanceSettingsWindow.visible = true
+        }
+        Keys.onReturnPressed:{
+            distanceSettingsWindow.visible = true
+        }
+
+        Keys.onEnterPressed: {
+            distanceSettingsWindow.visible = true
+        }
+    }
+    ApplicationWindow {
+        id: distanceSettingsWindow
+        visible: false
+        width: 640
+        height: 480
+        title: "Settings"
+        flags: Qt.Window
+        Material.theme:theme ===1 ? Material.Dark : Material.Light
+        //color: "black"
+        Rectangle {
+            width: parent.width
+            height: parent.height
+            color: "transparent"
+            //a combobox to choose difficulty level
+            Text{
+                id: difficultySelectionText
+                text: "Select Difficulty Level:"
+                anchors{
+                    left: parent.left
+                    leftMargin: 10
+                    top: parent.top
+                    topMargin: 30
+                }
+                color: Material.primaryTextColor
+            }
+            ComboBox {
+                id: difficultyComboBox
+
+                textRole: "modelData"
+                model: ["Simple" , "Easy", "Medium", "Hard", "Challenging"]
+                currentIndex: root.pr_difficulty
+                height: 50
+                width: 200
+                anchors{
+                    left: difficultySelectionText.left
+                    leftMargin: 150
+                    top: parent.top
+                    topMargin: 25
+                }
+                onCurrentIndexChanged: {
+                    root.pr_difficulty = difficultyComboBox.currentIndex
+                    root.generateQuestion()
+
+                }
+            }
 
         }
     }

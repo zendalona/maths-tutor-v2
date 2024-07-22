@@ -11,6 +11,7 @@ Item {
     //each subject has a buuton
     //all buttons are arranged in a grid layout
     property int theme: 1
+    property int pr_fontSizeMultiple: 0
 
     Item{
         id: mathSubjectScreen
@@ -19,7 +20,7 @@ Item {
         Text {
             id: topLabel
             color: "green"
-            font.pointSize: 28
+            font.pixelSize: pr_fontSizeMultiple +  40
             text:qsTr("Welcome To The Math Tutor App")
 
             anchors{
@@ -104,6 +105,7 @@ Item {
         Button {
             id: themeButton
             text: "Change Theme"
+            font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
                 bottom: parent.bottom
                 right: parent.right
@@ -140,6 +142,7 @@ Item {
         Button {
             id: settingsButton
             text: "Settings"
+            font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
                 bottom: parent.bottom
                 right: themeButton.left
@@ -169,15 +172,25 @@ Item {
                 width: parent.width
                 height: parent.height
                 color: "transparent"
-
+                // a spin box to incerement the font size of the text
                 Column {
                     anchors.fill: parent
                     Row {
                         spacing: 10
                         Text {
-                            text: "Zendalona"
-                            font.pointSize: 24
-                            color: "black"
+                            text: "Font Size:"
+                            font.pixelSize: pr_fontSizeMultiple +  pr_fontSizeMultiple +   24
+                            color:Material.primaryTextColor
+                        }
+                        SpinBox {
+                            id: fontSizeSpinBox
+                            value: 0
+                            from: 0
+                            to: 50
+                            stepSize: 1
+                            onValueChanged: {
+                                pr_fontSizeMultiple = fontSizeSpinBox.value
+                            }
                         }
                     }
                 }
@@ -188,6 +201,7 @@ Item {
         Button {
             id: uploadButton
             text: "Upload"
+            font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
                 bottom: parent.bottom
                 right: settingsButton.left
@@ -224,7 +238,7 @@ Item {
                         spacing: 10
                         Text {
                             text: "Zendalona"
-                            font.pointSize: 24
+                            font.pixelSize: pr_fontSizeMultiple +  24
                             color: "black"
                         }
                     }
@@ -235,9 +249,13 @@ Item {
         Grid{
             id: mathSubjectGrid
             spacing: 10
-            columns: 3
+           // columns: 3
+            rows: 2
             anchors{
-                centerIn: parent
+                top: welcomeAnimation.bottom
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+                topMargin: 10
             }
 
             Button{
@@ -247,7 +265,7 @@ Item {
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
                     mathBasedloader.source = "MathTimeBased.qml"
@@ -268,7 +286,7 @@ Item {
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     mathSubjectScreen.visible = false
                     mathBasedloader.source = "MathCurrencyBased.qml"
@@ -289,7 +307,7 @@ Item {
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     mathSubjectScreen.visible = false
                     mathBasedloader.source = "MathStoryBased.qml"
@@ -310,7 +328,7 @@ Item {
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
 
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
@@ -329,13 +347,14 @@ Item {
                 }
             }
             Button{
+               // visible: false
                 id: bellRingingButton
                 text: "Bell Ringing"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     mathSubjectScreen.visible = false
                    mathBasedloader.source = "MathBellRingingBased.qml"
@@ -357,7 +376,7 @@ Item {
                 Layout.fillHeight: true
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     mathSubjectScreen.visible = false
                     mathBasedloader.source = "MathOperationBased.qml"
@@ -378,17 +397,14 @@ Item {
         id: mathBasedloader
         source:""
         anchors.fill: parent
+        property int pr_demo: 2
     }
 
     //a top left corner home button
     Button{
         id: homeButton
         text: "Home"
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        height: 80
-        width: 200
-        font.pixelSize: 30
+        font.pixelSize: pr_fontSizeMultiple +  30
         anchors{
             top: parent.top
             left: parent.left

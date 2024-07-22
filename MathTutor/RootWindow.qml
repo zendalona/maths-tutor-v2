@@ -64,13 +64,14 @@ ApplicationWindow{
                     top: parent.top
                     topMargin: 30
                 }
+                color: Material.primaryTextColor
             }
             //a drop down menu to select language
             ComboBox{
                 id: languageComboBox
                 model: ["English", "Hindi", "Marathi"]
                 currentIndex: 0
-                height: 30
+                height: 32
                 anchors{
                     left: languageSelectionText.left
                     leftMargin: 100

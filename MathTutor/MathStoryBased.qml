@@ -21,14 +21,14 @@ Item {
                         Finally, she turns left again and walks 4 blocks west to her grandmother's house.")
 
             wrapMode: Text.WordWrap
-            font.pixelSize: 18
+            font.pixelSize: pr_fontSizeMultiple +  18
             color: "orange"
         }
         Text{
             id:subquestion
             text: qsTr("How many blocks does Lily walk east after visiting the bakery?")
             wrapMode: Text.WordWrap
-            font.pixelSize: 18
+            font.pixelSize: pr_fontSizeMultiple +  18
             color: "orange"
         }
         TextField {

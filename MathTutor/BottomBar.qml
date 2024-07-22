@@ -98,7 +98,7 @@ Item {
                     spacing: 10
                     Text {
                         text: "Zendalona"
-                        font.pointSize: 24
+                        font.pixelSize: pr_fontSizeMultiple +  24
                         color: "black"
                     }
                 }

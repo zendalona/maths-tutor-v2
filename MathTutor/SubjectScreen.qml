@@ -38,7 +38,7 @@ Item {
                 }
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
 
                 onClicked: {
                     console.log("Math button clicked")
@@ -72,7 +72,7 @@ Item {
                 }
                 height: 80
                 width: 200
-                font.pixelSize: 30
+                font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     console.log("English button clicked")
                     englishScreen.visible = true

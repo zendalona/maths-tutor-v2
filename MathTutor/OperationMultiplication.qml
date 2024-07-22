@@ -93,7 +93,7 @@ Item {
 
             topMargin: 250
         }
-        font.pixelSize: 30
+        font.pixelSize: pr_fontSizeMultiple +  30
         color: "orange"
     }
 
@@ -108,7 +108,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
 
         }
-        font.pixelSize: 30
+        font.pixelSize: pr_fontSizeMultiple +  30
         color: "orange"
         width: 200
         height: 50
@@ -168,7 +168,6 @@ Item {
         }
         onStopped: {
             animationImageWrong.running = false
-            question.text = generateQuestion()
             answer.text = ""
         }
     }
@@ -319,6 +318,8 @@ Item {
                     top: parent.top
                     topMargin: 30
                 }
+                color: Material.primaryTextColor
+
             }
             ComboBox {
                 id: difficultyComboBox
