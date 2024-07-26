@@ -27,6 +27,10 @@
 
         "sounds/backgroundmusic.ogg",
 
+        "sounds/home_button_sound.mp3",
+
+        "sounds/click-button.mp3",
+
         "sounds/coin.ogg",
 
         "sounds/excellent-1.ogg",

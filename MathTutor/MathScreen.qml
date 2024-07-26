@@ -384,6 +384,15 @@ Item {
         property int pr_demo: 2
     }
 
+    ///home button sound
+
+    MediaPlayer {
+        id: homeButtonSound
+        source: "sounds/home_button_sound.mp3"
+        audioOutput: AudioOutput {}
+        loops: 1
+    }
+
     //a top left corner home button
     Button{
         id: homeButton
@@ -396,15 +405,18 @@ Item {
             leftMargin: 10
         }
         onClicked: {
+            homeButtonSound.play()
             mathSubjectScreen.visible = true
             mathBasedloader.source = ""
         }
         Keys.onReturnPressed:{
+            homeButtonSound.play()
             mathSubjectScreen.visible = true
             mathBasedloader.source = ""
 
         }
         Keys.onEnterPressed: {
+            homeButtonSound.play()
             mathSubjectScreen.visible = true
             mathBasedloader.source = ""
 
