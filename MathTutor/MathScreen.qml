@@ -12,11 +12,20 @@ Item {
     //all buttons are arranged in a grid layout
     property int theme: 1
     property int pr_fontSizeMultiple: 0
+    property bool pr_isMusicPlaying: false
     //alt+h should press the home button
     Keys.onPressed: {
         if(event.key === Qt.Key_H && event.modifiers === Qt.AltModifier){
             mathSubjectScreen.visible = true
             mathBasedloader.source = ""
+        }
+    }
+
+    onPr_isMusicPlayingChanged: {
+        if(!pr_isMusicPlaying){
+            player.stop()
+        }else{
+            player.play()
         }
     }
 
@@ -28,7 +37,7 @@ Item {
             id: topLabel
             color: "green"
             font.pixelSize: pr_fontSizeMultiple +  40
-            text:qsTr("Welcome To The Math Tutor App")
+            text:qsTr("Welcome To The Math Tutor ")
 
             anchors{
                 top: parent.top
@@ -61,49 +70,7 @@ Item {
             //     player.volume=0.5
             // }
         }
-        Button{
-            id:musicButton
-            height: 50
-            width: 50
-            opacity: 1
-            anchors{
-                bottom: parent.bottom
-                left: parent.left
-                bottomMargin: 10
-                leftMargin: 10
-            }
 
-            onClicked: {
-                if(player.playing){
-                    player.stop()
-                }else{
-                    player.play()
-                }
-            }
-            Keys.onReturnPressed:{
-                if(player.playing){
-                    player.stop()
-                }else{
-                    player.play()
-                }
-            }
-            Keys.onEnterPressed: {
-                if(player.playing){
-                    player.stop()
-                }else{
-                    player.play()
-                }
-            }
-        }
-        Image {
-            id: muteImg
-            height: 40
-            width: 40
-            source:player.playing===true ? "images/mute.png" : "images/unmute.png"
-            anchors{
-                centerIn:  musicButton
-            }
-        }
 
         //a on off button to change theme
         //shape must be like a Switch
@@ -185,20 +152,11 @@ Item {
                     Row {
                         spacing: 10
                         Text {
-                            text: "Font Size:"
+                            text: "Zendalona"
                             font.pixelSize: pr_fontSizeMultiple +  pr_fontSizeMultiple +   24
                             color:Material.primaryTextColor
                         }
-                        SpinBox {
-                            id: fontSizeSpinBox
-                            value: 0
-                            from: 0
-                            to: 50
-                            stepSize: 1
-                            onValueChanged: {
-                                pr_fontSizeMultiple = fontSizeSpinBox.value
-                            }
-                        }
+
                     }
                 }
             }
@@ -399,6 +357,25 @@ Item {
                 }
             }
         }
+
+        Text{
+            id:noteText
+            width: mathSubjectGrid.width
+            text: "Note: Please select the subject to proceed"
+            font.pixelSize: pr_fontSizeMultiple +  20
+            color:Material.primaryTextColor
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+
+            anchors{
+                top: mathSubjectGrid.bottom
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+                topMargin: 30
+            }
+
+        }
+
     }
     Loader {
         id: mathBasedloader
@@ -431,6 +408,58 @@ Item {
             mathSubjectScreen.visible = true
             mathBasedloader.source = ""
 
+        }
+    }
+
+
+    SpinBox {
+        id: fontSizeSpinBox
+        value: 0
+        from: 0
+        to: 50
+        stepSize: 1
+        onValueChanged: {
+            pr_fontSizeMultiple = fontSizeSpinBox.value
+        }
+        anchors{
+            top: parent.top
+            right: parent.right
+            topMargin: 10
+            rightMargin: 10
+        }
+    }
+
+    Button{
+        id:musicButton
+        height: 50
+        width: 50
+        opacity: 1
+        anchors{
+            bottom: parent.bottom
+            left: parent.left
+            bottomMargin: 10
+            leftMargin: 10
+        }
+
+        onClicked: {
+           pr_isMusicPlaying = !pr_isMusicPlaying
+        }
+        Keys.onReturnPressed:{
+            pr_isMusicPlaying = !pr_isMusicPlaying
+
+        }
+        Keys.onEnterPressed: {
+            pr_isMusicPlaying = !pr_isMusicPlaying
+
+        }
+    }
+    Image {
+        id: muteImg
+        height: 40
+        width: 40
+        source:  pr_isMusicPlaying===true ? "images/mute.png" : "images/unmute.png"
+        anchors{
+            centerIn:  musicButton
         }
     }
 }

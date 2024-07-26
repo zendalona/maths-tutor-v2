@@ -209,27 +209,6 @@ Item {
         visible: false
     }
 
-    // a help button in the corner
-    Button {
-        id: helpButton
-        text: "Help"
-        anchors {
-            right: parent.right
-            top: parent.top
-            rightMargin: 10
-            topMargin: 10
-        }
-        onClicked: {
-            console.log("Help button clicked")
-        }
-        Keys.onReturnPressed:{
-
-        }
-
-        Keys.onEnterPressed: {
-
-        }
-    }
     Button{
         id: multiplicationSettingsButton
         text: "Settings"
@@ -256,14 +235,35 @@ Item {
         id: uploadButton
         text: "Upload"
         anchors {
-            left: parent.left
+            right: multiplicationSettingsButton.left
             bottom: parent.bottom
-            leftMargin: 10
-            bottomMargin: 10
+            rightMargin: 10
+            bottomMargin:  10
         }
         onClicked: {
             console.log("Upload button clicked")
             fileDialog.open()
+        }
+        Keys.onReturnPressed:{
+
+        }
+
+        Keys.onEnterPressed: {
+
+        }
+    }
+    // a help button in the corner
+    Button {
+        id: helpButton
+        text: "Help"
+        anchors {
+            right: uploadButton.left
+            bottom: parent.bottom
+            rightMargin: 10
+            bottomMargin:  10
+        }
+        onClicked: {
+            console.log("Help button clicked")
         }
         Keys.onReturnPressed:{
 

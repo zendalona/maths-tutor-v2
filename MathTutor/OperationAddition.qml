@@ -210,28 +210,8 @@ Item {
     }
 
     // a help button in the corner
-    Button {
-        id: helpButton
-        text: "Help"
-        anchors {
-            right: parent.right
-            top: parent.top
-            rightMargin: 10
-            topMargin: 10
-        }
-        onClicked: {
-            console.log("Help button clicked")
-        }
-        Keys.onReturnPressed:{
-
-        }
-
-        Keys.onEnterPressed: {
-
-        }
-    }
     Button{
-        id: addionSettingsButton
+        id: additionSettingsButton
         text: "Settings"
         anchors {
             right: parent.right
@@ -240,14 +220,14 @@ Item {
             bottomMargin:  10
         }
         onClicked: {
-            addionsettingsWindow.visible = true
+            additionsettingsWindow.visible = true
         }
         Keys.onReturnPressed:{
-            addionsettingsWindow.visible = true
+            additionsettingsWindow.visible = true
         }
 
         Keys.onEnterPressed: {
-            addionsettingsWindow.visible = true
+            additionsettingsWindow.visible = true
         }
     }
     // a upload button to upload the range of numbers to be used
@@ -256,14 +236,35 @@ Item {
         id: uploadButton
         text: "Upload"
         anchors {
-            left: parent.left
+            right: additionSettingsButton.left
             bottom: parent.bottom
-            leftMargin: 10
-            bottomMargin: 10
+            rightMargin: 10
+            bottomMargin:  10
         }
         onClicked: {
             console.log("Upload button clicked")
             fileDialog.open()
+        }
+        Keys.onReturnPressed:{
+
+        }
+
+        Keys.onEnterPressed: {
+
+        }
+    }
+    // a help button in the corner
+    Button {
+        id: helpButton
+        text: "Help"
+        anchors {
+            right: uploadButton.left
+            bottom: parent.bottom
+            rightMargin: 10
+            bottomMargin:  10
+        }
+        onClicked: {
+            console.log("Help button clicked")
         }
         Keys.onReturnPressed:{
 
@@ -307,7 +308,7 @@ Item {
 
     }
     ApplicationWindow {
-        id: addionsettingsWindow
+        id: additionsettingsWindow
         visible: false
         width: 640
         height: 480
