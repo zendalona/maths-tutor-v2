@@ -67,7 +67,7 @@ Item {
     }
     // a help button in the corner
     Button {
-        id: helpButton
+        id: helpButton;visible:false
         text: "Help"
         anchors {
             right: parent.right

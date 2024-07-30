@@ -13,6 +13,10 @@ Item {
     property int  pr_x: 10
     property int  pr_difficulty: 0
     // page up and  down to change the difficulty level
+    property int pr_timeTaken: 0
+    // a random value between 1-3
+    property int pr_randomIndex: Math.floor(Math.random() * 3) + 1
+    property int pr_countWrong : 0
     Keys.onUpPressed:  {
         if(pr_difficulty < 4){
             pr_difficulty++
@@ -26,9 +30,21 @@ Item {
     Component.onCompleted: {
         generateQuestion()
     }
-
+    Timer{
+        id: timerforQuestion
+        interval: 1000
+        running: false
+        repeat: true
+        onTriggered: {
+            pr_timeTaken = pr_timeTaken + 1
+        }
+    }
     //a func to generate question based on difficulty level
     function generateQuestion(){
+        pr_timeTaken = 0
+        pr_countWrong = 0
+        pr_randomIndex = Math.floor(Math.random() * 3) + 1
+        timerforQuestion.start()
         // Generate random values based on difficulty level
         if (pr_difficulty === 0) {
             // range from 10-19
@@ -145,29 +161,41 @@ Item {
                 id: submit
                 text: "Submit"
                 onClicked: {
+                    timerforQuestion.stop()
+
                     if(isAnswerCorrect(pr_hr, pr_min, inputhr.text + ':' + inputmin.text)){
                         animationImageExcellent.running = true
                     }
                     else {
+                        pr_countWrong++
+
                         animationImageWrong.running = true
                         wrongImage.visible = true
                     }
                 }
                 Keys.onReturnPressed:{
+                    timerforQuestion.stop()
+
                     if(isAnswerCorrect(pr_hr, pr_min, inputhr.text + ':' + inputmin.text)){
                         animationImageExcellent.running = true
                     }
                     else {
+                        pr_countWrong++
+
                         animationImageWrong.running = true
                         wrongImage.visible = true
                     }
                 }
 
                 Keys.onEnterPressed: {
+                    timerforQuestion.stop()
+
                     if(isAnswerCorrect(pr_hr, pr_min, inputhr.text + ':' + inputmin.text)){
                         animationImageExcellent.running = true
                     }
                     else {
+                        pr_countWrong++
+
                         animationImageWrong.running = true
                         wrongImage.visible = true
                     }
@@ -176,7 +204,28 @@ Item {
         }
         AnimatedImage {
             id: excellentImage
-            source: "images/excellent-1.gif"
+            source: {
+                if(pr_timeTaken < 5){
+                    return ("images/excellent-"+ pr_randomIndex + ".gif")
+                }
+                else if(pr_timeTaken<10){
+                    return ("images/very-good-"+ pr_randomIndex + ".gif")
+                }
+                else if(pr_timeTaken<15){
+                    return ("images/good-"+ pr_randomIndex + ".gif")
+                }
+                else if(pr_timeTaken<15){
+                    return ("images/not-bad-"+ pr_randomIndex + ".gif")
+                }
+                else if(pr_timeTaken<20){
+                    return ("images/okay-"+ pr_randomIndex + ".gif")
+                }
+
+                else{
+                    return ""
+                }
+
+            }
             height: 200
             width: 200
             anchors {
@@ -186,7 +235,14 @@ Item {
         }
         AnimatedImage {
             id: wrongImage
-            source: "images/wrong-anwser-1.gif"
+            source: {
+
+                if(pr_countWrong===1)
+                    return ("images/wrong-anwser-"+ pr_randomIndex + ".gif")
+                else
+                    return ("images/wrong-anwser-repeted-"+ (pr_randomIndex === 3 ? 1:pr_randomIndex)  + ".gif")
+
+            }
             height: 200
             width: 200
             anchors {
@@ -236,7 +292,7 @@ Item {
         }
     }
     Button {
-        id: helpButton
+        id: helpButton;visible:false
         text: "Help"
         anchors {
             right: parent.right

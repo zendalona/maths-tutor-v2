@@ -13,6 +13,10 @@ Item {
     id: root
     property int pr_difficulty: 0
     property var pr_answer: 0
+    property int pr_timeTaken: 0
+    // a random value between 1-3
+    property int pr_randomIndex: Math.floor(Math.random() * 3) + 1
+    property int pr_countWrong : 0
     // page up and  down to change the difficulty level
     Keys.onUpPressed:  {
         if(pr_difficulty < 4){
@@ -25,6 +29,10 @@ Item {
         }
     }
     function generateQuestion(){
+        pr_timeTaken = 0
+        pr_countWrong = 0
+        pr_randomIndex = Math.floor(Math.random() * 3) + 1
+        timerforQuestion.start()
         //generate random numbers according to diifculty level
         var num1 = Math.floor(Math.random() * 10) + 10
         var num2 = Math.floor(Math.random() * 10) + 10
@@ -94,7 +102,15 @@ Item {
             return num1 + " % " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
         }
     }
-
+    Timer{
+        id: timerforQuestion
+        interval: 1000
+        running: false
+        repeat: true
+        onTriggered: {
+            pr_timeTaken = pr_timeTaken + 1
+        }
+    }
     Text {
         id: question
         text: generateQuestion()
@@ -126,24 +142,32 @@ Item {
     }
 
     Keys.onReturnPressed: {
+        timerforQuestion.stop()
+
         console.log("Correct answer", pr_answer.toFixed(0).toString())
         console.log("User answer", answer.text,qsTr(answer.text + ".0"))
         if(answer.text.toString() === pr_answer.toFixed(0).toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
             animationImageExcellent.running = true
         }
         else{
+            pr_countWrong++
+
             animationImageWrong.running = true
         }
 
 
     }
     Keys.onEnterPressed: {
+        timerforQuestion.stop()
+
         console.log("Correct answer", pr_answer.toFixed(0).toString())
         console.log("User answer", answer.text,qsTr(answer.text + ".0"))
         if(answer.text.toString() === pr_answer.toFixed(0).toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
             animationImageExcellent.running = true
         }
         else{
+            pr_countWrong++
+
             animationImageWrong.running = true
         }
     }
@@ -185,7 +209,28 @@ Item {
 
     AnimatedImage {
         id: excellentImage
-        source: "images/excellent-1.gif"
+        source: {
+            if(pr_timeTaken < 5){
+                return ("images/excellent-"+ pr_randomIndex + ".gif")
+            }
+            else if(pr_timeTaken<10){
+                return ("images/very-good-"+ pr_randomIndex + ".gif")
+            }
+            else if(pr_timeTaken<15){
+                return ("images/good-"+ pr_randomIndex + ".gif")
+            }
+            else if(pr_timeTaken<15){
+                return ("images/not-bad-"+ pr_randomIndex + ".gif")
+            }
+            else if(pr_timeTaken<20){
+                return ("images/okay-"+ pr_randomIndex + ".gif")
+            }
+
+            else{
+                return ""
+            }
+
+        }
         height: 200
         width: 200
         anchors {
@@ -198,7 +243,14 @@ Item {
     }
     AnimatedImage{
         id:wrongImage
-        source: "images/wrong-anwser-1.gif"
+        source: {
+
+            if(pr_countWrong===1)
+                return ("images/wrong-anwser-"+ pr_randomIndex + ".gif")
+            else
+                return ("images/wrong-anwser-repeted-"+ (pr_randomIndex === 3 ? 1:pr_randomIndex)  + ".gif")
+
+        }
         height: 200
         width: 200
         anchors {
@@ -255,7 +307,7 @@ Item {
     }
     // a help button in the corner
     Button {
-        id: helpButton
+        id: helpButton;visible:false
         text: "Help"
         anchors {
             right: uploadButton.left
@@ -277,7 +329,7 @@ Item {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-       // folder: shortcuts.home
+        // folder: shortcuts.home
         onAccepted: {
             console.log("You chose: " + fileDialog.fileUrls)
             setRangeOfNumbers()
