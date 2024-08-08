@@ -304,7 +304,7 @@ Item {
 
         }
     }
-    // a help button in the corner
+    // 
     Button {
         id: helpButton;visible:false
         text: "Help"

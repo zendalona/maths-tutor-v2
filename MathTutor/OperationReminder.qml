@@ -261,7 +261,7 @@ Item {
         visible: false
     }
 
-    // a help button in the corner
+    // 
     Button{
         id: reminderSettingsButton
         text: "Settings"
@@ -305,7 +305,7 @@ Item {
 
         }
     }
-    // a help button in the corner
+    // 
     Button {
         id: helpButton;visible:false
         text: "Help"

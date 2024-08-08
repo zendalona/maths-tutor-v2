@@ -14,12 +14,12 @@ Item {
     property int pr_fontSizeMultiple: 0
     property bool pr_isMusicPlaying: false
     //alt+h should press the home button
-    Keys.onPressed: {
-        if(event.key === Qt.Key_H && event.modifiers === Qt.AltModifier){
-            mathSubjectScreen.visible = true
-            mathBasedloader.source = ""
-        }
-    }
+    // Keys.onPressed: {
+    //     if(event.key === Qt.Key_H && event.modifiers === Qt.AltModifier){
+    //         mathSubjectScreen.visible = true
+    //         mathBasedloader.source = ""
+    //     }
+    // }
 
     onPr_isMusicPlayingChanged: {
         if(!pr_isMusicPlaying){

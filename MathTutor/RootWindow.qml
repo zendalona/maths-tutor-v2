@@ -29,7 +29,7 @@ ApplicationWindow{
 
         bridge.textChanged()
        // console.log("from qml2", pr_var)
-        bridge.a = [1,2,3]
+        bridge.asetter = [1,2,3]
         bridge.appendValue(7)
     }
 

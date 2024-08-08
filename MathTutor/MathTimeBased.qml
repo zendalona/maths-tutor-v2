@@ -250,7 +250,7 @@ Item {
             }
             visible: false
         }
-        // a help button in the corner
+        // 
     }
     SequentialAnimation {
         id: animationImageExcellent
