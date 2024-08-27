@@ -33,7 +33,7 @@ Item {
         id: mathSubjectScreen
         anchors.fill: parent
         visible: true
-        Text {
+        Label {
             id: topLabel
             color: "green"
             font.pixelSize: pr_fontSizeMultiple +  40
@@ -462,8 +462,8 @@ Item {
         }
         Keys.onEnterPressed: {
             pr_isMusicPlaying = !pr_isMusicPlaying
-
         }
+        text:"music"
     }
     Image {
         id: muteImg

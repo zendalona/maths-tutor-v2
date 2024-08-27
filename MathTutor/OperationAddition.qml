@@ -18,32 +18,38 @@ import Qt.labs.platform 1.0
 import QtQml
 Item {
     id: root
-    property int pr_difficulty: 0
-    property var pr_answer: 0
+    property int pr_difficulty: 1
     // page up and  down to change the difficulty level
     property int pr_timeTaken: 0
     // a random value between 1-3
     property int pr_randomIndex: Math.floor(Math.random() * 3) + 1
     property int pr_countWrong : 0
 
-    property var pr_opCompleted: bridge.opCompleted
     Component.onCompleted: {
-        bridge.process_file("C:/Users/ronak kumbhat/Desktop/Book1.xlsx")
-        bridge.nextQuestion()
+        bridge.Pr_questionType = "addition"
+        bridge.Pr_difficultyIndex = pr_difficulty
+        bridge.process_file(bridge.getfileurl())
+        bridge.sequence()
+        question.focus = true
+    }
 
-        generateNextQuestion()
-    }
-    function generateNextQuestion(){
-        question.text= qsTr(bridge.getOp1() + " + " + bridge.getOp2() + " = ")
-        console.log("hh",(bridge.getOp1()*1 + bridge.getOp2()*1))
-        bridge.nextQuestion()
-    }
-    onPr_opCompletedChanged: {
-        console.log("hh",(bridge.getOp1()*1 + bridge.getOp2()*1))
-       question.text= qsTr(bridge.getOp1() + " + " + bridge.getOp2() + " = ")
-        bridge.nextQuestion()
 
+
+    property string pr_question: bridge.Pr_question
+
+    onPr_questionChanged:  {
+        console.log("pr_question",pr_question)
+        question.text = pr_question
+        question.focus = true
     }
+
+    property string pr_answer: bridge.Pr_answer
+
+    onPr_answerChanged:  {
+        console.log("pr_answer",pr_answer)
+    }
+
+
 
     Keys.onUpPressed:  {
         if(pr_difficulty < 4){
@@ -56,78 +62,9 @@ Item {
         }
     }
     function generateQuestion(){
-        pr_timeTaken = 0
-        pr_countWrong = 0
-        pr_randomIndex = Math.floor(Math.random() * 3) + 1
-        timerforQuestion.start()
-        //generate random numbers according to diifculty level
-        var num1 = Math.floor(Math.random() * 10) + 10
-        var num2 = Math.floor(Math.random() * 10) + 10
-        var num3 = Math.floor(Math.random() * 10) + 10
-        var num4 = Math.floor(Math.random() * 10) + 10
-        if(pr_difficulty === 0){
-            // range from 10-20
-            num1 = Math.floor(Math.random() * 10) + 10
-            num2 = Math.floor(Math.random() * 10) + 10
-            pr_answer = num1 + num2
-            return num1 + " + " + num2 + " = "
-        }
-        else if(pr_difficulty === 1){
-            // range from 20-30
-            num1 = Math.floor(Math.random() * 10) + 20
-            // range from 10 -20
-            num2 = Math.floor(Math.random() * 10) + 10
-            pr_answer = num1 + num2
-            return num1 + " + " + num2 + " = "
-        }
-        else if( pr_difficulty === 2){
-            // range from 30-50
-            num1 = Math.floor(Math.random() * 20) + 30
-            /// range from 20-30
-            num2 = Math.floor(Math.random() * 10) + 20
-            // range from 10-20
-            num3 = Math.floor(Math.random() * 10) + 10
-            pr_answer = num1 + num2 + num3
-            return num1 + " + " + num2 + " + " + num3 + " = "
-
-
-        }
-        else if(pr_difficulty === 3){
-            // range from 30-50
-            num1 = Math.floor(Math.random() * 20) + 30
-            //range from 20 -30
-            num2 = Math.floor(Math.random() * 10) + 20
-            // range from 10 - 20
-            num3 = Math.floor(Math.random() * 10) + 10
-            // range from 20-30
-            num4 = Math.floor(Math.random() * 10) + 20
-            pr_answer = num1 + num2 - (num3 / num4)
-            return num1 + " + " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
-        }
-        else if(pr_difficulty === 4){
-            // range from 30-50
-            num1 = Math.floor(Math.random() * 20) + 30
-            // range from 30-50
-            num2 = Math.floor(Math.random() * 20) + 30
-            // range from 10 - 20
-            num3 = Math.floor(Math.random() * 10) + 10
-            // range from 20-30
-            num4 = Math.floor(Math.random() * 10) + 20
-            pr_answer = num1 + num2 - (num3 / num4)
-            return num1 + " + " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
-        }
-        else{
-            // range from 30-50
-            num1 = Math.floor(Math.random() * 20) + 30
-            // range from 30-50
-            num2 = Math.floor(Math.random() * 20) + 30
-            // range from 10 - 20
-            num3 = Math.floor(Math.random() * 10) + 10
-            // range from 20-30
-            num4 = Math.floor(Math.random() * 10) + 20
-            pr_answer = num1 + num2 - (num3 / num4)
-            return num1 + " + " + num2 + " - (  " + num3 + " /  " + num4 + " ) = "
-        }
+        bridge.incrementQuestionIndex()
+        bridge.sequence()
+        question.focus = true
     }
 
     Timer{
@@ -137,21 +74,27 @@ Item {
         repeat: true
         onTriggered: {
             pr_timeTaken = pr_timeTaken + 1
-
         }
     }
 
-    Text {
+    TextField {
         id: question
-        text: generateQuestion()
+        width: parent.width
         anchors{
             top: parent.top
             horizontalCenter: parent.horizontalCenter
 
             topMargin: 250
         }
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
         font.pixelSize: pr_fontSizeMultiple +  30
         color: "orange"
+        //add Accessible properties
+        Accessible.role: Accessible.StaticText
+        Accessible.name: question.text
+        readOnly : true
+
     }
 
     TextField{
@@ -165,6 +108,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
 
         }
+
         font.pixelSize: pr_fontSizeMultiple +  30
         color: "orange"
         width: 200
@@ -181,35 +125,61 @@ Item {
         width: 200
         height: 50
         font.pixelSize: pr_fontSizeMultiple +  30
+        visible: false
 
     }
 
     Keys.onReturnPressed: {
         timerforQuestion.stop()
-        console.log("Correct answer", pr_answer.toFixed(0).toString())
-        console.log("User answer", answer.text,qsTr(answer.text + ".0"))
-        if(answer.text.toString() === pr_answer.toFixed(0).toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
             animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
+
+
         }
         else{
             pr_countWrong++
             animationImageWrong.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
         }
-
-
     }
     Keys.onEnterPressed: {
         timerforQuestion.stop()
-
-        console.log("Correct answer", pr_answer.toFixed(0).toString())
-        console.log("User answer", answer.text,qsTr(answer.text + ".0"))
-        if(answer.text.toString() === pr_answer.toFixed(0).toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
             animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
+
         }
         else{
             pr_countWrong++
             animationImageWrong.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
+
         }
+    }
+
+    MediaPlayer {
+        id: player
+        source: ""
+        audioOutput: AudioOutput {}
+        loops: MediaPlayer.Infinite
+        // Component.onCompleted: {
+        //     player.play()
+        //     //  console.log("Playing",player.playing())
+        //     player.volume=0.5
+        // }
     }
 
     //afteer the animation is done, hide the image and generate a new question
@@ -226,7 +196,9 @@ Item {
         }
         onStopped: {
             animationImageExcellent.running = false
-            question.text = generateQuestion()
+            player.source=""
+            feedbackLabel.visible = false
+            generateQuestion()
             answer.text = ""
         }
     }
@@ -243,6 +215,8 @@ Item {
         }
         onStopped: {
             animationImageWrong.running = false
+            player.source=""
+            feedbackLabel.visible = false
             answer.text = ""
         }
     }
@@ -252,32 +226,31 @@ Item {
         source: {
             if(pr_timeTaken < 5){
                 feedbackLabel.text= qsTr("Excellent")
+                player.source=("sounds/excellent-"+ pr_randomIndex + ".ogg")
                 return ("images/excellent-"+ pr_randomIndex + ".gif")
 
             }
             else if(pr_timeTaken<10){
                 feedbackLabel.text= qsTr("very-good")
+                player.source=("sounds/very-good-"+ pr_randomIndex + ".ogg")
 
                 return ("images/very-good-"+ pr_randomIndex + ".gif")
             }
             else if(pr_timeTaken<15){
                 feedbackLabel.text= qsTr("good")
+                player.source=("sounds/good-"+ pr_randomIndex + ".ogg")
 
                 return ("images/good-"+ pr_randomIndex + ".gif")
             }
             else if(pr_timeTaken<15){
                 feedbackLabel.text= qsTr("not-bad")
-
+                player.source=("sounds/not-bad-"+ pr_randomIndex + ".ogg")
                 return ("images/not-bad-"+ pr_randomIndex + ".gif")
             }
-            else if(pr_timeTaken<20){
-                feedbackLabel.text= qsTr("okay")
-
-                return ("images/okay-"+ pr_randomIndex + ".gif")
-            }
-
             else{
-                return ""
+                feedbackLabel.text= qsTr("okay")
+                player.source=("sounds/okay-"+ pr_randomIndex + ".ogg")
+                return ("images/okay-"+ pr_randomIndex + ".gif")
             }
 
         }
@@ -287,7 +260,7 @@ Item {
         anchors {
             top: answer.bottom
             horizontalCenter: parent.horizontalCenter
-            topMargin: 10
+            topMargin: 45
         }
         visible: false
 
@@ -296,18 +269,23 @@ Item {
         id:wrongImage
         source: {
 
-            if(pr_countWrong===1)
+            if(pr_countWrong===1){
+                feedbackLabel.text= qsTr("wrong")
+                player.source=("sounds/okay-"+ pr_randomIndex + ".ogg")
                 return ("images/wrong-anwser-"+ pr_randomIndex + ".gif")
-            else
+            }
+            else{
+                feedbackLabel.text= qsTr("wrong-repeated")
+                player.source=("sounds/wrong-anwser-repeted-"+ pr_randomIndex + ".ogg")
                 return ("images/wrong-anwser-repeted-"+ (pr_randomIndex === 3 ? 1:pr_randomIndex)  + ".gif")
-
+            }
         }
         height: 200
         width: 200
         anchors {
             top: answer.bottom
             horizontalCenter: parent.horizontalCenter
-            topMargin: 10
+            topMargin: 45
         }
         visible: false
     }
@@ -402,6 +380,7 @@ Item {
     //this is for testing purpose
     Button {
         id: questionsButton
+        visible: false
         text: "Random Questions"
         anchors {
             right: parent.right
@@ -473,82 +452,11 @@ Item {
                 }
                 onCurrentIndexChanged: {
                     root.pr_difficulty = difficultyComboBox.currentIndex
-                    question.text = root.generateQuestion()
-                    if(root.pr_difficulty==0){
-                        num1MinSpinBox.value = 10
-                        num1MaxSpinBox.value = 20
-                    }
-                    else if(root.pr_difficulty==1){
-                        num1MinSpinBox.value = 20
-                        num1MaxSpinBox.value = 50
-                    }
-                    else if(root.pr_difficulty==2){
-                        num1MinSpinBox.value = 50
-                        num1MaxSpinBox.value = 75
-                    }
-                    else if(root.pr_difficulty==3){
-                        num1MinSpinBox.value = 75
-                        num1MaxSpinBox.value = 85
-                    }
-                    else if(root.pr_difficulty==4){
-                        num1MinSpinBox.value = 85
-                        num1MaxSpinBox.value = 100
-                    }
-                    
+                    question.text = root.generateQuestion()                    
                 }
             }
 
-            // a spin box to define the range of num1
-            Text{
-                id: num1RangeText
-                text: "Operand 1 Range:"
-                anchors{
-                    left: parent.left
-                    leftMargin: 5
-                    top: difficultySelectionText.bottom
-                    topMargin: 70
-                }
-                color: Material.primaryTextColor
-                font.pixelSize:  pr_fontSizeMultiple +  18
 
-            }
-            //lower bound
-            SpinBox {
-                id: num1MinSpinBox
-                value: 10
-                from: 0
-                to: 100
-                stepSize: 1
-
-                anchors{
-                    left: num1RangeText.left
-                    leftMargin: 150
-                    top: difficultyComboBox.bottom
-                    topMargin: 25
-                }
-                onValueChanged: {
-                    // root.pr_num1Min = num1MinSpinBox.value
-                    // question.text = root.generateQuestion()
-                }
-            }
-            //upper bound
-            SpinBox {
-                id: num1MaxSpinBox
-                value: 20
-                from: 0
-                to: 100
-                stepSize: 1
-                anchors{
-                    left: num1MinSpinBox.right
-                    leftMargin: 10
-                    top: difficultyComboBox.bottom
-                    topMargin: 25
-                }
-                onValueChanged: {
-                    // root.pr_num1Max = num1MaxSpinBox.value
-                    // question.text = root.generateQuestion()
-                }
-            }
 
 
         }

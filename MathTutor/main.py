@@ -5,12 +5,13 @@ import sys
 from pathlib import Path
 import pandas as pd
 import random
-
+import string
 from PySide6.QtCore import QObject, Slot, QStringListModel, QUrl , Signal , Property
 from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine, QmlElement
 from PySide6.QtQuickControls2 import QQuickStyle
 from PySide6.QtQuick import QQuickView
+import openpyxl
 
 #import style_rc
 
@@ -24,47 +25,83 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 class Bridge(QObject):
 
-    textChanged = Signal()
-
-    opChanged = Signal()
-
-
-    updateData = Signal(list)  # Emit data as a list
-
-
+    questionChanged = Signal()
+    answerChanged = Signal()
+    questionTypeChanged = Signal()
+    difficultyIndexChanged = Signal()
 
 
     def __init__(self):
         super().__init__()
-        self._a = [1, 2, 3, 4, 5]
 
-        self.df=""
+        self._a = [1, 2, 3, 4, 5]
 
         self.op1=1
         self.op2=2
         self.op3=""
         self.op4=""
 
+        self.oprands=[]
+        self.variables=[]
         self.questionIndex = 0
+        self.difficultyIndex = 1
+        self.questionType="addition"
+        self.rowIndex = 0
+        self.fileurl="C:/Users/ronak kumbhat/Desktop/Book1.xlsx"
+        self.df=""
 
-        self._opCompleted = 0
+        self.question="default"
 
-    @Property(int, notify=opChanged)
-    def opCompleted(self):
-        return self._opCompleted
+        self.answer="default"
 
 
 
 
-    @Property(list, notify=textChanged)
-    def a(self):
-        return self._a
+    @Property(str, notify=questionChanged)
+    def Pr_question(self):
+        print("getter called")
+        return self.question
 
-    @a.setter
-    def asetter(self, value):
-        self._a=value
-        self.textChanged.emit()
+    @Pr_question.setter
+    def Pr_question(self, value):
+        self.question=value
+        self.questionChanged.emit()
 
+    @Property(str, notify=answerChanged)
+    def Pr_answer(self):
+        return self.answer
+
+    @Pr_answer.setter
+    def Pr_answer(self, value):
+        self.answer=value
+        self.answerChanged.emit()
+
+    @Property(str, notify=questionTypeChanged)
+    def Pr_questionType(self):
+        return self.questionType
+
+    @Pr_questionType.setter
+    def Pr_questionType(self, value):
+        self.questionType=value
+        self.questionTypeChanged.emit()
+
+    @Property(int, notify=difficultyIndexChanged)
+    def Pr_difficultyIndex(self):
+        return self.difficultyIndex
+
+    @Pr_difficultyIndex.setter
+    def Pr_difficultyIndex(self, value):
+        self.difficultyIndex= int(value)
+        self.difficultyIndexChanged.emit()
+
+
+
+
+
+
+    @Slot(result=str)
+    def getfileurl(self):
+        return self.fileurl
     @Slot(str)
     def appendValue(self, value):
         self._a.append(value)
@@ -129,6 +166,8 @@ class Bridge(QObject):
     def getOp2(self):
         return self.op2
 
+
+
     @Slot(str)
     def process_file(self, file_url):
         # Convert the file URL to a local file path if necessary
@@ -136,134 +175,177 @@ class Bridge(QObject):
         local_file_path = file_url.replace("file:///", "")
         print(f"Processing file: {local_file_path}")
         # Read the Excel file
-        self.df = pd.read_excel(local_file_path)
-        self.df = self.df.sort_values(by=self.df.columns[1])
+        self.df = pd.read_excel(local_file_path) # Read the Excel file
+        self.df = pd.DataFrame(self.df)         # Convert the Excel file to a DataFrame
+        self.df = self.df[self.df["type"] == self.questionType]  # Filter the DataFrame by the question type
+        self.df = self.df.sort_values(by="difficulty", ascending=True)  # Sort the DataFrame by difficulty
 
+        for i in range(len(self.df)):
+            row = self.df.iloc[i]
+            if(row["difficulty"] == self.difficultyIndex):
+                self.rowIndex = i
+                print(self.rowIndex,"rowIndex from for loop",self.df.iloc[i])
+                break
         print(self.df)
-        self.nextQuestion()
+        print(self.rowIndex,"rowIndex outside for loop ")
 
-    def parseInputRange(self,inputRange):
-        #save the string from inputRange into a var until * is hit
-        t1 = ""
+    @Slot()
+    def sequence(self):
+        self.getVariables()
+        self.parseInput()
+        self.extractQuestion()
+        self.extractAnswer()
+
+    @Slot()
+    def incrementQuestionIndex(self):
+        self.rowIndex = (self.rowIndex + 1) % len(self.df)
+        self.oprands=[]
+        self.variables=[]
+
+    @Slot()
+    def getVariables(self):
+        self.variables = self.allVariables(self.rowIndex,2)
+        print("variables are ",self.variables)
+
+    @Slot()
+    def parseInput(self):
+        inputRange = self.removeVariables(self.rowIndex,2)
+        print("ir",inputRange)
+        self.parseInputRange(inputRange)
+
+
+    @Slot()
+    def extractQuestion(self):
+        new_value = self.replaceVariables(self.rowIndex,0)
+        print("nv",new_value)
+        self.Pr_question = new_value
+
+    @Slot()
+    def extractAnswer(self):
+        answerEquation =  self.getAnswer(self.rowIndex,4)
+        finalAns=self.solveEquation(answerEquation)
+        print("finalAns",finalAns)
+        self.Pr_answer = str(finalAns)
+        print("answer",self.Pr_answer)
+
+    @Slot()
+    def solveEquation(self,ansEquation):
+        #solve the equation and return the answer
+
+        return eval(ansEquation)
+
+    @Slot()
+    def getAnswer(self,row,column):
+        ansEquation = self.df.iloc[row, column]
+
+        print("ansEquation",ansEquation)
+        for i in range(len(self.variables)):
+            ansEquation = ansEquation.replace(('{'+self.variables[i]+'}'), str(self.oprands[i]))
+        print("ansEquation",ansEquation)
+        return ansEquation
+
+    @Slot()
+    def removeVariables(self,row,column):
+        #remove all the alphabets from the string
+        inputRange = self.df.iloc[row, column]
+        tempstr=""
         for i in range(len(inputRange)):
-            if(inputRange[i] == "*"):
-                break
+            if(inputRange[i].isalpha()):
+                continue
             else:
-                t1 += inputRange[i]
+                tempstr += inputRange[i]
+        inputRange = tempstr
+        return inputRange
 
-        t2 = ""
-        for i in range(len(t1)+1,len(inputRange)):
-            if(inputRange[i] == "*"):
-                break
-            else:
-                t2 += inputRange[i]
-        t3 = ""
-        for i in range(len(t1)+len(t2)+2,len(inputRange)):
-            if(inputRange[i] == "*"):
-                break
-            else:
-                t3 += inputRange[i]
-        print("t1",t1)
-        print("t2",t2)
-        print("t3",t3)
+    @Slot()
+    def replaceVariables(self,row,column):
+        new_value = self.df.iloc[row, column]
+        for i in range(len(self.variables)):
+            new_value = new_value.replace(('{'+self.variables[i]+'}'), str(self.oprands[i]))
+        return new_value
+
+
+    @Slot()
+    def allVariables(self,row,column):
+        #find all the alphabet characters in the string
+        #return the list of all the characters
+
+        #take the string from column
+        cell_value = self.df.iloc[row, column]
+        #find all the alphabet characters in the cell_value
+        l = []
+        for i in range(len(cell_value)):
+            if(cell_value[i].isalpha()):
+                l.append(cell_value[i])
+        print("vars",l)
+        return l
+
+
+    @Slot()
+    def extractType(self,inputRange):
+        #check if inputRange has , in it
         l1=[]
-        #check if t1 has , in it
-        if(t1.find(",") != -1):
+        if(inputRange.find(",") != -1):
             #covert the char into numbers and add them to l1 list
             a1=""
-            for i in range(len(t1)):
-                if(t1[i] != ","):
-                    a1 += t1[i]
+            for i in range(len(inputRange)):
+                if(inputRange[i] != ","):
+                    a1 += inputRange[i]
                 else:
                     l1.append(int(a1))
                     a1=""
             l1.append(int(a1))
-        #choose a random number from the list
-        #return the number
-        self.op1= l1[random.randint(0,len(l1)-1)]
-        print("op1",self.op1)
+            #choose a random number from
+            #return the number
+            return l1[random.randint(0,len(l1)-1)]
 
-        l2=[]
-        #check if t2 has : in it
-        if(t2.find(":") != -1):
+        #check if inputRange has : in it
+        elif(inputRange.find(":") != -1):
             #covert the char into numbers and add them to l1 list
             a2=""
-            for i in range(len(t2)):
-                if(t2[i] != ":"):
-                    a2 += t2[i]
+            for i in range(len(inputRange)):
+                if(inputRange[i] != ":"):
+                    a2 += inputRange[i]
                 else:
-                    l2.append(int(a2))
+                    l1.append(int(a2))
                     a2=""
-            l2.append(int(a2))
-        print("l2",l2)
-        #choose a random number between the first and last number in the list
-        #return the number
-        self.op2= random.randint(l2[0],l2[len(l2)-1])
-        print("op2",self.op2)
+            l1.append(int(a2))
+            #choose a random number between the first and last number in the list
+            #return the number
+            return random.randint(l1[0],l1[len(l1)-1])
 
-        l3=[]
-        #check if t3 has ; in it
-
-        if(t3.find(";") != -1):
+        elif(inputRange.find(";") != -1):
             #covert the char into numbers and add them to l1 list
             a3=""
-            for i in range(len(t3)):
-                if(t3[i] != ";"):
-                    a3 += t3[i]
+            for i in range(len(inputRange)):
+                if(inputRange[i] != ";"):
+                    a3 += inputRange[i]
                 else:
-                    l3.append(int(a3))
+                    l1.append(int(a3))
                     a3=""
-            l3.append(int(a3))
-        #choose a random multiple of first number  multiplied to the number between second number and third number
-        #return the number
-        self.op3= l3[0]*random.randint(l3[1],l3[2])
-        print("op3",self.op3)
+            l1.append(int(a3))
+            #choose a random multiple of first number  multiplied to the number between second number and third number
+            #return the number
+            return l1[0]*random.randint(l1[1],l1[2])
 
 
-        self._opCompleted = 1
 
     @Slot()
-    def nextQuestion(self):
-        self._opCompleted = 0
+    def parseInputRange(self,inputRange):
+        t0 = ""
+        for i in range(len(inputRange)):
+            if(inputRange[i] == "*"):
+                self.oprands.append(int(self.extractType(t0)))
+                t0 = ""
+            else:
+                t0 += inputRange[i]
+        print("oprands",self.oprands)
 
-        if len(self.df) > self.questionIndex:
-            num_columns = 2#self.df.shape[1]  # Number of columns
-            self.parseInputRange(self.df.iloc[self.questionIndex, 0])
 
-            # if(num_columns ==1):
-            #     self.op1 = str(self.df.iloc[self.questionIndex, 0])
 
-            #     self.op2 = ""
-            #     self.op3 = ""
-            #     self.op4 = ""
-            # elif(num_columns ==2):
-            #     self.parseInputRange(self.df.iloc[self.questionIndex, 0])
-            #     # self.op1 = str(self.df.iloc[self.questionIndex, 0])
-            #     # self.op2 = str(self.df.iloc[self.questionIndex, 1])
-            #     # self.op3 = ""
-            #     # self.op4 = ""
-            # elif(num_columns ==3):
-            #     self.op1 = str(self.df.iloc[self.questionIndex, 0])
-            #     self.op2 = str(self.df.iloc[self.questionIndex, 1])
-            #     self.op3 = self.df.iloc[self.questionIndex, 2]
-            #     self.op4 = ""
-            # elif(num_columns ==4):
-            #     self.op1 = str(self.df.iloc[self.questionIndex, 0])
-            #     self.op2 = str(self.df.iloc[self.questionIndex, 1])
-            #     self.op3 = self.df.iloc[self.questionIndex, 2]
-            #     self.op4 = self.df.iloc[self.questionIndex, 3]
-            # else:
-            #     self.op1 = ""
-            #     self.op2 = ""
-            #     self.op3 = ""
-            #     self.op4 = ""
-            self.questionIndex = (self.questionIndex + 1) % len(self.df)
 
-            print(self.op1)
-            print(self.op2)
-            print(self.op3)
-            print(self.op4)
-            print(self.questionIndex)
+
+
 
 
 if __name__ == '__main__':
@@ -279,8 +361,6 @@ if __name__ == '__main__':
     qml_file = Path(__file__).parent / 'RootWindow.qml'
 
     bridge=Bridge()
-
-    bridge.textChanged.connect(bridge.displayText)
 
     engine.rootContext().setContextProperty("bridge", bridge)
 

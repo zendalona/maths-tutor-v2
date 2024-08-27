@@ -5,18 +5,52 @@ import QtQuick.Window 2.1
 import QtQuick.Controls.Material 2.1
 import QtMultimedia
 import io.qt.textproperties 1.0
-
+import QtQml.Models 2.15
+import QtQuick.Dialogs
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick 2.9
+import QtQuick.Window 2.2
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.2
+import Qt.labs.folderlistmodel 2.1
+import Qt.labs.platform 1.0
+import QtQml
 Item {
     id: root
-    property int  pr_hr: 12
-    property int  pr_min: 30
-    property int  pr_x: 10
-    property int  pr_difficulty: 0
+    property int pr_difficulty: 1
     // page up and  down to change the difficulty level
     property int pr_timeTaken: 0
     // a random value between 1-3
     property int pr_randomIndex: Math.floor(Math.random() * 3) + 1
     property int pr_countWrong : 0
+
+    Component.onCompleted: {
+        bridge.Pr_questionType = "time"
+        bridge.Pr_difficultyIndex = pr_difficulty
+        bridge.process_file(bridge.getfileurl())
+        bridge.sequence()
+        question.focus = true
+    }
+
+
+
+    property string pr_question: bridge.Pr_question
+
+    onPr_questionChanged:  {
+        console.log("pr_question",pr_question)
+        question.text = pr_question
+        question.focus = true
+    }
+
+    property string pr_answer: bridge.Pr_answer
+
+    onPr_answerChanged:  {
+        console.log("pr_answer",pr_answer)
+    }
+
+
+
     Keys.onUpPressed:  {
         if(pr_difficulty < 4){
             pr_difficulty++
@@ -27,9 +61,12 @@ Item {
             pr_difficulty--
         }
     }
-    Component.onCompleted: {
-        generateQuestion()
+    function generateQuestion(){
+        bridge.incrementQuestionIndex()
+        bridge.sequence()
+        question.focus = true
     }
+
     Timer{
         id: timerforQuestion
         interval: 1000
@@ -39,219 +76,113 @@ Item {
             pr_timeTaken = pr_timeTaken + 1
         }
     }
-    //a func to generate question based on difficulty level
-    function generateQuestion(){
-        pr_timeTaken = 0
-        pr_countWrong = 0
-        pr_randomIndex = Math.floor(Math.random() * 3) + 1
-        timerforQuestion.start()
-        // Generate random values based on difficulty level
-        if (pr_difficulty === 0) {
-            // range from 10-19
-            pr_hr = Math.floor(Math.random() * 10) + 10;
-            // range from 10-19
-            pr_min = Math.floor(Math.random() * 10) + 10;
-            // range from 10-19
-            pr_x = Math.floor(Math.random() * 10) + 10;
-        } else if (pr_difficulty === 1) {
-            // range from 20-29
-            pr_hr = Math.floor(Math.random() * 10) + 20;
-            // range from 10-19
-            pr_min = Math.floor(Math.random() * 10) + 10;
-            // range from 10-19
-            pr_x = Math.floor(Math.random() * 10) + 10;
-        } else if (pr_difficulty === 2) {
-            // range from 30-49
-            pr_hr = Math.floor(Math.random() * 20) + 30;
-            // range from 20-29
-            pr_min = Math.floor(Math.random() * 10) + 20;
-            // range from 10-19
-            pr_x = Math.floor(Math.random() * 10) + 10;
-        } else if (pr_difficulty === 3) {
-            // range from 30-49
-            pr_hr = Math.floor(Math.random() * 20) + 30;
-            // range from 20-29
-            pr_min = Math.floor(Math.random() * 10) + 20;
-            // range from 10-19
-            pr_x = Math.floor(Math.random() * 10) + 10;
-        } else if (pr_difficulty === 4) {
-            // range from 30-49
-            pr_hr = Math.floor(Math.random() * 20) + 30;
-            // range from 30-49
-            pr_min = Math.floor(Math.random() * 20) + 30;
-            // range from 10-19
-            pr_x = Math.floor(Math.random() * 10) + 10;
-        } else {
-            // Default case
-            // range from 30-49
-            pr_hr = Math.floor(Math.random() * 20) + 30;
-            // range from 30-49
-            pr_min = Math.floor(Math.random() * 20) + 30;
-            // range from 10-19
-            pr_x = Math.floor(Math.random() * 10) + 10;
-        }
 
-        // Ensure minutes are within 0-59
-        pr_min = pr_min % 60;
-
-        // Ensure hours are within 0-23
-        pr_hr = pr_hr % 24;
-        time.text= "If the current time is "+pr_hr+":"+pr_min+" , what will be the time after "+pr_x+" minutes ?"
-
-    }
-
-    //check answer
-    function isAnswerCorrect(pr_hr, pr_min, user_answer) {
-        // Parse input values
-        let currentHours = parseInt(pr_hr);
-        let currentMinutes = parseInt(pr_min);
-        let additionalMinutes = parseInt(pr_x);
-
-        // Calculate the new time
-        let totalMinutes = currentMinutes + additionalMinutes;
-        let newHours = currentHours + Math.floor(totalMinutes / 60);
-        let newMinutes = totalMinutes % 60;
-        newHours = newHours % 24;
-
-        // Format the new time as HH:MM
-        let formattedHours = newHours.toString().padStart(2, '0');
-        let formattedMinutes = newMinutes.toString().padStart(2, '0');
-        let correctAnswer = formattedHours + ':' + formattedMinutes;
-
-        // Check if the user's answer is correct
-        return correctAnswer === user_answer;
-    }
-
-    Column{
+    TextField {
+        id: question
+        width: parent.width
         anchors{
             top: parent.top
-            topMargin: 200
+            horizontalCenter: parent.horizontalCenter
+
+            topMargin: 250
+        }
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pixelSize: pr_fontSizeMultiple +  30
+        color: "orange"
+        //add Accessible properties
+        Accessible.role: Accessible.StaticText
+        Accessible.name: question.text
+        readOnly : true
+
+    }
+
+    TextField{
+        focus: true
+        id: answer
+        text: ""
+        cursorVisible: true
+        anchors{
+            top: question.bottom
+            topMargin: 10
+            horizontalCenter: parent.horizontalCenter
+
+        }
+
+        font.pixelSize: pr_fontSizeMultiple +  30
+        color: "orange"
+        width: 200
+        height: 50
+    }
+
+    Label{
+        id:feedbackLabel
+        anchors{
+            top:answer.bottom
+            topMargin: 10
             horizontalCenter: parent.horizontalCenter
         }
-        spacing: 20
-        Text {
-            id: time
-            font.pixelSize: pr_fontSizeMultiple +  30
-            color: Material.primaryTextColor
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            anchors{
-                horizontalCenter: parent.horizontalCenter
-            }
-        }
-        Row{
-            id: userinput
-            anchors{
-                horizontalCenter: parent.horizontalCenter
-            }
-            spacing: 10
-            TextField {
-                id: inputhr
-                placeholderText: "hr"
-                font.pixelSize: pr_fontSizeMultiple +  20
+        width: 200
+        height: 50
+        font.pixelSize: pr_fontSizeMultiple +  30
+        visible: false
 
-            }
-            TextField{
-                id: inputmin
-                placeholderText: "min"
-                font.pixelSize: pr_fontSizeMultiple +  20
-            }
-            Button{
-                id: submit
-                text: "Submit"
-                onClicked: {
-                    timerforQuestion.stop()
-
-                    if(isAnswerCorrect(pr_hr, pr_min, inputhr.text + ':' + inputmin.text)){
-                        animationImageExcellent.running = true
-                    }
-                    else {
-                        pr_countWrong++
-
-                        animationImageWrong.running = true
-                        wrongImage.visible = true
-                    }
-                }
-                Keys.onReturnPressed:{
-                    timerforQuestion.stop()
-
-                    if(isAnswerCorrect(pr_hr, pr_min, inputhr.text + ':' + inputmin.text)){
-                        animationImageExcellent.running = true
-                    }
-                    else {
-                        pr_countWrong++
-
-                        animationImageWrong.running = true
-                        wrongImage.visible = true
-                    }
-                }
-
-                Keys.onEnterPressed: {
-                    timerforQuestion.stop()
-
-                    if(isAnswerCorrect(pr_hr, pr_min, inputhr.text + ':' + inputmin.text)){
-                        animationImageExcellent.running = true
-                    }
-                    else {
-                        pr_countWrong++
-
-                        animationImageWrong.running = true
-                        wrongImage.visible = true
-                    }
-                }
-            }
-        }
-        AnimatedImage {
-            id: excellentImage
-            source: {
-                if(pr_timeTaken < 5){
-                    return ("images/excellent-"+ pr_randomIndex + ".gif")
-                }
-                else if(pr_timeTaken<10){
-                    return ("images/very-good-"+ pr_randomIndex + ".gif")
-                }
-                else if(pr_timeTaken<15){
-                    return ("images/good-"+ pr_randomIndex + ".gif")
-                }
-                else if(pr_timeTaken<15){
-                    return ("images/not-bad-"+ pr_randomIndex + ".gif")
-                }
-                else if(pr_timeTaken<20){
-                    return ("images/okay-"+ pr_randomIndex + ".gif")
-                }
-
-                else{
-                    return ""
-                }
-
-            }
-            height: 200
-            width: 200
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-            }
-            visible: false
-        }
-        AnimatedImage {
-            id: wrongImage
-            source: {
-
-                if(pr_countWrong===1)
-                    return ("images/wrong-anwser-"+ pr_randomIndex + ".gif")
-                else
-                    return ("images/wrong-anwser-repeted-"+ (pr_randomIndex === 3 ? 1:pr_randomIndex)  + ".gif")
-
-            }
-            height: 200
-            width: 200
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-            }
-            visible: false
-        }
-        // 
     }
+
+    Keys.onReturnPressed: {
+        timerforQuestion.stop()
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+            animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
+
+
+        }
+        else{
+            pr_countWrong++
+            animationImageWrong.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
+        }
+    }
+    Keys.onEnterPressed: {
+        timerforQuestion.stop()
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+            animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
+
+        }
+        else{
+            pr_countWrong++
+            animationImageWrong.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.play()
+
+        }
+    }
+
+    MediaPlayer {
+        id: player
+        source: ""
+        audioOutput: AudioOutput {}
+        loops: MediaPlayer.Infinite
+        // Component.onCompleted: {
+        //     player.play()
+        //     //  console.log("Playing",player.playing())
+        //     player.volume=0.5
+        // }
+    }
+
+    //afteer the animation is done, hide the image and generate a new question
     SequentialAnimation {
         id: animationImageExcellent
         running: false
@@ -262,14 +193,13 @@ Item {
             from: 1
             to: 0
             duration: 2000
-            loops: 1
         }
         onStopped: {
             animationImageExcellent.running = false
+            player.source=""
+            feedbackLabel.visible = false
             generateQuestion()
-            inputhr.text = ""
-            inputmin.text = ""
-
+            answer.text = ""
         }
     }
     SequentialAnimation {
@@ -282,37 +212,87 @@ Item {
             from: 1
             to: 0
             duration: 2000
-            loops: 1
         }
         onStopped: {
             animationImageWrong.running = false
-            inputhr.text = ""
-            inputmin.text = ""
-
+            player.source=""
+            feedbackLabel.visible = false
+            answer.text = ""
         }
     }
-    Button {
-        id: helpButton;visible:false
-        text: "Help"
+
+    AnimatedImage {
+        id: excellentImage
+        source: {
+            if(pr_timeTaken < 5){
+                feedbackLabel.text= qsTr("Excellent")
+                player.source=("sounds/excellent-"+ pr_randomIndex + ".ogg")
+                return ("images/excellent-"+ pr_randomIndex + ".gif")
+
+            }
+            else if(pr_timeTaken<10){
+                feedbackLabel.text= qsTr("very-good")
+                player.source=("sounds/very-good-"+ pr_randomIndex + ".ogg")
+
+                return ("images/very-good-"+ pr_randomIndex + ".gif")
+            }
+            else if(pr_timeTaken<15){
+                feedbackLabel.text= qsTr("good")
+                player.source=("sounds/good-"+ pr_randomIndex + ".ogg")
+
+                return ("images/good-"+ pr_randomIndex + ".gif")
+            }
+            else if(pr_timeTaken<15){
+                feedbackLabel.text= qsTr("not-bad")
+                player.source=("sounds/not-bad-"+ pr_randomIndex + ".ogg")
+                return ("images/not-bad-"+ pr_randomIndex + ".gif")
+            }
+            else{
+                feedbackLabel.text= qsTr("okay")
+                player.source=("sounds/okay-"+ pr_randomIndex + ".ogg")
+                return ("images/okay-"+ pr_randomIndex + ".gif")
+            }
+
+        }
+
+        height: 200
+        width: 200
         anchors {
-            right: parent.right
-            top: parent.top
-            rightMargin: 10
-            topMargin: 10
+            top: answer.bottom
+            horizontalCenter: parent.horizontalCenter
+            topMargin: 45
         }
-        onClicked: {
-            console.log("Help button clicked")
-        }
-        Keys.onReturnPressed:{
+        visible: false
 
-        }
-
-        Keys.onEnterPressed: {
-
-        }
     }
+    AnimatedImage{
+        id:wrongImage
+        source: {
+
+            if(pr_countWrong===1){
+                feedbackLabel.text= qsTr("wrong")
+                player.source=("sounds/okay-"+ pr_randomIndex + ".ogg")
+                return ("images/wrong-anwser-"+ pr_randomIndex + ".gif")
+            }
+            else{
+                feedbackLabel.text= qsTr("wrong-repeated")
+                player.source=("sounds/wrong-anwser-repeted-"+ pr_randomIndex + ".ogg")
+                return ("images/wrong-anwser-repeted-"+ (pr_randomIndex === 3 ? 1:pr_randomIndex)  + ".gif")
+            }
+        }
+        height: 200
+        width: 200
+        anchors {
+            top: answer.bottom
+            horizontalCenter: parent.horizontalCenter
+            topMargin: 45
+        }
+        visible: false
+    }
+
+    //
     Button{
-        id: timeSettingsButton
+        id: additionSettingsButton
         text: "Settings"
         anchors {
             right: parent.right
@@ -321,18 +301,117 @@ Item {
             bottomMargin:  10
         }
         onClicked: {
-            timesettingsWindow.visible = true
+            additionsettingsWindow.visible = true
         }
         Keys.onReturnPressed:{
-            timesettingsWindow.visible = true
+            additionsettingsWindow.visible = true
         }
 
         Keys.onEnterPressed: {
-            timesettingsWindow.visible = true
+            additionsettingsWindow.visible = true
         }
     }
+    // a upload button to upload the range of numbers to be used
+    //the uploaded file should be a json file
+    Button {
+        id: uploadButton
+        text: "Upload"
+        anchors {
+            right: additionSettingsButton.left
+            bottom: parent.bottom
+            rightMargin: 10
+            bottomMargin:  10
+        }
+        onClicked: {
+            console.log("Upload button clicked")
+            fileDialog.open()
+        }
+        Keys.onReturnPressed:{
+            console.log("Upload button clicked")
+            fileDialog.open()
+        }
+
+        Keys.onEnterPressed: {
+            console.log("Upload button clicked")
+            fileDialog.open()
+        }
+    }
+    //
+    Button {
+        id: helpButton
+        text: "Help"
+        anchors {
+            right: uploadButton.left
+            bottom: parent.bottom
+            rightMargin: 10
+            bottomMargin:  10
+        }
+        onClicked: {
+            console.log("Help button clicked")
+
+
+
+        }
+        Keys.onReturnPressed:{
+
+        }
+
+        Keys.onEnterPressed: {
+
+        }
+    }
+    FileDialog {
+        id: fileDialog
+        title: "Select a file"
+        Component.onCompleted: {
+            console.log("File : " + file)
+        }
+        onAccepted: {
+            bridge.process_file(file)
+            //parse
+
+        }
+        onRejected: {
+            console.log("File selection canceled")
+        }
+    }
+
+    // add a toggle in top right corner to simulate the onclicked on help
+    //this is for testing purpose
+    Button {
+        id: questionsButton
+        visible: false
+        text: "Random Questions"
+        anchors {
+            right: parent.right
+            top: parent.top
+            rightMargin: 10
+            topMargin:  80
+        }
+        onClicked: {
+            if(questionsButton.text === "Random Questions"){
+
+                questionsButton.text = "Sequential Questions"
+                generateNextQuestion()
+            }
+            else{
+                questionsButton.text = "Random Questions"
+                question.text=generateQuestion()
+            }
+
+        }
+        Keys.onReturnPressed:{
+
+        }
+
+        Keys.onEnterPressed: {
+
+        }
+    }
+
+
     ApplicationWindow {
-        id: timesettingsWindow
+        id: additionsettingsWindow
         visible: false
         width: 640
         height: 480
@@ -355,6 +434,7 @@ Item {
                     topMargin: 30
                 }
                 color: Material.primaryTextColor
+
             }
             ComboBox {
                 id: difficultyComboBox
@@ -372,12 +452,13 @@ Item {
                 }
                 onCurrentIndexChanged: {
                     root.pr_difficulty = difficultyComboBox.currentIndex
-                    root.generateQuestion()
-
+                    question.text = root.generateQuestion()
                 }
             }
 
+
+
+
         }
     }
-
 }
