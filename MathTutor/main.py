@@ -6,7 +6,7 @@ from pathlib import Path
 import pandas as pd
 import random
 import string
-from PySide6.QtCore import QObject, Slot, QStringListModel, QUrl , Signal , Property
+from PySide6.QtCore import QObject, Slot, QStringListModel, QUrl , Signal , Property , QTranslator
 from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine, QmlElement
 from PySide6.QtQuickControls2 import QQuickStyle
@@ -33,6 +33,8 @@ class Bridge(QObject):
 
     def __init__(self):
         super().__init__()
+        self.trans = QTranslator(self)
+        engine.retranslate()
 
         self._a = [1, 2, 3, 4, 5]
 
@@ -55,7 +57,14 @@ class Bridge(QObject):
         self.answer="default"
 
 
-
+    @Slot(str)
+    def switchLanguage(self, lang):
+        if lang:
+            self.trans.load('./locale/' + lang)
+            app.installTranslator(self.trans)
+            engine.retranslate()
+        else:
+            app.removeTranslator(self.trans)
 
     @Property(str, notify=questionChanged)
     def Pr_question(self):

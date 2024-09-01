@@ -78,6 +78,9 @@ ApplicationWindow{
                     top: parent.top
                     topMargin: 25
                 }
+                onCurrentIndexChanged: {
+                    console.log("Selected Language: ", languageComboBox.currentText)
+                }
             }
             //a remeber selection CheckBox
             CheckBox{

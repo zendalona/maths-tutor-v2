@@ -5,7 +5,7 @@ import QtQuick.Window 2.1
 import QtQuick.Controls.Material 2.1
 import QtMultimedia
 import io.qt.textproperties 1.0
-
+import QtTextToSpeech
 Item {
     //this is a math subject screen with different lessons such as time,currency,story based, distance, help , operations
     //each subject has a buuton
@@ -214,7 +214,7 @@ Item {
         Grid{
             id: mathSubjectGrid
             spacing: 10
-           // columns: 3
+            // columns: 3
             rows: 2
             anchors{
                 top: welcomeAnimation.bottom
@@ -312,7 +312,7 @@ Item {
                 }
             }
             Button{
-               // visible: false
+                // visible: false
                 id: bellRingingButton
                 text: "Bell Ringing"
                 Layout.fillWidth: true
@@ -322,16 +322,16 @@ Item {
                 font.pixelSize: pr_fontSizeMultiple +  30
                 onClicked: {
                     mathSubjectScreen.visible = false
-                   mathBasedloader.source = "MathBellRingingBased.qml"
+                    mathBasedloader.source = "MathBellRingingBased.qml"
                 }
                 Keys.onReturnPressed:{
                     mathSubjectScreen.visible = false
-                   mathBasedloader.source = "MathBellRingingBased.qml"
+                    mathBasedloader.source = "MathBellRingingBased.qml"
                 }
 
                 Keys.onEnterPressed: {
                     mathSubjectScreen.visible = false
-                   mathBasedloader.source = "MathBellRingingBased.qml"
+                    mathBasedloader.source = "MathBellRingingBased.qml"
                 }
             }
             Button{
@@ -424,6 +424,7 @@ Item {
     }
 
 
+
     SpinBox {
         id: fontSizeSpinBox
         value: 0
@@ -432,6 +433,8 @@ Item {
         stepSize: 1
         onValueChanged: {
             pr_fontSizeMultiple = fontSizeSpinBox.value
+            Accessible.description = "size is:" + fontSizeSpinBox.value
+            tts.say("Font size is set to " + fontSizeSpinBox.value)
         }
         anchors{
             top: parent.top
@@ -439,6 +442,25 @@ Item {
             topMargin: 10
             rightMargin: 10
         }
+        //give Accessible name to SpinBox
+        Accessible.name: "Font Size"
+        width: 150
+        //give Accessible description to SpinBox
+        Accessible.description: "size is:" + fontSizeSpinBox.value
+
+    }
+
+    Text{
+        text:"Aa:"
+        anchors{
+            top: fontSizeSpinBox.top
+            right: fontSizeSpinBox.left
+            rightMargin: 10
+            verticalCenter: fontSizeSpinBox.verticalCenter
+        }
+        font.pixelSize: pr_fontSizeMultiple +  35
+        color:Material.primaryTextColor
+
     }
 
     Button{
@@ -454,7 +476,7 @@ Item {
         }
 
         onClicked: {
-           pr_isMusicPlaying = !pr_isMusicPlaying
+            pr_isMusicPlaying = !pr_isMusicPlaying
         }
         Keys.onReturnPressed:{
             pr_isMusicPlaying = !pr_isMusicPlaying
@@ -473,5 +495,10 @@ Item {
         anchors{
             centerIn:  musicButton
         }
+    }
+
+    TextToSpeech{
+        id: tts
+
     }
 }
