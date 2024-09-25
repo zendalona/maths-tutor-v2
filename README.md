@@ -1,23 +1,33 @@
-# Maths-Tutor
+## Installation
 
+1. Clone the Repository
+git clone -b version-2.x https://github.com/zendalona/maths-tutor-v2.git
 
+2. Install Visual Studio Code (VS Code)
+You can install VS Code from your system's App Center
 
+3. Install the Python Extension for VS Code
+Open VS Code and go to the Extensions tab. Search for the Python extension by Microsoft and click Install.
 
-This is the initial rough design of the app
+Setup
+1. Create a Virtual Environment
+Open the cloned repository in VS Code, then follow these steps:
 
+Press Ctrl+Shift+P and select Python: Create Environment.
+Choose Venv when prompted for the environment type.
+Select the Python 3.x interpreter installed on your system.
+Make sure that the terminal in VS Code opens with the virtual environment activated.
 
-![screen](app_infos/s1.png)
+2. Install Required Dependencies
+Open the VS Code terminal and run the following commands to install the required Python packages:
+sudo apt-get install python3-pip
+pip install pyside6 openpyxl pandas
 
-![screen](app_infos/s2.png)
+3.Running the Project
+Once you have installed the dependencies, you can run the project using the following steps:
 
-![screen](app_infos/s3.png)
-
-![screen](app_infos/s4.png)
-
-![screen](app_infos/s5.png)
-
-![screen](app_infos/s6.png)
-
-![screen](app_infos/s7.png)
-
-![screen](app_infos/s8.png)
+Open the terminal in VS Code.
+Ensure the virtual environment is activated (you should see (venv) in the terminal prompt).
+Run your project scripts 
+(or)
+press the play button on the top right corner
