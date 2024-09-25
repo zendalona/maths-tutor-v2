@@ -1,6 +1,8 @@
 About
+
 The primary goal of the project is to design and develop a cross-platform learning app for children who are blind. The app is being built from the ground up using Qt for Python (specifically PySide6), with a focus on leveraging accessibility features of both Qt and the underlying platforms to ensure a seamless and inclusive user experience.
 Project Report: [Math-Tutor](https://docs.google.com/document/d/14eOcAiAV1u7L2UIBHnunXJiAsYKZZBGZ/edit?usp=sharing&ouid=105862773593613217018&rtpof=true&sd=true)
+
 Installation
 
 1. Clone the Repository
