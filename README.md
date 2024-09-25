@@ -1,4 +1,4 @@
-## Installation
+Installation
 
 1. Clone the Repository
 git clone -b version-2.x https://github.com/zendalona/maths-tutor-v2.git
