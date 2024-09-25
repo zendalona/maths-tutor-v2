@@ -13,13 +13,13 @@ Open VS Code and go to the Extensions tab. Search for the Python extension by Mi
 Setup
 1. Create a Virtual Environment
 Open the cloned repository in VS Code, then follow these steps:
-
+```
 Press Ctrl+Shift+P and select Python: Create Environment.
 Choose Venv when prompted for the environment type.
 Select the Python 3.x interpreter installed on your system.
 Make sure that the terminal in VS Code opens with the virtual environment activated.
-
-2. Install Required Dependencies
+```
+3. Install Required Dependencies
 Open the VS Code terminal and run the following commands to install the required Python packages:
 ```
 sudo apt-get install python3-pip
