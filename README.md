@@ -1,12 +1,13 @@
 Installation
 
 1. Clone the Repository
+```
 git clone -b version-2.x https://github.com/zendalona/maths-tutor-v2.git
-
-2. Install Visual Studio Code (VS Code)
+```
+3. Install Visual Studio Code (VS Code)
 You can install VS Code from your system's App Center
 
-3. Install the Python Extension for VS Code
+4. Install the Python Extension for VS Code
 Open VS Code and go to the Extensions tab. Search for the Python extension by Microsoft and click Install.
 
 Setup
@@ -20,9 +21,10 @@ Make sure that the terminal in VS Code opens with the virtual environment activa
 
 2. Install Required Dependencies
 Open the VS Code terminal and run the following commands to install the required Python packages:
+```
 sudo apt-get install python3-pip
 pip install pyside6 openpyxl pandas
-
+```
 3.Running the Project
 Once you have installed the dependencies, you can run the project using the following steps:
 
