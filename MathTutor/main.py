@@ -12,7 +12,7 @@ from PySide6.QtQml import QQmlApplicationEngine, QmlElement
 from PySide6.QtQuickControls2 import QQuickStyle
 from PySide6.QtQuick import QQuickView
 import openpyxl
-
+import os
 #import style_rc
 
 # To be used on the @QmlElement decorator
@@ -49,7 +49,7 @@ class Bridge(QObject):
         self.difficultyIndex = 1
         self.questionType="addition"
         self.rowIndex = 0
-        self.fileurl="C:/Users/ronak kumbhat/Desktop/Book1.xlsx"
+        self.fileurl = os.path.join(os.getcwd(), "questions", "question.xlsx")
         self.df=""
 
         self.question="default"
