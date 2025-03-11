@@ -54,9 +54,62 @@ class Speech(speechd.SSIPClient):
         else:
             return -1
 
-    def say(self,text):
+   ''' def say(self,text):
         self.status = True
-        self.speak(text,self.end,speechd.CallbackType.END)
+        self.speak(text,self.end,speechd.CallbackType.END)'''
+    
+import pygame
+import os
+import random
+
+class Speech:
+    def __init__(self, client_name="Maths-Tutor"):
+        self.status = False
+        pygame.mixer.init()
+        self.sounds_dir = os.path.join(os.path.dirname(__file__), 'sounds')
+
+    def play_audio(self, category):
+        """Plays a pre-recorded audio file based on category (e.g., correct, wrong, encouragement)."""
+        AUDIO_FILES = {
+            "correct": ["excellent-1.ogg", "excellent-2.ogg", "excellent-3.ogg"],
+            "incorrect": ["wrong-answer-1.ogg"],
+            "encouragement": ["good-1.ogg", "good-2.ogg", "good-3.ogg"],
+            "welcome": ["welcome.ogg"],
+            "question": ["question.ogg"]
+        }
+
+        if category in AUDIO_FILES:
+            file_name = random.choice(AUDIO_FILES[category])
+            file_path = os.path.join(self.sounds_dir, file_name)
+
+            if os.path.exists(file_path):
+                pygame.mixer.music.load(file_path)
+                pygame.mixer.music.play()
+            else:
+                print(f"Audio file not found: {file_path}")
+        else:
+            print(f"Invalid category: {category}")
+
+    def say(self, text):
+        """Determine category based on text and play the corresponding audio"""
+        text = text.lower()
+
+        if "correct" in text or "well done" in text:
+            self.play_audio("correct")
+        elif "wrong" in text or "try again" in text:
+            self.play_audio("incorrect")
+        elif "good" in text or "very good" in text:
+            self.play_audio("encouragement")
+        elif "welcome" in text:
+            self.play_audio("welcome")
+        elif "question" in text:
+            self.play_audio("question")
+        else:
+            print("No matching audio. Falling back to default sound.")
+            self.play_audio("encouragement")
+
+        self.status = True
+
 
     def wait(self):
         while (self.status):
