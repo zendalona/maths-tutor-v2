@@ -17,7 +17,7 @@ Cloning the repository:
 
 Clone repository from the GitHub 
 ```
-git clone –b development https://github.com/zendalona/maths-tutor-v2.git 
+git clone -b development https://github.com/zendalona/maths-tutor-v2.git 
 ```
 
 Running the application: 
