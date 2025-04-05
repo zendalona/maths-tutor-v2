@@ -281,7 +281,7 @@ Item {
             Button{
                 id: timeButton
                 text: "Time"
-                onActiveFocusChanged: if (activeFocus) tts.say("Time button")
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Time ")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -303,7 +303,7 @@ Item {
             Button{
                 id: currencyButton
                 text: "Currency"
-                onActiveFocusChanged: if (activeFocus) tts.say("Currency button")
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Currency")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -324,7 +324,7 @@ Item {
             }
             Button{
                 id: storyBasedButton
-                onActiveFocusChanged: if (activeFocus) tts.say("Story button")                
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Story")                
                 text: "Story"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -346,7 +346,7 @@ Item {
             }
             Button{
                 id: distanceButton
-                onActiveFocusChanged: if (activeFocus) tts.say("Distance button")
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Distance")
                 text: "Distance"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -374,7 +374,7 @@ Item {
                 // visible: false
                 id: bellRingingButton
                 text: "Bell Ringing"
-                onActiveFocusChanged: if (activeFocus) tts.say("Bell Ringing button")
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Bell Ringing")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -397,7 +397,7 @@ Item {
             Button{
                 id: operationsButton
                 text: "Operations"
-                onActiveFocusChanged: if (activeFocus) tts.say("Operations button")
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Operations")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -419,24 +419,37 @@ Item {
             }
         }
 
-        Text{
-            id:noteText
-            width: mathSubjectGrid.width
-            text: "Note: Please select the subject to proceed"
-            
-            font.pixelSize: pr_fontSizeMultiple +  20
-            color:Material.primaryTextColor
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
+        Text {
+        id: noteText
+        text: "Note: Please select the subject to proceed"
+        width: parent.width
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: pr_fontSizeMultiple + 20
+        color: Material.primaryTextColor
 
-            anchors{
-                top: mathSubjectGrid.bottom
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
-                topMargin: 10
+        focus: true    // Allows focus by keyboard
+        Keys.onPressed: event => {
+            if (event.key === Qt.Key_Tab) {
+                // prevent skipping it if needed
             }
-
         }
+        onActiveFocusChanged: {
+            if (activeFocus) {
+                tts.say(text)
+            }
+        }
+
+        Accessible.name: "Note"
+        Accessible.description: text
+
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+            bottomMargin: 100
+        }
+    }
+
 
     }
     Loader {
