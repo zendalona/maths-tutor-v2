@@ -79,6 +79,7 @@ Item {
         Button {
             id: themeButton
             text: "Change Theme"
+            onActiveFocusChanged: if (activeFocus) tts.say("Change Theme button")
             font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
                 bottom: parent.bottom
@@ -115,6 +116,7 @@ Item {
         //on click open a new window with settings
         Button {
             id: settingsButton
+            onActiveFocusChanged: if (activeFocus) tts.say("Settings button")
             text: "Settings"
             font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
@@ -135,36 +137,89 @@ Item {
             }
         }
         ApplicationWindow {
-            id: settingsWindow
-            visible: false
-            width: 640
-            height: 480
-            title: "Settings"
-            flags: Qt.Window
-            Material.theme:theme ===1 ? Material.Dark : Material.Light
-            Rectangle {
-                width: parent.width
-                height: parent.height
-                color: "transparent"
-                // a spin box to incerement the font size of the text
-                Column {
-                    anchors.fill: parent
-                    Row {
-                        spacing: 10
-                        Text {
-                            text: "Zendalona"
-                            font.pixelSize: pr_fontSizeMultiple +  pr_fontSizeMultiple +   24
-                            color:Material.primaryTextColor
-                        }
+        id: settingsWindow
+        visible: false
+        width: 640
+        height: 480
+        title: "Settings"
+        flags: Qt.Window
+        Material.theme: theme === 1 ? Material.Dark : Material.Light
 
+        Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+            Text {
+                text: "Settings"
+                font.pixelSize: pr_fontSizeMultiple + 28
+                color: Material.primaryTextColor
+            }
+
+            // Font Size Control
+            Row {
+                spacing: 10
+                Text {
+                    text: "Font Size:"
+                    font.pixelSize: pr_fontSizeMultiple + 20
+                    color: Material.primaryTextColor
+                }
+               
+            }
+
+            // Speech Synthesizer Dropdown
+            Row {
+                spacing: 10
+                Text {
+                    text: "Speech Synthesizer:"
+                    font.pixelSize: pr_fontSizeMultiple + 20
+                    color: Material.primaryTextColor
+                }
+                ComboBox {
+                    id: synthesizerComboBox
+                    model: ["Espeak-ng", "Festival", "Pico"]
+                    width: 200
+                    onCurrentIndexChanged: {
+                        tts.say("Speech synthesizer selected " + currentText)
                     }
                 }
             }
+
+            // Speech Language Dropdown
+            Row {
+                spacing: 10
+                Text {
+                    text: "Speech Language:"
+                    font.pixelSize: pr_fontSizeMultiple + 20
+                    color: Material.primaryTextColor
+                }
+                ComboBox {
+                    id: languageComboBox
+                    model: ["English (US)", "English (UK)", "Spanish", "French"]
+                    width: 200
+                    onCurrentIndexChanged: {
+                        tts.say("Language set to " + currentText)
+                    }
+                }
+            }
+
+            // Close Button
+            Button {
+                text: "Close"
+                onActiveFocusChanged: if (activeFocus) tts.say("Close button")
+                font.pixelSize: pr_fontSizeMultiple + 20
+                onClicked: settingsWindow.visible = false
+            }
+        }
+        }
         }
         // an upload Button
 
         Button {
             id: uploadButton
+            onActiveFocusChanged: if (activeFocus) tts.say("Upload button")
             text: "Upload"
             font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
@@ -226,6 +281,7 @@ Item {
             Button{
                 id: timeButton
                 text: "Time"
+                onActiveFocusChanged: if (activeFocus) tts.say("Time button")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -247,6 +303,7 @@ Item {
             Button{
                 id: currencyButton
                 text: "Currency"
+                onActiveFocusChanged: if (activeFocus) tts.say("Currency button")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -267,6 +324,7 @@ Item {
             }
             Button{
                 id: storyBasedButton
+                onActiveFocusChanged: if (activeFocus) tts.say("Story button")                
                 text: "Story"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -288,6 +346,7 @@ Item {
             }
             Button{
                 id: distanceButton
+                onActiveFocusChanged: if (activeFocus) tts.say("Distance button")
                 text: "Distance"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -315,6 +374,7 @@ Item {
                 // visible: false
                 id: bellRingingButton
                 text: "Bell Ringing"
+                onActiveFocusChanged: if (activeFocus) tts.say("Bell Ringing button")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -337,6 +397,7 @@ Item {
             Button{
                 id: operationsButton
                 text: "Operations"
+                onActiveFocusChanged: if (activeFocus) tts.say("Operations button")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 height: 80
@@ -362,6 +423,7 @@ Item {
             id:noteText
             width: mathSubjectGrid.width
             text: "Note: Please select the subject to proceed"
+            
             font.pixelSize: pr_fontSizeMultiple +  20
             color:Material.primaryTextColor
             wrapMode: Text.WordWrap
@@ -371,7 +433,7 @@ Item {
                 top: mathSubjectGrid.bottom
                 horizontalCenter: parent.horizontalCenter
                 verticalCenter: parent.verticalCenter
-                topMargin: 30
+                topMargin: 10
             }
 
         }
@@ -388,6 +450,7 @@ Item {
 
     MediaPlayer {
         id: homeButtonSound
+        
         source: "sounds/home_button_sound.mp3"
         audioOutput: AudioOutput {}
         loops: 1
@@ -397,6 +460,7 @@ Item {
     Button{
         id: homeButton
         text: "Home"
+        onActiveFocusChanged: if (activeFocus) tts.say("Home button")
         font.pixelSize: pr_fontSizeMultiple +  30
         anchors{
             top: parent.top
@@ -427,6 +491,7 @@ Item {
 
     SpinBox {
         id: fontSizeSpinBox
+        onActiveFocusChanged: if (activeFocus) tts.say("FontSizeSpinBox")
         value: 0
         from: 0
         to: 50
@@ -465,6 +530,7 @@ Item {
 
     Button{
         id:musicButton
+        onActiveFocusChanged: if (activeFocus) tts.say("Music button")
         height: 50
         width: 50
         opacity: 1
@@ -499,6 +565,9 @@ Item {
 
     TextToSpeech{
         id: tts
+        Component.onCompleted: {
+            tts.say("Welcome to the Math Tutor. Use tab to navigate.")
+        }
 
     }
 }
