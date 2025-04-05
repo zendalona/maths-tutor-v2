@@ -58,214 +58,6 @@ Item {
             }
         }
 
-
-        MediaPlayer {
-            id: player
-            source: "sounds/backgroundmusic.ogg"
-            audioOutput: AudioOutput {}
-            loops: MediaPlayer.Infinite
-            // Component.onCompleted: {
-            //     player.play()
-            //     //  console.log("Playing",player.playing())
-            //     player.volume=0.5
-            // }
-        }
-
-
-        //a on off button to change theme
-        //shape must be like a Switch
-        //on click change theme
-
-        Button {
-            id: themeButton
-            text: "Change Theme"
-            onActiveFocusChanged: if (activeFocus) tts.say("Change Theme button")
-            font.pixelSize: pr_fontSizeMultiple +  24
-            anchors {
-                bottom: parent.bottom
-                right: parent.right
-                bottomMargin: 10
-                rightMargin: 10
-            }
-            onClicked: {
-                if(theme === 1){
-                    theme = 0
-                }else{
-                    theme = 1
-                }
-            }
-            Keys.onReturnPressed:{
-                if(theme === 1){
-                    theme = 0
-                }else{
-                    theme = 1
-                }
-            }
-
-            Keys.onEnterPressed: {
-                if(theme === 1){
-                    theme = 0
-                }else{
-                    theme = 1
-                }
-            }
-        }
-
-        //a settings button
-        //shape must be like a gear
-        //on click open a new window with settings
-        Button {
-            id: settingsButton
-            onActiveFocusChanged: if (activeFocus) tts.say("Settings button")
-            text: "Settings"
-            font.pixelSize: pr_fontSizeMultiple +  24
-            anchors {
-                bottom: parent.bottom
-                right: themeButton.left
-                bottomMargin: 10
-                rightMargin: 10
-            }
-            onClicked: {
-                settingsWindow.visible = true
-            }
-            Keys.onReturnPressed:{
-                settingsWindow.visible = true
-            }
-
-            Keys.onEnterPressed: {
-                settingsWindow.visible = true
-            }
-        }
-        ApplicationWindow {
-        id: settingsWindow
-        visible: false
-        width: 640
-        height: 480
-        title: "Settings"
-        flags: Qt.Window
-        Material.theme: theme === 1 ? Material.Dark : Material.Light
-
-        Rectangle {
-        anchors.fill: parent
-        color: "transparent"
-
-        Column {
-            anchors.centerIn: parent
-            spacing: 20
-            Text {
-                text: "Settings"
-                font.pixelSize: pr_fontSizeMultiple + 28
-                color: Material.primaryTextColor
-            }
-
-            // Font Size Control
-            Row {
-                spacing: 10
-                Text {
-                    text: "Font Size:"
-                    font.pixelSize: pr_fontSizeMultiple + 20
-                    color: Material.primaryTextColor
-                }
-               
-            }
-
-            // Speech Synthesizer Dropdown
-            Row {
-                spacing: 10
-                Text {
-                    text: "Speech Synthesizer:"
-                    font.pixelSize: pr_fontSizeMultiple + 20
-                    color: Material.primaryTextColor
-                }
-                ComboBox {
-                    id: synthesizerComboBox
-                    model: ["Espeak-ng", "Festival", "Pico"]
-                    width: 200
-                    onCurrentIndexChanged: {
-                        tts.say("Speech synthesizer selected " + currentText)
-                    }
-                }
-            }
-
-            // Speech Language Dropdown
-            Row {
-                spacing: 10
-                Text {
-                    text: "Speech Language:"
-                    font.pixelSize: pr_fontSizeMultiple + 20
-                    color: Material.primaryTextColor
-                }
-                ComboBox {
-                    id: languageComboBox
-                    model: ["English (US)", "English (UK)", "Spanish", "French"]
-                    width: 200
-                    onCurrentIndexChanged: {
-                        tts.say("Language set to " + currentText)
-                    }
-                }
-            }
-
-            // Close Button
-            Button {
-                text: "Close"
-                onActiveFocusChanged: if (activeFocus) tts.say("Close button")
-                font.pixelSize: pr_fontSizeMultiple + 20
-                onClicked: settingsWindow.visible = false
-            }
-        }
-        }
-        }
-        // an upload Button
-
-        Button {
-            id: uploadButton
-            onActiveFocusChanged: if (activeFocus) tts.say("Upload button")
-            text: "Upload"
-            font.pixelSize: pr_fontSizeMultiple +  24
-            anchors {
-                bottom: parent.bottom
-                right: settingsButton.left
-                bottomMargin: 10
-                rightMargin: 10
-            }
-            onClicked: {
-                uploadWindow.visible = true
-            }
-            Keys.onReturnPressed:{
-                uploadWindow.visible = true
-            }
-
-            Keys.onEnterPressed: {
-                uploadWindow.visible = true
-            }
-        }
-        ApplicationWindow {
-            id: uploadWindow
-            visible: false
-            width: 640
-            height: 480
-            title: "Upload"
-            flags: Qt.Window
-            Material.theme:theme ===1 ? Material.Dark : Material.Light
-            Rectangle {
-                width: parent.width
-                height: parent.height
-                color: "transparent"
-
-                Column {
-                    anchors.fill: parent
-                    Row {
-                        spacing: 10
-                        Text {
-                            text: "Zendalona"
-                            font.pixelSize: pr_fontSizeMultiple +  24
-                            color: "black"
-                        }
-                    }
-                }
-            }
-        }
-
         Grid{
             id: mathSubjectGrid
             spacing: 10
@@ -418,6 +210,246 @@ Item {
                 }
             }
         }
+
+        MediaPlayer {
+            id: player
+            source: "sounds/backgroundmusic.ogg"
+            audioOutput: AudioOutput {}
+            loops: MediaPlayer.Infinite
+            // Component.onCompleted: {
+            //     player.play()
+            //     //  console.log("Playing",player.playing())
+            //     player.volume=0.5
+            // }
+        }
+
+
+        //a on off button to change theme
+        //shape must be like a Switch
+        //on click change theme
+
+        Button {
+            id: themeButton
+            text: "Change Theme"
+            onActiveFocusChanged: if (activeFocus) tts.say("Change Theme button")
+            font.pixelSize: pr_fontSizeMultiple +  24
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+                bottomMargin: 10
+                rightMargin: 10
+            }
+            onClicked: {
+                if(theme === 1){
+                    theme = 0
+                }else{
+                    theme = 1
+                }
+            }
+            Keys.onReturnPressed:{
+                if(theme === 1){
+                    theme = 0
+                }else{
+                    theme = 1
+                }
+            }
+
+            Keys.onEnterPressed: {
+                if(theme === 1){
+                    theme = 0
+                }else{
+                    theme = 1
+                }
+            }
+        }
+
+        //a settings button
+        //shape must be like a gear
+        //on click open a new window with settings
+        Button {
+            id: settingsButton
+            onActiveFocusChanged: if (activeFocus) tts.say("Settings button")
+            text: "Settings"
+            font.pixelSize: pr_fontSizeMultiple +  24
+            anchors {
+                bottom: parent.bottom
+                right: themeButton.left
+                bottomMargin: 10
+                rightMargin: 10
+            }
+            onClicked: {
+                settingsWindow.visible = true
+            }
+            Keys.onReturnPressed:{
+                settingsWindow.visible = true
+            }
+
+            Keys.onEnterPressed: {
+                settingsWindow.visible = true
+            }
+        }
+        ApplicationWindow {
+        id: settingsWindow
+        visible: false
+        width: 640
+        height: 480
+        title: "Settings"
+        flags: Qt.Window
+        Material.theme: theme === 1 ? Material.Dark : Material.Light
+
+        Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+            Text {
+                text: "Settings"
+                font.pixelSize: pr_fontSizeMultiple + 28
+                color: Material.primaryTextColor
+            }
+
+
+            // Speech Synthesizer Dropdown
+          Row {
+    spacing: 10
+
+    Text {
+        text: "Speech Synthesizer:"
+        font.pixelSize: pr_fontSizeMultiple + 20
+        color: Material.primaryTextColor
+        Accessible.name: "Speech Synthesizer Label"
+        Accessible.description: "Label for the speech synthesizer selection dropdown"
+    }
+    ComboBox {
+        id: synthesizerComboBox
+        model: ["Espeak-ng", "Festival", "Pico"]
+        width: 200
+        focus: true
+        Accessible.name: "Speech Synthesizer Dropdown"
+        Accessible.description: "Select a speech synthesizer from the options"
+        
+        onActiveFocusChanged: {
+            if (activeFocus) {
+                tts.say("Speech synthesizer dropdown. Use arrow keys to select an option.")
+            }
+        }
+        onCurrentIndexChanged: {
+            tts.say("Speech synthesizer selected " + currentText)
+        }
+        onHighlightedIndexChanged: {
+            if (highlightedIndex >= 0) {
+                tts.say("Highlighted " + model[highlightedIndex])
+            }
+        }
+    }
+}
+
+
+
+
+            // Speech Language Dropdown
+           Row {
+    spacing: 10
+
+    Text {
+        text: "Speech Language:"
+        font.pixelSize: pr_fontSizeMultiple + 20
+        color: Material.primaryTextColor
+        Accessible.name: "Speech Language Label"
+        Accessible.description: "Label for the speech language selection dropdown"
+    }
+    ComboBox {
+        id: languageComboBox
+        model: ["English (US)", "English (UK)", "Spanish", "French"]
+        width: 200
+        focus: true
+        Accessible.name: "Speech Language Dropdown"
+        Accessible.description: "Select a speech language from the options"
+        
+        onActiveFocusChanged: {
+            if (activeFocus) {
+                tts.say("Speech Language dropdown. Use arrow keys to select a language.")
+            }
+        }
+        onCurrentIndexChanged: {
+            tts.say("Language set to " + currentText)
+        }
+        onHighlightedIndexChanged: {
+            if (highlightedIndex >= 0) {
+                // Announce the currently highlighted item
+                tts.say("Highlighted " + model[highlightedIndex])
+            }
+        }
+    }
+}
+
+
+
+
+            // Close Button
+            Button {
+                text: "Close"
+                onActiveFocusChanged: if (activeFocus) tts.say("Close button")
+                font.pixelSize: pr_fontSizeMultiple + 20
+                onClicked: settingsWindow.visible = false
+            }
+        }
+        }
+        }
+        // an upload Button
+
+        Button {
+            id: uploadButton
+            onActiveFocusChanged: if (activeFocus) tts.say("Upload button")
+            text: "Upload"
+            font.pixelSize: pr_fontSizeMultiple +  24
+            anchors {
+                bottom: parent.bottom
+                right: settingsButton.left
+                bottomMargin: 10
+                rightMargin: 10
+            }
+            onClicked: {
+                uploadWindow.visible = true
+            }
+            Keys.onReturnPressed:{
+                uploadWindow.visible = true
+            }
+
+            Keys.onEnterPressed: {
+                uploadWindow.visible = true
+            }
+        }
+        ApplicationWindow {
+            id: uploadWindow
+            visible: false
+            width: 640
+            height: 480
+            title: "Upload"
+            flags: Qt.Window
+            Material.theme:theme ===1 ? Material.Dark : Material.Light
+            Rectangle {
+                width: parent.width
+                height: parent.height
+                color: "transparent"
+
+                Column {
+                    anchors.fill: parent
+                    Row {
+                        spacing: 10
+                        Text {
+                            text: "Zendalona"
+                            font.pixelSize: pr_fontSizeMultiple +  24
+                            color: "black"
+                        }
+                    }
+                }
+            }
+        }
+
+        
 
         Text {
         id: noteText
@@ -576,11 +608,19 @@ Item {
         }
     }
 
-    TextToSpeech{
+    TextToSpeech {
         id: tts
-        Component.onCompleted: {
-            tts.say("Welcome to the Math Tutor. Use tab to navigate.")
-        }
+            Component.onCompleted: {
+            for (var i = 0; i < availableVoices.length; i++) {
+                console.log("Voice " + i + ": " + availableVoices[i].name)
+            }
+            // For example, set the voice to the second option if it sounds better:
+            if (availableVoices.length > 1) {
+                voice = availableVoices[1]
+            }
+    }
+
 
     }
+
 }
