@@ -86,6 +86,7 @@ Item {
 
             topMargin: 250
         }
+        wrapMode: Text.WordWrap // Enables text wrapping
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pixelSize: pr_fontSizeMultiple +  30

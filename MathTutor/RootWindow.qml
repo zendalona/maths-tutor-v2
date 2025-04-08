@@ -11,25 +11,23 @@ import QtMultimedia
 
 import io.qt.textproperties 1.0
 
-ApplicationWindow{
 
-    id:root
-    Material.theme:mathScreen.theme === 1 ? Material.Dark : Material.Light
+ApplicationWindow { // languageSelectionScreen is now the top-level window
+    id: languageSelectionScreen
+    Material.theme: mathScreen.theme === 1 ? Material.Dark : Material.Light
     Material.accent: Material.Red
-    title: "Zendlona Math Tutor App"
+    title: "Zendalona Math Tutor App"
     visible: true
-    height: 200
     width: 300
-    opacity: 0
+    height: 200
 
     property var pr_var: bridge.a
+
     Component.onCompleted: {
         console.log("from qml", bridge.getText())
         console.log("from qml1", bridge.getColor("red"))
-
         bridge.textChanged()
-       // console.log("from qml2", pr_var)
-        bridge.asetter = [1,2,3]
+        bridge.asetter = [1, 2, 3]
         bridge.appendValue(7)
     }
 
@@ -37,167 +35,130 @@ ApplicationWindow{
         console.log("from qml3", pr_var)
     }
 
+    maximumHeight: 200
+    maximumWidth: 300
+    minimumHeight: 200
+    minimumWidth: 300
+
+    Item { // languageSelectionScreen content
+        anchors.fill: parent
+
+        Text {
+            id: languageSelectionText
+            text: "Select Language"
+            anchors {
+                left: parent.left
+                leftMargin: 10
+                top: parent.top
+                topMargin: 30
+            }
+            color: Material.primaryTextColor
+        }
+        ComboBox {
+            id: languageComboBox
+            model: ["English", "Hindi", "Marathi"]
+            currentIndex: 0
+            height: 32
+            anchors {
+                left: languageSelectionText.left
+                leftMargin: 120
+                top: parent.top
+                topMargin: 25
+            }
+            onCurrentIndexChanged: {
+                console.log("Selected Language: ", languageComboBox.currentText)
+            }
+        }
+        CheckBox {
+            id: rememberSelection
+            text: "Remember Selection"
+            checked: false
+            anchors {
+                left: languageSelectionText.left
+                leftMargin: 10
+                top: languageComboBox.bottom
+                topMargin: 10
+            }
+            onClicked: {
+                rememberSelection.checked = !rememberSelection.checked
+            }
+            onPressed: {
+                rememberSelection.checked = !rememberSelection.checked
+            }
+            Keys.onEnterPressed: {
+                rememberSelection.checked = !rememberSelection.checked
+            }
+            Keys.onReturnPressed: {
+                rememberSelection.checked = !rememberSelection.checked
+            }
+        }
+        Button {
+            id: okButton
+            text: "OK"
+            anchors {
+                left: languageSelectionText.left
+                leftMargin: 10
+                top: rememberSelection.bottom
+                topMargin: 10
+            }
+            onClicked: {
+                if (rememberSelection.checked) {
+                    console.log("Remembered");
+                } else {
+                    console.log("Not Remembered");
+                }     
+                welcomeScreenWindow.show(); // Show welcome screen window
+                languageSelectionScreen.hide(); // Hide language selection window
+            }
+            Keys.onEnterPressed: {
+               if (rememberSelection.checked) {
+                    console.log("Remembered");
+                } else {
+                    console.log("Not Remembered");
+                }     
+                welcomeScreenWindow.show(); // Show welcome screen window
+                languageSelectionScreen.hide(); // Hide language selection window
+            }
+            Keys.onReturnPressed: {
+                if (rememberSelection.checked) {
+                    console.log("Remembered");
+                } else {
+                    console.log("Not Remembered");
+                }     
+                welcomeScreenWindow.show(); // Show welcome screen window
+                languageSelectionScreen.hide(); // Hide language selection window
+            }
+        Button {
+            id: cancelButton
+            text: "Cancel"
+            anchors {
+                left: okButton.right
+                leftMargin: 10
+                top: rememberSelection.bottom
+                topMargin: 10
+            }
+            onClicked: {
+                Qt.quit();
+            }
+        }
+    }
+
+   ApplicationWindow { // Welcome Screen Window
+    id: welcomeScreenWindow
+    Material.theme: mathScreen.theme === 1 ? Material.Dark : Material.Light
+    Material.accent: Material.Red
+    title: "Zendlona Math Tutor App"
+    visible: false // Initially hidden
+    width: 1080
+    height: 800
+    onClosing: Qt.quit()  // Ensures the program quits when the window is closed
 
 
-    ApplicationWindow{
-        id: languageSelectionScreen
+    MathScreen {
+        id: mathScreen
+        anchors.fill: parent
         visible: true
-        title: "Zendlona Math Tutor App"
-        maximumHeight:  200
-        maximumWidth:  300
-        minimumHeight: 200
-        minimumWidth: 300
-        onClosing: {
-            if(welcomeScreenWindow.visible ===false ){
-                root.close()
-            }
         }
-
-        Item{
-
-            Text{
-                id: languageSelectionText
-                text: "Select Language"
-                anchors{
-                    left: parent.left
-                    leftMargin: 10
-                    top: parent.top
-                    topMargin: 30
-                }
-                color: Material.primaryTextColor
-            }
-            //a drop down menu to select language
-            ComboBox{
-                id: languageComboBox
-                model: ["English", "Hindi", "Marathi"]
-                currentIndex: 0
-                height: 32
-                anchors{
-                    left: languageSelectionText.left
-                    leftMargin: 100
-                    top: parent.top
-                    topMargin: 25
-                }
-                onCurrentIndexChanged: {
-                    console.log("Selected Language: ", languageComboBox.currentText)
-                }
-            }
-            //a remeber selection CheckBox
-            CheckBox{
-                id: rememberSelection
-                text: "Remember Selection"
-                checked: false
-                anchors{
-                    left: languageSelectionText.left
-                    leftMargin: 10
-                    top: languageComboBox.bottom
-                    topMargin: 10
-                }
-                onClicked: {
-                    rememberSelection.checked = !rememberSelection.checked
-                }
-                onPressed: {
-                    rememberSelection.checked = !rememberSelection.checked
-                }
-
-                Keys.onEnterPressed: {
-                    rememberSelection.checked = !rememberSelection.checked
-                }
-                Keys.onReturnPressed: {
-                    rememberSelection.checked = !rememberSelection.checked
-                }
-
-            }
-            //a ok button to move to next screen
-            Button{
-                id: okButton
-                text: "OK"
-                anchors{
-                    left: languageSelectionText.left
-                    leftMargin: 10
-                    top: rememberSelection.bottom
-                    topMargin: 10
-                }
-                onClicked: {
-                    if(rememberSelection.checked){
-                        console.log("Remembered")
-                    }
-                    else{
-                        console.log("Not Remembered")
-                    }
-                    root.visibility= Window.Maximized
-                    root.minimumHeight= 720
-                    root.minimumWidth= 1080
-                    welcomeScreenWindow.visible= true
-                    welcomeScreenWindow.visibility= Window.Maximized
-                    languageSelectionScreen.close()
-                }
-                Keys.onEnterPressed: {
-                    if(rememberSelection.checked){
-                        console.log("Remembered")
-                    }
-                    else{
-                        console.log("Not Remembered")
-                    }
-                    root.visibility= Window.Maximized
-                    root.minimumHeight= 720
-                    root.minimumWidth= 1080
-                    welcomeScreenWindow.visible= true
-                    welcomeScreenWindow.visibility= Window.Maximized
-                    languageSelectionScreen.close()
-                }
-                Keys.onReturnPressed: {
-                    if(rememberSelection.checked){
-                        console.log("Remembered")
-                    }
-                    else{
-                        console.log("Not Remembered")
-                    }
-                    root.visibility= Window.Maximized
-                    root.minimumHeight= 720
-                    root.minimumWidth= 1080
-                    welcomeScreenWindow.visible= true
-                    welcomeScreenWindow.visibility= Window.Maximized
-                    languageSelectionScreen.close()
-                }
-            }
-            //a cancel button to close the application
-            Button{
-                id: cancelButton
-                text: "Cancel"
-                anchors{
-                    left: okButton.right
-                    leftMargin: 10
-                    top: rememberSelection.bottom
-                    topMargin: 10
-                }
-                onClicked: {
-                    root.close()
-                }
-            }
-        }
-    }
-
-
-
-    ApplicationWindow{
-        id: welcomeScreenWindow
-        minimumHeight: 720
-        minimumWidth: 1080
-        title: "Zendlona Math Tutor App"
-        //visibility: Window.Maximized
-        //close this window until the language is selected
-        visible: false
-        onClosing: {
-            root.close()
-        }
-
-        MathScreen{
-            id: mathScreen
-            anchors.fill: parent
-            visible: true
-        }
-    }
-}
-
-
+     }
+   }
+ }
