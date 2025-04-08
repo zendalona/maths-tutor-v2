@@ -224,10 +224,12 @@ Item {
 
     MediaPlayer {
         id: player
+        source: ""
         audioOutput: AudioOutput {
             volume: 0.5
             Behavior on volume { NumberAnimation { duration: 500 } }
         }
+        loops: 1  // Changed from Infinite to 1 to play only once
         
         function playWithFade() {
             audioOutput.volume = 0

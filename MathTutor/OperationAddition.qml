@@ -138,7 +138,7 @@ Item {
             animationImageExcellent.running = true
             feedbackLabel.visible = true
             feedbackLabel.focus = true
-            player.play()
+            player.playWithFade()
 
 
         }
@@ -158,7 +158,7 @@ Item {
             animationImageExcellent.running = true
             feedbackLabel.visible = true
             feedbackLabel.focus = true
-            player.play()
+            player.playWithFade()
 
         }
         else{
@@ -174,13 +174,22 @@ Item {
     MediaPlayer {
         id: player
         source: ""
-        audioOutput: AudioOutput {}
-        loops: MediaPlayer.Infinite
-        // Component.onCompleted: {
-        //     player.play()
-        //     //  console.log("Playing",player.playing())
-        //     player.volume=0.5
-        // }
+        audioOutput: AudioOutput {
+            volume: 0.5
+            Behavior on volume { NumberAnimation { duration: 500 } }
+        }
+        loops: 1  // Changed from Infinite to 1 to play only once
+        
+        function playWithFade() {
+            audioOutput.volume = 0
+            play()
+            audioOutput.volume = 0.5
+        }
+        
+        function stopWithFade() {
+            audioOutput.volume = 0
+            stop()
+        }
     }
 
     //afteer the animation is done, hide the image and generate a new question
@@ -197,7 +206,7 @@ Item {
         }
         onStopped: {
             animationImageExcellent.running = false
-            player.source=""
+            player.stopWithFade()
             feedbackLabel.visible = false
             generateQuestion()
             answer.text = ""
@@ -216,7 +225,7 @@ Item {
         }
         onStopped: {
             animationImageWrong.running = false
-            player.source=""
+            player.stopWithFade()
             feedbackLabel.visible = false
             answer.text = ""
         }

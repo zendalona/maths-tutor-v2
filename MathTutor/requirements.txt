@@ -1,1 +1,3 @@
-PySide6
+pandas 
+openpyxl 
+PySide6 
