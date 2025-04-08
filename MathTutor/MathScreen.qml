@@ -211,150 +211,143 @@ Item {
             }
         }
 
-        Grid{
+        GridLayout {
             id: mathSubjectGrid
-            spacing: 10
-            // columns: 3
             rows: 2
-            anchors{
-                top: welcomeAnimation.bottom
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
-                topMargin: 10
-            }
+            columns: 3
+            rowSpacing: 60 
+            columnSpacing: 40 
+            anchors.centerIn: parent
+            anchors.margins: 0
 
-            Button{
+                property int buttonHeight: 90
+
+
+            Button {
                 id: timeButton
                 text: "Time"
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
+                Layout.minimumHeight: mathSubjectGrid.buttonHeight
+                font.pixelSize: pr_fontSizeMultiple +  20
                 Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathTimeBased.qml"
-                }
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathTimeBased.qml"
-                }
-                onClicked: {
-                    mathBasedloader.source = "MathTimeBased.qml"
-                    mathSubjectScreen.visible = false
-                }
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathTimeBased.qml"
+                        }
+                        Keys.onEnterPressed: {
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathTimeBased.qml"
+                        }
+                        onClicked: {
+                            mathBasedloader.source = "MathTimeBased.qml"
+                            mathSubjectScreen.visible = false
+                        }
             }
-            Button{
+
+            Button {
                 id: currencyButton
                 text: "Currency"
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
+                Layout.minimumHeight: mathSubjectGrid.buttonHeight
+                font.pixelSize: pr_fontSizeMultiple +  20
                 onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathCurrencyBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathCurrencyBased.qml"
-                }
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathCurrencyBased.qml"
-                }
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathCurrencyBased.qml"
+                        }
+                        Keys.onReturnPressed:{
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathCurrencyBased.qml"
+                        }
+                        Keys.onEnterPressed: {
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathCurrencyBased.qml"
+                        }
             }
-            Button{
+
+            Button {
                 id: storyBasedButton
                 text: "Story"
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
+                Layout.minimumHeight: mathSubjectGrid.buttonHeight
+                font.pixelSize: pr_fontSizeMultiple +  20
                 onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathStoryBased.qml"
-                }
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathStoryBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathStoryBased.qml"
-                }
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathStoryBased.qml"
+                        }
+                        Keys.onEnterPressed: {
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathStoryBased.qml"
+                        }
+                        Keys.onReturnPressed:{
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathStoryBased.qml"
+                        }
             }
-            Button{
+
+            Button {
                 id: distanceButton
                 text: "Distance"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
-
+                Layout.minimumHeight: mathSubjectGrid.buttonHeight
+                font.pixelSize: pr_fontSizeMultiple +  20
                 Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathDistanceBased.qml"
-                }
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathDistanceBased.qml"
+                        }
 
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathDistanceBased.qml"
-                }
+                        Keys.onEnterPressed: {
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathDistanceBased.qml"
+                        }
 
-                onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathDistanceBased.qml"
+                        onClicked: {
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathDistanceBased.qml"
 
-                }
+                        }
             }
-            Button{
-                // visible: false
+
+            Button {
                 id: bellRingingButton
                 text: "Bell Ringing"
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
+                Layout.minimumHeight: mathSubjectGrid.buttonHeight
+                font.pixelSize: pr_fontSizeMultiple +  20
                 onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathBellRingingBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathBellRingingBased.qml"
-                }
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathBellRingingBased.qml"
+                        }
+                        Keys.onReturnPressed:{
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathBellRingingBased.qml"
+                        }
 
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathBellRingingBased.qml"
-                }
+                        Keys.onEnterPressed: {
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathBellRingingBased.qml"
+                        }
             }
-            Button{
+
+            Button {
                 id: operationsButton
                 text: "Operations"
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
+                Layout.minimumHeight: mathSubjectGrid.buttonHeight
+                font.pixelSize: pr_fontSizeMultiple +  20
                 onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathOperationBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathOperationBased.qml"
-                }
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathOperationBased.qml"
+                        }
+                        Keys.onReturnPressed:{
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathOperationBased.qml"
+                        }
 
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathOperationBased.qml"
-                }
+                        Keys.onEnterPressed: {
+                            mathSubjectScreen.visible = false
+                            mathBasedloader.source = "MathOperationBased.qml"
+                        }
+                    }
             }
         }
 
