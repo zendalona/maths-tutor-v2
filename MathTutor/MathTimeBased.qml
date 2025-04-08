@@ -80,22 +80,22 @@ Item {
     TextField {
         id: question
         width: parent.width
-        anchors{
+        anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
-
             topMargin: 250
         }
-        wrapMode: Text.WordWrap // Enables text wrapping
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.pixelSize: pr_fontSizeMultiple +  30
+        font.pixelSize: pr_fontSizeMultiple + 30
         color: "orange"
+        wrapMode: Text.WordWrap // ensuring the overflowed text be in the new line
+        leftPadding: 20
+        rightPadding: 20
         //add Accessible properties
         Accessible.role: Accessible.StaticText
         Accessible.name: question.text
-        readOnly : true
-
+        readOnly: true
     }
 
     TextField{
