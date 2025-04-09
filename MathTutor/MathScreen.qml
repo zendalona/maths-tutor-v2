@@ -141,22 +141,158 @@ Item {
             height: 480
             title: "Settings"
             flags: Qt.Window
-            Material.theme:theme ===1 ? Material.Dark : Material.Light
+            Material.theme: theme === 1 ? Material.Dark : Material.Light
+
             Rectangle {
                 width: parent.width
                 height: parent.height
                 color: "transparent"
-                // a spin box to incerement the font size of the text
+
                 Column {
-                    anchors.fill: parent
-                    Row {
+                    anchors {
+                        fill: parent
+                        margins: 20
+                    }
+                    spacing: 30
+
+                    Text {
+                        text: "Application Settings"
+                        font.pixelSize: pr_fontSizeMultiple + 30
+                        color: Material.primaryTextColor
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    // Font Size Settings
+                    Column {
+                        width: parent.width
                         spacing: 10
+
                         Text {
-                            text: "Zendalona"
-                            font.pixelSize: pr_fontSizeMultiple +  pr_fontSizeMultiple +   24
-                            color:Material.primaryTextColor
+                            text: "Font Size"
+                            font.pixelSize: pr_fontSizeMultiple + 20
+                            color: Material.primaryTextColor
                         }
 
+                        Row {
+                            spacing: 20
+
+                            SpinBox {
+                                id: settingsFontSizeSpinBox
+                                value: pr_fontSizeMultiple
+                                from: 0
+                                to: 50
+                                stepSize: 1
+                                onValueChanged: {
+                                    pr_fontSizeMultiple = settingsFontSizeSpinBox.value
+                                }
+                            }
+
+                            Text {
+                                text: "Preview: Sample Text"
+                                font.pixelSize: pr_fontSizeMultiple + 20
+                                color: Material.primaryTextColor
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                    }
+
+                    // Theme Settings
+                    Column {
+                        width: parent.width
+                        spacing: 10
+
+                        Text {
+                            text: "Theme"
+                            font.pixelSize: pr_fontSizeMultiple + 20
+                            color: Material.primaryTextColor
+                        }
+
+                        Row {
+                            spacing: 20
+
+                            RadioButton {
+                                id: lightThemeRadio
+                                text: "Light Theme"
+                                checked: theme === 0
+                                onClicked: {
+                                    theme = 0
+                                }
+                            }
+
+                            RadioButton {
+                                id: darkThemeRadio
+                                text: "Dark Theme"
+                                checked: theme === 1
+                                onClicked: {
+                                    theme = 1
+                                }
+                            }
+                        }
+                    }
+
+                    // Audio Settings
+                    Column {
+                        width: parent.width
+                        spacing: 10
+
+                        Text {
+                            text: "Audio Settings"
+                            font.pixelSize: pr_fontSizeMultiple + 20
+                            color: Material.primaryTextColor
+                        }
+
+                        Row {
+                            spacing: 20
+
+                            Text {
+                                text: "Volume:"
+                                font.pixelSize: pr_fontSizeMultiple + 16
+                                color: Material.primaryTextColor
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Slider {
+                                id: volumeSlider
+                                from: 0
+                                to: 100
+                                value: 50
+                                stepSize: 1
+                                width: 200
+                                onValueChanged: {
+                                    // Set volume for all audio players
+                                    // This is a placeholder - actual implementation would depend on how audio is managed
+                                }
+                            }
+
+                            Text {
+                                text: volumeSlider.value.toFixed(0) + "%"
+                                font.pixelSize: pr_fontSizeMultiple + 16
+                                color: Material.primaryTextColor
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        CheckBox {
+                            id: backgroundMusicCheckbox
+                            text: "Play Background Music"
+                            checked: pr_isMusicPlaying
+                            onCheckedChanged: {
+                                pr_isMusicPlaying = backgroundMusicCheckbox.checked
+                            }
+                        }
+                    }
+
+                    // Save Button
+                    Button {
+                        text: "Save Settings"
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            settingsWindow.visible = false
+                            // Here you would save settings to persistent storage if needed
+                        }
                     }
                 }
             }
@@ -189,24 +325,78 @@ Item {
             visible: false
             width: 640
             height: 480
-            title: "Upload"
+            title: "Upload Custom Questions"
             flags: Qt.Window
-            Material.theme:theme ===1 ? Material.Dark : Material.Light
+            Material.theme: theme === 1 ? Material.Dark : Material.Light
+
             Rectangle {
                 width: parent.width
                 height: parent.height
                 color: "transparent"
 
                 Column {
-                    anchors.fill: parent
-                    Row {
-                        spacing: 10
-                        Text {
-                            text: "Zendalona"
-                            font.pixelSize: pr_fontSizeMultiple +  24
-                            color: "black"
+                    anchors {
+                        fill: parent
+                        margins: 20
+                    }
+                    spacing: 20
+
+                    Text {
+                        text: "Upload Custom Question Sets"
+                        font.pixelSize: pr_fontSizeMultiple + 24
+                        color: Material.primaryTextColor
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Text {
+                        text: "Select an Excel file containing custom questions. The file should have columns for 'question', 'answer', 'type', and 'difficulty'."
+                        font.pixelSize: pr_fontSizeMultiple + 16
+                        color: Material.primaryTextColor
+                        width: parent.width
+                        wrapMode: Text.WordWrap
+                    }
+
+                    Button {
+                        text: "Browse Files"
+                        width: 200
+                        height: 50
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            fileDialog.open()
+                        }
+                        Keys.onReturnPressed: {
+                            fileDialog.open()
+                        }
+                        Keys.onEnterPressed: {
+                            fileDialog.open()
                         }
                     }
+
+                    Text {
+                        id: uploadStatusText
+                        text: ""
+                        font.pixelSize: pr_fontSizeMultiple + 16
+                        color: "green"
+                        width: parent.width
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                }
+            }
+
+            FileDialog {
+                id: fileDialog
+                title: "Select Question File"
+                nameFilters: ["Excel files (*.xlsx *.xls)"]
+                onAccepted: {
+                    bridge.process_file(fileDialog.selectedFile)
+                    uploadStatusText.text = "File uploaded successfully!"
+                    uploadStatusText.color = "green"
+                }
+                onRejected: {
+                    uploadStatusText.text = "File selection canceled."
+                    uploadStatusText.color = "red"
                 }
             }
         }
@@ -359,21 +549,21 @@ Item {
         }
 
         Text{
-            id:noteText
+            id: noteText
             width: mathSubjectGrid.width
             text: "Note: Please select the subject to proceed"
-            font.pixelSize: pr_fontSizeMultiple +  20
-            color:Material.primaryTextColor
+            font.pixelSize: pr_fontSizeMultiple + 20
+            color: Material.primaryTextColor
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
 
             anchors{
                 top: mathSubjectGrid.bottom
                 horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
                 topMargin: 30
             }
-
+            // Ensure text doesn't overlap with other elements
+            z: 10
         }
 
     }

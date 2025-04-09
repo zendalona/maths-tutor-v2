@@ -51,14 +51,33 @@ Item {
 
 
 
-    Keys.onUpPressed:  {
-        if(pr_difficulty < 4){
+    Keys.onUpPressed: {
+        if(pr_difficulty < 4) {
             pr_difficulty++
+            // Update the difficulty index in the bridge
+            bridge.Pr_difficultyIndex = pr_difficulty
+            // Update the ComboBox selection
+            if (difficultyComboBox) {
+                difficultyComboBox.currentIndex = pr_difficulty
+            }
+            // Generate a new question with the updated difficulty
+            bridge.process_file(bridge.getfileurl())
+            bridge.sequence()
         }
     }
+
     Keys.onDownPressed: {
-        if(pr_difficulty > 0){
+        if(pr_difficulty > 0) {
             pr_difficulty--
+            // Update the difficulty index in the bridge
+            bridge.Pr_difficultyIndex = pr_difficulty
+            // Update the ComboBox selection
+            if (difficultyComboBox) {
+                difficultyComboBox.currentIndex = pr_difficulty
+            }
+            // Generate a new question with the updated difficulty
+            bridge.process_file(bridge.getfileurl())
+            bridge.sequence()
         }
     }
     function generateQuestion(){
@@ -79,23 +98,28 @@ Item {
 
     TextField {
         id: question
-        width: parent.width
+        width: parent.width - 40 // Reduced width to ensure text doesn't get cut off at edges
+        height: contentHeight + 40 // Dynamic height based on content
         anchors{
             top: parent.top
             horizontalCenter: parent.horizontalCenter
-
             topMargin: 250
         }
         wrapMode: Text.WordWrap // Enables text wrapping
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.pixelSize: pr_fontSizeMultiple +  30
+        font.pixelSize: pr_fontSizeMultiple + 30
         color: "orange"
         //add Accessible properties
         Accessible.role: Accessible.StaticText
         Accessible.name: question.text
-        readOnly : true
-
+        readOnly: true
+        // Ensure text is fully visible
+        clip: false
+        background: Rectangle {
+            color: "transparent"
+            border.color: "transparent"
+        }
     }
 
     TextField{
@@ -183,42 +207,53 @@ Item {
         // }
     }
 
-    //afteer the animation is done, hide the image and generate a new question
+    //after the animation is done, hide the image and generate a new question
     SequentialAnimation {
         id: animationImageExcellent
         running: false
         loops: 1
-        NumberAnimation {
-            target: excellentImage
-            property: "visible"
-            from: 1
-            to: 0
-            duration: 2000
+
+        ScriptAction {
+            script: {
+                excellentImage.visible = true
+                player.play()
+            }
         }
-        onStopped: {
-            animationImageExcellent.running = false
-            player.source=""
-            feedbackLabel.visible = false
-            generateQuestion()
-            answer.text = ""
+
+        PauseAnimation { duration: 2000 }
+
+        ScriptAction {
+            script: {
+                excellentImage.visible = false
+                player.source = ""
+                feedbackLabel.visible = false
+                generateQuestion()
+                answer.text = ""
+            }
         }
     }
+
     SequentialAnimation {
         id: animationImageWrong
         running: false
         loops: 1
-        NumberAnimation {
-            target: wrongImage
-            property: "visible"
-            from: 1
-            to: 0
-            duration: 2000
+
+        ScriptAction {
+            script: {
+                wrongImage.visible = true
+                player.play()
+            }
         }
-        onStopped: {
-            animationImageWrong.running = false
-            player.source=""
-            feedbackLabel.visible = false
-            answer.text = ""
+
+        PauseAnimation { duration: 2000 }
+
+        ScriptAction {
+            script: {
+                wrongImage.visible = false
+                player.source = ""
+                feedbackLabel.visible = false
+                answer.text = ""
+            }
         }
     }
 
@@ -439,9 +474,8 @@ Item {
             }
             ComboBox {
                 id: difficultyComboBox
-
                 textRole: "modelData"
-                model: ["Simple" , "Easy", "Medium", "Hard", "Challenging"]
+                model: ["Simple", "Easy", "Medium", "Hard", "Challenging"]
                 currentIndex: root.pr_difficulty
                 height: 50
                 width: 200
@@ -453,8 +487,21 @@ Item {
                 }
                 onCurrentIndexChanged: {
                     root.pr_difficulty = difficultyComboBox.currentIndex
-                    question.text = root.generateQuestion()
+                    // Update the difficulty index in the bridge
+                    bridge.Pr_difficultyIndex = root.pr_difficulty
+                    // Reset timer and counters
+                    root.pr_timeTaken = 0
+                    root.pr_countWrong = 0
+                    // Generate a new question with the updated difficulty
+                    bridge.process_file(bridge.getfileurl())
+                    bridge.sequence()
+                    question.focus = true
                 }
+
+                // Add accessibility properties
+                Accessible.role: Accessible.ComboBox
+                Accessible.name: "Difficulty Level"
+                Accessible.description: "Select the difficulty level of questions"
             }
 
 
