@@ -188,6 +188,17 @@ Item {
         visible: !completionScreen.visible // Hide when the completion screen is visible
     }
 
+    Keys.onReturnPressed: {
+        timerforQuestion.stop()
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+            animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.playWithFade()
+
+
     Keys.onReturnPressed: handleAnswer()
     Keys.onEnterPressed: handleAnswer()
 
@@ -198,6 +209,14 @@ Item {
     */
     function handleAnswer() {
         timerforQuestion.stop()
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+            animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.playWithFade()
+
         answer.enabled = false// disable the answer field whenanswer is submitted
         const correct = answer.text.toString() === pr_answer.toString() || qsTr(answer.text.toString() + ".0 ") === pr_answer.toString()
         
@@ -249,6 +268,7 @@ Item {
                 bridge.showCongratulations(pr_finalScore, pr_timeTaken);
             }
 
+
         } else {
             pr_countWrong++
             updateRandomIndexForWrongAnswer()// update pr_randomIndex on wrong answers
@@ -267,10 +287,13 @@ Item {
 
     MediaPlayer {
         id: player
+        source: ""
+
         audioOutput: AudioOutput {
             volume: 0.5
             Behavior on volume { NumberAnimation { duration: 500 } }
         }
+
         
         function playWithFade() {
             audioOutput.volume = 0
@@ -314,6 +337,9 @@ Item {
             player.playWithFade()
         }
         onStopped: {
+            animationImageExcellent.running = false
+            player.stopWithFade()
+
             excellentImage.visible = false
             animationRunning = false
             feedbackLabel.visible = false
@@ -352,6 +378,9 @@ Item {
             player.playWithFade()
         }
         onStopped: {
+            animationImageWrong.running = false
+            player.stopWithFade()
+
             wrongImage.visible = false
             animationRunning = false
             feedbackLabel.visible = false
@@ -623,12 +652,6 @@ Item {
                     question.text = root.generateQuestion()
                 }
             }
-
-
-
-
         }
     }
-
-
 }

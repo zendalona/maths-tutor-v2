@@ -131,6 +131,13 @@ Item {
     Label{
         id: question
         width: parent.width
+        anchors{
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+
+            topMargin: 250
+        }
+        wrapMode: Text.WordWrap 
         anchors.top: parent.top
         anchors.topMargin: 250
         anchors.horizontalCenter: parent.horizontalCenter
@@ -170,6 +177,108 @@ Item {
         visible: !completionScreen.visible // Hide when the completion screen is visible
     }
 
+    Keys.onReturnPressed: {
+        timerforQuestion.stop()
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+            // Set the sound source based on time taken
+            if(pr_timeTaken < 5) {
+                player.source = "sounds/excellent-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("Excellent")
+            } else if(pr_timeTaken < 10) {
+                player.source = "sounds/very-good-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("very-good")
+            } else if(pr_timeTaken < 15) {
+                player.source = "sounds/good-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("good")
+            } else if(pr_timeTaken < 20) {
+                player.source = "sounds/not-bad-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("not-bad")
+            } else {
+                player.source = "sounds/okay-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("okay")
+            }
+            
+            excellentImage.source = "images/" + (pr_timeTaken < 5 ? "excellent-" : 
+                                               pr_timeTaken < 10 ? "very-good-" : 
+                                               pr_timeTaken < 15 ? "good-" : 
+                                               pr_timeTaken < 20 ? "not-bad-" : "okay-") + pr_randomIndex + ".gif"
+            
+            animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.playWithFade()
+        }
+        else{
+            pr_countWrong++
+            // Set the sound source based on wrong count
+            if(pr_countWrong === 1) {
+                player.source = "sounds/wrong-anwser-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("wrong")
+                wrongImage.source = "images/wrong-anwser-" + pr_randomIndex + ".gif"
+            } else {
+                player.source = "sounds/wrong-anwser-repeted-" + (pr_randomIndex === 3 ? 1 : pr_randomIndex) + ".ogg"
+                feedbackLabel.text = qsTr("wrong-repeated")
+                wrongImage.source = "images/wrong-anwser-repeted-" + (pr_randomIndex === 3 ? 1 : pr_randomIndex) + ".gif"
+            }
+            
+            animationImageWrong.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.playWithFade()
+        }
+    }
+    Keys.onEnterPressed: {
+        timerforQuestion.stop()
+        console.log("Correct answer", pr_answer.toString())
+        console.log("User answer", answer.text)
+        if(answer.text.toString() === pr_answer.toString() || qsTr((answer.text.toString() + ".0 ")) === pr_answer.toString()){
+            // Set the sound source based on time taken
+            if(pr_timeTaken < 5) {
+                player.source = "sounds/excellent-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("Excellent")
+            } else if(pr_timeTaken < 10) {
+                player.source = "sounds/very-good-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("very-good")
+            } else if(pr_timeTaken < 15) {
+                player.source = "sounds/good-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("good")
+            } else if(pr_timeTaken < 20) {
+                player.source = "sounds/not-bad-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("not-bad")
+            } else {
+                player.source = "sounds/okay-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("okay")
+            }
+            
+            excellentImage.source = "images/" + (pr_timeTaken < 5 ? "excellent-" : 
+                                               pr_timeTaken < 10 ? "very-good-" : 
+                                               pr_timeTaken < 15 ? "good-" : 
+                                               pr_timeTaken < 20 ? "not-bad-" : "okay-") + pr_randomIndex + ".gif"
+            
+            animationImageExcellent.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.playWithFade()
+        }
+        else{
+            pr_countWrong++
+            // Set the sound source based on wrong count
+            if(pr_countWrong === 1) {
+                player.source = "sounds/wrong-anwser-" + pr_randomIndex + ".ogg"
+                feedbackLabel.text = qsTr("wrong")
+                wrongImage.source = "images/wrong-anwser-" + pr_randomIndex + ".gif"
+            } else {
+                player.source = "sounds/wrong-anwser-repeted-" + (pr_randomIndex === 3 ? 1 : pr_randomIndex) + ".ogg"
+                feedbackLabel.text = qsTr("wrong-repeated")
+                wrongImage.source = "images/wrong-anwser-repeted-" + (pr_randomIndex === 3 ? 1 : pr_randomIndex) + ".gif"
+            }
+            
+            animationImageWrong.running = true
+            feedbackLabel.visible = true
+            feedbackLabel.focus = true
+            player.playWithFade()
     Keys.onReturnPressed: handleAnswer()
     Keys.onEnterPressed: handleAnswer()
 
@@ -237,8 +346,7 @@ Item {
             player.source = getWrongSound()
             animationImageWrong.running = true
             console.log("Wrong,")
-            bridge.wrong=true
-        }
+            bridge.wrong=true        }
 
         console.log("Performance rate updated to", bridge.current_performance_rate); // Add the log.
         console.log("Final Score: " + pr_finalScore)
@@ -249,11 +357,12 @@ Item {
 
     MediaPlayer {
         id: player
+        source: ""
         audioOutput: AudioOutput {
             volume: 0.5
             Behavior on volume { NumberAnimation { duration: 500 } }
         }
-        
+        loops: 1  // Changed from Infinite to 1 to play only once        
         function playWithFade() {
             audioOutput.volume = 0
             play()
@@ -296,6 +405,8 @@ Item {
             player.playWithFade()
         }
         onStopped: {
+            animationImageExcellent.running = false
+            player.stopWithFade()
             excellentImage.visible = false
             animationRunning = false
             feedbackLabel.visible = false
@@ -334,6 +445,8 @@ Item {
             player.playWithFade()
         }
         onStopped: {
+            animationImageWrong.running = false
+            player.stopWithFade()
             wrongImage.visible = false
             animationRunning = false
             feedbackLabel.visible = false
@@ -346,6 +459,20 @@ Item {
 
     AnimatedImage {
         id: excellentImage
+        source: "images/excellent-1.gif"  // Default source
+        height: 200
+        width: 200
+        anchors {
+            top: answer.bottom
+            horizontalCenter: parent.horizontalCenter
+            topMargin: 45
+        }
+        visible: false
+    }
+    
+    AnimatedImage {
+        id: wrongImage
+        source: "images/wrong-anwser-1.gif"  // Default source
         source: "images/" + (pr_timeTaken < 5 ? "excellent" : 
                             pr_timeTaken < 10 ? "very-good" : 
                             pr_timeTaken < 15 ? "good" : 
@@ -580,12 +707,6 @@ Item {
                     question.text = root.generateQuestion()
                 }
             }
-
-
-
-
         }
     }
-
-
 }
