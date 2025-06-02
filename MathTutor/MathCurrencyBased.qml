@@ -20,38 +20,21 @@ import QtQml
 Item {
     id: root
     property int pr_difficulty: 1
-    property int pr_timeTaken: 0
+    property int pr_timeTaken: bridge.time_taken
     property int pr_randomIndex: Math.floor(Math.random() * 3) + 1
     property int pr_countWrong : 0
     property bool animationRunning: false ///initialize to false
+    property int pr_finalScore: bridge.final_score // Add final score property
     
 
     Component.onCompleted: {
-        // This block of code is executed once the MathCurrencyBased component has been fully created and initialized.
-        // It's used for one-time setup tasks.
+        
         bridge.Pr_questionType = "currency"
-        // Sets the question type in the Python backend (via the 'bridge' object) to "currency".
-        // This informs the backend that we are dealing with currency-related questions.
-
         bridge.Pr_difficultyIndex = pr_difficulty
-        // Sets the difficulty level in the Python backend to match the 'pr_difficulty' property
-        // defined in this QML file. This ensures that the backend generates questions
-        // appropriate for the selected difficulty.
-
         bridge.process_file(bridge.getfileurl())
-        // Calls the 'process_file' function in the Python backend, passing it the file URL
-        // obtained from the 'getfileurl' function (also in the C++ backend).
-        // This likely loads and prepares data (e.g., question sets, number ranges)
-        // that are needed for the currency-related math problems.
-
         bridge.sequence()
-        // Calls the 'sequence' function in the Python backend, which is probably responsible
-        // for generating the first question or setting up the initial sequence of questions.
-
         question.focus = true
-        // Sets the input focus to the 'question' TextField, ensuring that the user can
-        // immediately interact with it (e.g., type an answer) without having to click on it first.
-
+        
     }
 
     property int pr_fontSizeMultiple: 1
@@ -124,9 +107,9 @@ Item {
     */
     function generateQuestion(){
         pr_randomIndex = Math.floor(Math.random() * 3) + 1
-        bridge.incrementQuestionIndex()
-        bridge.sequence()
+        bridge.next_question()
         question.focus = true
+        bridge.sequence()
     }
 
     /**
@@ -156,6 +139,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         font.pixelSize: pr_fontSizeMultiple + 30
         color: "orange"
+        visible: !completionScreen.visible // Hide when the completion screen is visible
         //readOnly: true
         Accessible.role: Accessible.StaticText
         Accessible.name: text
@@ -172,6 +156,7 @@ Item {
         height: 50
         focus: true
         enabled: true
+        visible: !completionScreen.visible // Hide when the completion screen is visible
     }
 
     Label {
@@ -182,7 +167,7 @@ Item {
         width: 200
         height: 50
         font.pixelSize: pr_fontSizeMultiple + 30
-        visible: false
+        visible: !completionScreen.visible // Hide when the completion screen is visible
     }
 
     Keys.onReturnPressed: handleAnswer()
@@ -196,27 +181,67 @@ Item {
     function handleAnswer() {
         timerforQuestion.stop()
         answer.enabled = false// disable the answer field whenanswer is submitted
+        const correct = answer.text.toString() === pr_answer.toString() || qsTr(answer.text.toString() + ".0 ") === pr_answer.toString()
+        
         if(animationRunning) {
             animationImageExcellent.stop()
             animationImageWrong.stop()
             player.stopWithFade()
         }
 
-        const correct = answer.text.toString() === pr_answer.toString() || 
-                      qsTr(answer.text.toString() + ".0 ") === pr_answer.toString()
-
+        bridge.total_attempts+=1
         if(correct) {
-            player.source = getCorrectSound()
-            animationImageExcellent.running = true
-            console.log("Correct")
+            let timeAlotted = 20; // Example time allotted, adjust as needed
+            console.log("Time allotted:", timeAlotted);
+            console.log("Time taken:", pr_timeTaken);
+            
+            if (pr_timeTaken < timeAlotted - ((timeAlotted * 50) / 100)) {
+                bridge.current_performance_rate += 4;
+                pr_finalScore += 50;
+                player.source = "sounds/excellent-" + pr_randomIndex + ".ogg";
+                feedbackLabel.text = qsTr("Excellent");
+            } else if (pr_timeTaken < timeAlotted - ((timeAlotted * 25) / 100)) {
+                bridge.current_performance_rate += 2;
+                pr_finalScore += 40;
+                player.source = "sounds/very-good-" + pr_randomIndex + ".ogg";
+                feedbackLabel.text = qsTr("Very Good");
+            } else if (pr_timeTaken < timeAlotted) {
+                bridge.current_performance_rate += 1;
+                pr_finalScore += 30;
+                player.source = "sounds/good-" + pr_randomIndex + ".ogg";
+                feedbackLabel.text = qsTr("Good");
+            } else if (pr_timeTaken < timeAlotted + ((timeAlotted * 25) / 100)) {
+                pr_finalScore += 20;
+                player.source = "sounds/not-bad-" + pr_randomIndex + ".ogg";
+                feedbackLabel.text = qsTr("Not Bad");
+            } else {
+                bridge.current_performance_rate -= 1;
+                pr_finalScore += 10;
+                player.source = "sounds/okay-" + pr_randomIndex + ".ogg";
+                feedbackLabel.text = qsTr("Okay");
+            }
+            animationImageExcellent.running = true;
+            console.log("Correct");
+            bridge.correct_answers += 1;
+            bridge.wrong = false;
+
+            //check if its the last question
+            if (bridge.current_question_index >= bridge.length - 1){
+                bridge.updateFinalScoreAndTime(pr_finalScore, pr_timeTaken);
+                bridge.showCongratulations(pr_finalScore, pr_timeTaken);
+            }
+
         } else {
             pr_countWrong++
             updateRandomIndexForWrongAnswer()// update pr_randomIndex on wrong answers
             player.source = getWrongSound()
             animationImageWrong.running = true
             console.log("Wrong,")
+            bridge.wrong=true
         }
-        
+
+        console.log("Performance rate updated to", bridge.current_performance_rate); // Add the log.
+        console.log("Final Score: " + pr_finalScore)
         feedbackLabel.visible = true
         animationRunning = true
         player.playWithFade()
@@ -241,7 +266,7 @@ Item {
         }
     }
 
-    property int animationDuration: 2000
+    property int animationDuration: 3000
 
     ParallelAnimation {
         id: animationImageExcellent
@@ -252,7 +277,7 @@ Item {
             property: "opacity"
             from: 0
             to: 1
-            duration: animationDuration / 4
+            duration: animationDuration / 6
         }
         
         SequentialAnimation {
@@ -262,7 +287,7 @@ Item {
                 property: "opacity"
                 from: 1
                 to: 0
-                duration: animationDuration / 4
+                duration: animationDuration / 3
             }
         }
         
@@ -290,7 +315,7 @@ Item {
             property: "opacity"
             from: 0
             to: 1
-            duration: animationDuration / 4
+            duration: animationDuration / 6
         }
         
         SequentialAnimation {
@@ -300,7 +325,7 @@ Item {
                 property: "opacity"
                 from: 1
                 to: 0
-                duration: animationDuration / 4
+                duration: animationDuration / 3
             }
         }
         
@@ -462,7 +487,53 @@ Item {
         }
     }*/
 
+    // Completion Screen (Rectangle)
+    Rectangle {
+        id: completionScreen
+        visible: false
+        anchors.fill: parent
+        color: "white"
 
+        Text {
+            id: completionLabel
+            text: "Level Complete!"
+            font.pixelSize: 40
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 100
+            color: "green"
+        }
+
+        Text {
+            id: scoreLabel
+            text: "Score: 0"
+            font.pixelSize: 24
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: completionLabel.bottom
+            anchors.topMargin: 20
+        }
+
+        Text {
+            id: timeLabel
+            text: "Time Taken: 0 seconds"
+            font.pixelSize: 24
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: scoreLabel.bottom
+            anchors.topMargin: 10
+        }
+
+    }
+
+    Connections {
+        target: bridge
+        onShowCongratulations: function(score, time) {
+            completionLabel.text = "Level Complete!";
+            scoreLabel.text = "Score: " + pr_finalScore;
+            timeLabel.text = "Time Taken: " + pr_timeTaken + " seconds";
+            completionScreen.visible = true;
+        }
+    }
+    // Settings Window
     ApplicationWindow {
         id: additionsettingsWindow
         visible: false
@@ -504,6 +575,7 @@ Item {
                     topMargin: 25
                 }
                 onCurrentIndexChanged: {
+                    console.log("Difficulty changed from", root.pr_difficulty, "to", difficultyComboBox.currentIndex)
                     root.pr_difficulty = difficultyComboBox.currentIndex
                     question.text = root.generateQuestion()
                 }
@@ -514,4 +586,6 @@ Item {
 
         }
     }
+
+
 }

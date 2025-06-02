@@ -13,6 +13,7 @@ from PySide6.QtQuickControls2 import QQuickStyle
 from PySide6.QtQuick import QQuickView
 import openpyxl
 import os
+import math
 #import style_rc
 
 # To be used on the @QmlElement decorator
@@ -29,6 +30,10 @@ class Bridge(QObject):
     answerChanged = Signal()
     questionTypeChanged = Signal()
     difficultyIndexChanged = Signal()
+    performanceChanged = Signal()
+    wrongChanged = Signal()
+
+    showCongratulations =Signal(int, int)#for congratulations screen
 
 
     def __init__(self):
@@ -53,8 +58,16 @@ class Bridge(QObject):
         self.df=""
 
         self.question="default"
-
         self.answer="default"
+
+        self._correct_answers = 0
+        self._total_attempts = 0
+        self._wrong = False
+        self.current_question_index = -1
+        self._current_performance_rate = 0
+        self._final_score = 0
+        self._time_taken = 0
+        
 
 
     @Slot(str)
@@ -65,6 +78,58 @@ class Bridge(QObject):
             engine.retranslate()
         else:
             app.removeTranslator(self.trans)
+
+    @Property(int, notify=performanceChanged)
+    def final_score(self):
+        return self._final_score
+
+    @final_score.setter
+    def final_score(self, value):
+        self._final_score = value
+        self.performanceChanged.emit()
+
+    @Property(int, notify=performanceChanged)
+    def time_taken(self):
+        return self._time_taken
+
+    @time_taken.setter
+    def time_taken(self, value):
+        self._time_taken = value
+        self.performanceChanged.emit()
+
+    @Property(int, notify=performanceChanged)
+    def correct_answers(self):
+        return self._correct_answers
+        
+    @correct_answers.setter
+    def correct_answers(self, value):
+        self._correct_answers = value
+        self.performanceChanged.emit()
+        
+    @Property(int, notify=performanceChanged)
+    def total_attempts(self):
+        return self._total_attempts
+        
+    @total_attempts.setter
+    def total_attempts(self, value):
+        self._total_attempts = value
+        self.performanceChanged.emit()
+
+    @Property(float, notify=performanceChanged)
+    def current_performance_rate(self):
+        return self._current_performance_rate
+    
+    @current_performance_rate.setter
+    def current_performance_rate(self, value):
+        print(f"updating performance rate to {self._current_performance_rate}")
+        if self._current_performance_rate != value:
+            self._current_performance_rate = value
+            self.performanceChanged.emit()
+    
+    @Property(bool, notify=wrongChanged)
+    def wrong(self):
+        return self._wrong
+    
 
     @Property(str, notify=questionChanged)
     def Pr_question(self):
@@ -104,13 +169,17 @@ class Bridge(QObject):
         self.difficultyIndexChanged.emit()
 
 
-
+    @wrong.setter
+    def wrong(self, value):
+        self._wrong = value
+        self.wrongChanged.emit()
 
 
 
     @Slot(result=str)
     def getfileurl(self):
         return self.fileurl
+    
     @Slot(str)
     def appendValue(self, value):
         self._a.append(value)
@@ -183,33 +252,59 @@ class Bridge(QObject):
         print(f"file_url: {file_url}")
         local_file_path = file_url.replace("file:///", "")
         print(f"Processing file: {local_file_path}")
+
         # Read the Excel file
         self.df = pd.read_excel(local_file_path) # Read the Excel file
         self.df = pd.DataFrame(self.df)         # Convert the Excel file to a DataFrame
-        self.df = self.df[self.df["type"] == self.questionType]  # Filter the DataFrame by the question type
+        
+        # Filter the DataFrame by the question type and difficulty
+        self.df = self.df[(self.df["type"] == self.questionType) & (self.df["difficulty"] == self.difficultyIndex)] # Filter the DataFrame by the question type
         self.df = self.df.sort_values(by="difficulty", ascending=True)  # Sort the DataFrame by difficulty
 
-        for i in range(len(self.df)):
-            row = self.df.iloc[i]
-            if(row["difficulty"] == self.difficultyIndex):
-                self.rowIndex = i
-                print(self.rowIndex,"rowIndex from for loop",self.df.iloc[i])
-                break
+        self.current_question_index = 0
+
+        print("DataFrame after filtering and sorting:")
         print(self.df)
-        print(self.rowIndex,"rowIndex outside for loop ")
+        
 
     @Slot()
     def sequence(self):
+        self.oprands=[]
         self.getVariables()
         self.parseInput()
         self.extractQuestion()
         self.extractAnswer()
 
+    '''@Slot()
+    #def incrementQuestionIndex(self):
+        #self.rowIndex = (self.rowIndex + 1) % len(self.df)
+        #self.oprands=[]
+        #self.variables=[]'''
+    
+
     @Slot()
-    def incrementQuestionIndex(self):
-        self.rowIndex = (self.rowIndex + 1) % len(self.df)
-        self.oprands=[]
-        self.variables=[]
+    def next_question(self):
+        if self.wrong:
+            # Repeat same question if wrong
+            self.wrong = False
+            self.questionChanged.emit()
+            return
+    
+        # Calculate index shift based on performance
+        index_shift = self.current_question_index + math.floor(self.current_performance_rate/10)+1
+        self.current_question_index += index_shift
+        print(f"Current question index: {self.current_question_index}")
+        
+        # Check if the index exceeds the number of questions
+        # Wrap around if exceeding question count
+        if self.current_question_index >= len(self.df):
+            #emit the congratulations signal
+            self.showCongratulations.emit(self._final_score, self._time_taken)
+            self.current_question_index = -1
+            return    
+        self.rowIndex = self.current_question_index
+        print(f"Loading question at index: {self.rowIndex}")
+        self.sequence()
 
     @Slot()
     def getVariables(self):
@@ -349,6 +444,13 @@ class Bridge(QObject):
             else:
                 t0 += inputRange[i]
         print("oprands",self.oprands)
+
+    @Slot(int, int)
+    def updateFinalScoreAndTime(self, score, time_taken):
+        self._final_score = score
+        self._time_taken = time_taken
+        print(f"Final Score updated to: {self._final_score}")
+        print(f"Time Taken updated to: {self._time_taken}")
 
 
 
