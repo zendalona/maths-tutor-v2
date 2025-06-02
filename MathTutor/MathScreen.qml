@@ -58,6 +58,158 @@ Item {
             }
         }
 
+        Grid{
+            id: mathSubjectGrid
+            spacing: 10
+            // columns: 3
+            rows: 2
+            anchors{
+                top: welcomeAnimation.bottom
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+                topMargin: 10
+            }
+
+            Button{
+                id: timeButton
+                text: "Time"
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Time ")
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                height: 80
+                width: 200
+                font.pixelSize: pr_fontSizeMultiple +  30
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathTimeBased.qml"
+                }
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathTimeBased.qml"
+                }
+                onClicked: {
+                    mathBasedloader.source = "MathTimeBased.qml"
+                    mathSubjectScreen.visible = false
+                }
+            }
+            Button{
+                id: currencyButton
+                text: "Currency"
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Currency")
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                height: 80
+                width: 200
+                font.pixelSize: pr_fontSizeMultiple +  30
+                onClicked: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathCurrencyBased.qml"
+                }
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathCurrencyBased.qml"
+                }
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathCurrencyBased.qml"
+                }
+            }
+            Button{
+                id: storyBasedButton
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Story")                
+                text: "Story"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                height: 80
+                width: 200
+                font.pixelSize: pr_fontSizeMultiple +  30
+                onClicked: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathStoryBased.qml"
+                }
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathStoryBased.qml"
+                }
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathStoryBased.qml"
+                }
+            }
+            Button{
+                id: distanceButton
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Distance")
+                text: "Distance"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                height: 80
+                width: 200
+                font.pixelSize: pr_fontSizeMultiple +  30
+
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathDistanceBased.qml"
+                }
+
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathDistanceBased.qml"
+                }
+
+                onClicked: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathDistanceBased.qml"
+
+                }
+            }
+            Button{
+                // visible: false
+                id: bellRingingButton
+                text: "Bell Ringing"
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Bell Ringing")
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                height: 80
+                width: 200
+                font.pixelSize: pr_fontSizeMultiple +  30
+                onClicked: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathBellRingingBased.qml"
+                }
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathBellRingingBased.qml"
+                }
+
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathBellRingingBased.qml"
+                }
+            }
+            Button{
+                id: operationsButton
+                text: "Operations"
+                onActiveFocusChanged: if (activeFocus) tts.say("subject Operations")
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                height: 80
+                width: 200
+                font.pixelSize: pr_fontSizeMultiple +  30
+                onClicked: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathOperationBased.qml"
+                }
+                Keys.onReturnPressed:{
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathOperationBased.qml"
+                }
+
+                Keys.onEnterPressed: {
+                    mathSubjectScreen.visible = false
+                    mathBasedloader.source = "MathOperationBased.qml"
+                }
+            }
+        }
 
         MediaPlayer {
             id: player
@@ -79,6 +231,7 @@ Item {
         Button {
             id: themeButton
             text: "Change Theme"
+            onActiveFocusChanged: if (activeFocus) tts.say("Change Theme button")
             font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
                 bottom: parent.bottom
@@ -115,6 +268,7 @@ Item {
         //on click open a new window with settings
         Button {
             id: settingsButton
+            onActiveFocusChanged: if (activeFocus) tts.say("Settings button")
             text: "Settings"
             font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
@@ -135,36 +289,120 @@ Item {
             }
         }
         ApplicationWindow {
-            id: settingsWindow
-            visible: false
-            width: 640
-            height: 480
-            title: "Settings"
-            flags: Qt.Window
-            Material.theme:theme ===1 ? Material.Dark : Material.Light
-            Rectangle {
-                width: parent.width
-                height: parent.height
-                color: "transparent"
-                // a spin box to incerement the font size of the text
-                Column {
-                    anchors.fill: parent
-                    Row {
-                        spacing: 10
-                        Text {
-                            text: "Zendalona"
-                            font.pixelSize: pr_fontSizeMultiple +  pr_fontSizeMultiple +   24
-                            color:Material.primaryTextColor
-                        }
+        id: settingsWindow
+        visible: false
+        width: 640
+        height: 480
+        title: "Settings"
+        flags: Qt.Window
+        Material.theme: theme === 1 ? Material.Dark : Material.Light
 
-                    }
-                }
+        Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+            Text {
+                text: "Settings"
+                font.pixelSize: pr_fontSizeMultiple + 28
+                color: Material.primaryTextColor
             }
+
+
+            // Speech Synthesizer Dropdown
+          Row {
+    spacing: 10
+
+    Text {
+        text: "Speech Synthesizer:"
+        font.pixelSize: pr_fontSizeMultiple + 20
+        color: Material.primaryTextColor
+        Accessible.name: "Speech Synthesizer Label"
+        Accessible.description: "Label for the speech synthesizer selection dropdown"
+    }
+    ComboBox {
+        id: synthesizerComboBox
+        model: ["Espeak-ng", "Festival", "Pico"]
+        width: 200
+        focus: true
+        Accessible.name: "Speech Synthesizer Dropdown"
+        Accessible.description: "Select a speech synthesizer from the options"
+        
+        onActiveFocusChanged: {
+            if (activeFocus) {
+                tts.say("Speech synthesizer dropdown. Use arrow keys to select an option.")
+            }
+        }
+        onCurrentIndexChanged: {
+            tts.say("Speech synthesizer selected " + currentText)
+        }
+        onHighlightedIndexChanged: {
+            if (highlightedIndex >= 0) {
+                tts.say("Highlighted " + model[highlightedIndex])
+            }
+        }
+    }
+}
+
+
+
+
+            // Speech Language Dropdown
+           Row {
+    spacing: 10
+
+    Text {
+        text: "Speech Language:"
+        font.pixelSize: pr_fontSizeMultiple + 20
+        color: Material.primaryTextColor
+        Accessible.name: "Speech Language Label"
+        Accessible.description: "Label for the speech language selection dropdown"
+    }
+    ComboBox {
+        id: languageComboBox
+        model: ["English (US)", "English (UK)", "Spanish", "French"]
+        width: 200
+        focus: true
+        Accessible.name: "Speech Language Dropdown"
+        Accessible.description: "Select a speech language from the options"
+        
+        onActiveFocusChanged: {
+            if (activeFocus) {
+                tts.say("Speech Language dropdown. Use arrow keys to select a language.")
+            }
+        }
+        onCurrentIndexChanged: {
+            tts.say("Language set to " + currentText)
+        }
+        onHighlightedIndexChanged: {
+            if (highlightedIndex >= 0) {
+                // Announce the currently highlighted item
+                tts.say("Highlighted " + model[highlightedIndex])
+            }
+        }
+    }
+}
+
+
+
+
+            // Close Button
+            Button {
+                text: "Close"
+                onActiveFocusChanged: if (activeFocus) tts.say("Close button")
+                font.pixelSize: pr_fontSizeMultiple + 20
+                onClicked: settingsWindow.visible = false
+            }
+        }
+        }
         }
         // an upload Button
 
         Button {
             id: uploadButton
+            onActiveFocusChanged: if (activeFocus) tts.say("Upload button")
             text: "Upload"
             font.pixelSize: pr_fontSizeMultiple +  24
             anchors {
@@ -211,170 +449,39 @@ Item {
             }
         }
 
-        Grid{
-            id: mathSubjectGrid
-            spacing: 10
-            // columns: 3
-            rows: 2
-            anchors{
-                top: welcomeAnimation.bottom
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
-                topMargin: 10
+        
+
+        Text {
+        id: noteText
+        text: "Note: Please select the subject to proceed"
+        width: parent.width
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: pr_fontSizeMultiple + 20
+        color: Material.primaryTextColor
+
+        focus: true    // Allows focus by keyboard
+        Keys.onPressed: event => {
+            if (event.key === Qt.Key_Tab) {
+                // prevent skipping it if needed
             }
-
-            Button{
-                id: timeButton
-                text: "Time"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathTimeBased.qml"
-                }
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathTimeBased.qml"
-                }
-                onClicked: {
-                    mathBasedloader.source = "MathTimeBased.qml"
-                    mathSubjectScreen.visible = false
-                }
-            }
-            Button{
-                id: currencyButton
-                text: "Currency"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
-                onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathCurrencyBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathCurrencyBased.qml"
-                }
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathCurrencyBased.qml"
-                }
-            }
-            Button{
-                id: storyBasedButton
-                text: "Story"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
-                onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathStoryBased.qml"
-                }
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathStoryBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathStoryBased.qml"
-                }
-            }
-            Button{
-                id: distanceButton
-                text: "Distance"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
-
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathDistanceBased.qml"
-                }
-
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathDistanceBased.qml"
-                }
-
-                onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathDistanceBased.qml"
-
-                }
-            }
-            Button{
-                // visible: false
-                id: bellRingingButton
-                text: "Bell Ringing"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
-                onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathBellRingingBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathBellRingingBased.qml"
-                }
-
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathBellRingingBased.qml"
-                }
-            }
-            Button{
-                id: operationsButton
-                text: "Operations"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                height: 80
-                width: 200
-                font.pixelSize: pr_fontSizeMultiple +  30
-                onClicked: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathOperationBased.qml"
-                }
-                Keys.onReturnPressed:{
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathOperationBased.qml"
-                }
-
-                Keys.onEnterPressed: {
-                    mathSubjectScreen.visible = false
-                    mathBasedloader.source = "MathOperationBased.qml"
-                }
+        }
+        onActiveFocusChanged: {
+            if (activeFocus) {
+                tts.say(text)
             }
         }
 
-        Text{
-            id:noteText
-            width: mathSubjectGrid.width
-            text: "Note: Please select the subject to proceed"
-            font.pixelSize: pr_fontSizeMultiple +  20
-            color:Material.primaryTextColor
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
+        Accessible.name: "Note"
+        Accessible.description: text
 
-            anchors{
-                top: mathSubjectGrid.bottom
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
-                topMargin: 30
-            }
-
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+            bottomMargin: 100
         }
+    }
+
 
     }
     Loader {
@@ -388,6 +495,7 @@ Item {
 
     MediaPlayer {
         id: homeButtonSound
+        
         source: "sounds/home_button_sound.mp3"
         audioOutput: AudioOutput {}
         loops: 1
@@ -397,6 +505,7 @@ Item {
     Button{
         id: homeButton
         text: "Home"
+        onActiveFocusChanged: if (activeFocus) tts.say("Home button")
         font.pixelSize: pr_fontSizeMultiple +  30
         anchors{
             top: parent.top
@@ -427,6 +536,7 @@ Item {
 
     SpinBox {
         id: fontSizeSpinBox
+        onActiveFocusChanged: if (activeFocus) tts.say("FontSizeSpinBox")
         value: 0
         from: 0
         to: 50
@@ -465,6 +575,7 @@ Item {
 
     Button{
         id:musicButton
+        onActiveFocusChanged: if (activeFocus) tts.say("Music button")
         height: 50
         width: 50
         opacity: 1
@@ -497,8 +608,19 @@ Item {
         }
     }
 
-    TextToSpeech{
+    TextToSpeech {
         id: tts
+            Component.onCompleted: {
+            for (var i = 0; i < availableVoices.length; i++) {
+                console.log("Voice " + i + ": " + availableVoices[i].name)
+            }
+            // For example, set the voice to the second option if it sounds better:
+            if (availableVoices.length > 1) {
+                voice = availableVoices[1]
+            }
+    }
+
 
     }
+
 }
